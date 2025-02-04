@@ -62,6 +62,7 @@
         "component.transforms.ConsumableComponentMixin",
         "component.transforms.DebugStickStateComponentMixin",
         "component.transforms.PotionContentsComponentMixin",
+        "component.transforms.RepairableComponentMixin",
         "component.transforms.SuspiciousStewComponentMixin",
         "enchantment.EnchantmentEntityEffectMixin",
         "enchantment.EnchantmentLocationBasedEffectMixin",

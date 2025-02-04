@@ -41,8 +41,10 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.ClientConnection;
 import net.minecraft.registry.DynamicRegistryManager;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntryList;
 import net.minecraft.server.network.ServerCommonNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.property.Property;
@@ -59,6 +61,8 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -502,5 +506,114 @@ public class Util {
     @Nullable
     public static PacketContext getContext(ServerPlayerEntity player) {
         return player == null ? PacketContext.get() : PacketContext.of(player);
+    }
+
+    /**
+     * Can the given list be received by the given context?
+     */
+    public static boolean canReceiveList(RegistryEntryList<Item> original, PacketContext ctx) {
+        var map = Util.tryGetPolyMap(ctx);
+
+        if (original instanceof RegistryEntryList.Named<Item> namedList) {
+            var tagKey = namedList.getTag();
+
+            if (!Util.isVanilla(tagKey.id())) {
+                return false;
+            }
+
+            var lookup = ctx.getRegistryWrapperLookup();
+
+            if (lookup == null) {
+                return true;
+            }
+
+            var itemRegistryOpts = lookup.getOptional(RegistryKeys.ITEM);
+
+            if (itemRegistryOpts.isEmpty()) {
+                return true;
+            }
+
+            var tag = itemRegistryOpts.get().getOptional(tagKey);
+            if (tag.isEmpty()) {
+                return true;
+            }
+
+            for (var item : tag.get()) {
+                if (!map.canReceiveRegistryEntry(Registries.ITEM, item)) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        for (var entry : original) {
+            if (!map.canReceiveRegistryEntry(Registries.ITEM, entry)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    /**
+     * Convert a RegistryEntryList of (potentially modded) items
+     * to something the client will understand
+     */
+    public static RegistryEntryList<Item> transformRegistryEntryList(RegistryEntryList<Item> original, PacketContext ctx) {
+
+        var map = Util.tryGetPolyMap(ctx);
+
+        if (original instanceof RegistryEntryList.Named<Item> namedList) {
+            var tagKey = namedList.getTag();
+            var lookup = ctx.getRegistryWrapperLookup();
+
+            if (lookup == null) {
+                return original;
+            }
+
+            var itemRegistryOpts = lookup.getOptional(RegistryKeys.ITEM);
+
+            if (itemRegistryOpts.isEmpty()) {
+                return original;
+            }
+
+            ArrayList<RegistryEntry<Item>> replacementItems = new ArrayList<>(namedList.size());
+            var tag = itemRegistryOpts.get().getOptional(tagKey);
+
+            if (tag.isPresent()) {
+                for (var entry : tag.get()) {
+                    transformAndAddItemEntry(replacementItems, ctx, map, entry);
+                }
+            }
+
+            return RegistryEntryList.of(replacementItems);
+        }
+
+        ArrayList<RegistryEntry<Item>> replacementItems = new ArrayList<>(original.size());
+
+        for (var entry : original) {
+            transformAndAddItemEntry(replacementItems, ctx, map, entry);
+        }
+
+        return RegistryEntryList.of(replacementItems);
+    }
+
+    private static void transformAndAddItemEntry(List<RegistryEntry<Item>> target, PacketContext ctx, PolyMap map, RegistryEntry<Item> entry) {
+
+        if (map.canReceiveRegistryEntry(Registries.ITEM, entry)) {
+            target.add(entry);
+            return;
+        }
+
+        ItemStack replacement = map.getClientItem(entry.value().getDefaultStack(), ctx.getPlayer(), null);
+
+        if (replacement == null || replacement.isEmpty()) {
+            return;
+        }
+
+        // This isn't exactly correct (as now the client will also accept this item _without_ model overrides)
+        // but close enough!
+        target.add(RegistryEntry.of(replacement.getItem()));
     }
 }
