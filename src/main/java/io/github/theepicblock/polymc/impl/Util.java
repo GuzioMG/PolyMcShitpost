@@ -379,6 +379,7 @@ public class Util {
             DataComponentTypes.BLOCK_ENTITY_DATA,
             DataComponentTypes.TRIM,
             DataComponentTypes.TOOL,
+            DataComponentTypes.LORE,
             DataComponentTypes.MAX_STACK_SIZE,
             DataComponentTypes.MAP_ID,
             DataComponentTypes.MAP_COLOR,
