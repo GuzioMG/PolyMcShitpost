@@ -69,6 +69,9 @@ public interface JModel extends PolyMcAsset {
     @NotNull List<JModelOverride> getOverridesReadOnly();
     @NotNull List<JModelOverride> getOverrides();
 
+    @Nullable Boolean getAmbientocclusion();
+    void setAmbientocclusion(Boolean b);
+
     static JModel create() {
         return new JModelImpl();
     }
