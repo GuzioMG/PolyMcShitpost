@@ -59,6 +59,7 @@ public class JModelImpl implements JModel {
     public List<JElement> elements;
     public Map<JModelDisplayType,JModelDisplay> display;
     public List<JModelOverride> overrides;
+    public Boolean ambientocclusion;
 
     public JModelImpl() {
 
@@ -138,6 +139,16 @@ public class JModelImpl implements JModel {
             overrides = new ArrayList<>();
         }
         return overrides;
+    }
+
+    @Override
+    public @Nullable Boolean getAmbientocclusion() {
+        return ambientocclusion;
+    }
+
+    @Override
+    public @Nullable void setAmbientocclusion(Boolean b) {
+        this.ambientocclusion = b;
     }
 
     /**
