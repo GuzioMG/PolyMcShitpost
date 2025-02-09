@@ -31,7 +31,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.registry.Registries;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.function.BiFunction;
@@ -41,21 +40,20 @@ import java.util.function.BiFunction;
  */
 public class FunctionBlockStatePoly implements BlockPoly {
     private final ImmutableMap<BlockState,BlockState> states;
-    private final ArrayList<BlockState> uniqueClientBlocks = new ArrayList<>();
 
     public FunctionBlockStatePoly(Block moddedBlock, BiFunction<BlockState, BooleanContainer, BlockState> registrationProvider) {
         this(moddedBlock, registrationProvider, BlockStateMerger.DEFAULT);
     }
 
-        /**
-         * @param moddedBlock the block this poly represents
-         * @param registrationProvider provides a new client block state for a modded block state.
-         *                             The {@link BooleanContainer} is a workaround for java not having multiple return values.
-         *                             If set to true the client block returned is assumed to be used only for this modded block.
-         *                             And thus this poly will overwrite its textures with the modded one.
-         *                             If set to false it is assumed the client block may be shared with other blocks with do not have the same texture as the modded block.
-         * @param merger function to use to merge block states which use the same model on the client
-         */
+    /**
+     * @param moddedBlock the block this poly represents
+     * @param registrationProvider provides a new client block state for a modded block state.
+     *                             The {@link BooleanContainer} is a workaround for java not having multiple return values.
+     *                             If set to true the client block returned is assumed to be used only for this modded block.
+     *                             And thus this poly will overwrite its textures with the modded one.
+     *                             If set to false it is assumed the client block may be shared with other blocks with do not have the same texture as the modded block.
+     * @param merger function to use to merge block states which use the same model on the client
+     */
     public FunctionBlockStatePoly(Block moddedBlock, BiFunction<BlockState, BooleanContainer, BlockState> registrationProvider, BlockStateMerger merger) {
         var server2ClientStates = new HashMap<BlockState, BlockState>();
 
@@ -71,19 +69,6 @@ public class FunctionBlockStatePoly implements BlockPoly {
         for (var moddedState : moddedBlock.getStateManager().getStates()) {
             moddedStateGroups.put(merger.normalize(moddedState), moddedState);
         }
-
-        var isUniqueCallback = new BooleanContainer();
-        moddedStateGroups.asMap().forEach((normalizedState, group) -> {
-            // Only call registrationProvider once for each normalized state,
-            // then we apply the result to all blocks in the group
-            isUniqueCallback.set(false);
-            var clientState = registrationProvider.apply(normalizedState, isUniqueCallback);
-            for (var moddedState : group) {
-                server2ClientStates.put(moddedState, clientState);
-            }
-            if (isUniqueCallback.get()) uniqueClientBlocks.add(clientState);
-
-        });
 
         this.states = ImmutableMap.copyOf(server2ClientStates);
     }
@@ -107,7 +92,6 @@ public class FunctionBlockStatePoly implements BlockPoly {
         // Iterate modded block states
         this.states.forEach((moddedState, clientState) -> {
             if (clientStatesDone.contains(clientState)) return;
-            if (!uniqueClientBlocks.contains(clientState)) return;
 
             var clientBlockId = Registries.BLOCK.getId(clientState.getBlock());
             var clientBlockStates = pack.getOrDefaultBlockState(clientBlockId.getNamespace(), clientBlockId.getPath());
@@ -133,9 +117,6 @@ public class FunctionBlockStatePoly implements BlockPoly {
             out.append(moddedState);
             out.append(" -> ");
             out.append(clientState);
-            if (uniqueClientBlocks.contains(clientState)) {
-                out.append(" (UNIQUE)");
-            }
         });
         return out.toString();
     }
