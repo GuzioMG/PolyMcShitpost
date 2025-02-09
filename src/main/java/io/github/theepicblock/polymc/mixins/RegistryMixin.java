@@ -35,7 +35,7 @@ public interface RegistryMixin {
                 var ctx = PacketContext.get();
                 var map = Util.tryGetPolyMap(ctx);
                 //noinspection rawtypes
-                if (map.canReceiveRegistryEntry((Registry) this, content)) {
+                if (map.canReceiveRegistryEntry((Registry) this, (RegistryEntry) content)) {
                     return content;
                 }
 

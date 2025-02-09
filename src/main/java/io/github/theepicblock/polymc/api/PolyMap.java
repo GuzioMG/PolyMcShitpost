@@ -27,6 +27,7 @@ import io.github.theepicblock.polymc.api.resource.PolyMcResourcePack;
 import io.github.theepicblock.polymc.impl.ConfigManager;
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.misc.logging.SimpleLogger;
+import io.github.theepicblock.polymc.impl.mixin.ItemLocationStaticHack;
 import io.github.theepicblock.polymc.mixins.entity.EntityAttributesFilteringMixin;
 import io.github.theepicblock.polymc.mixins.gui.GuiPolyImplementation;
 import io.github.theepicblock.polymc.mixins.item.CreativeItemStackFix;
@@ -44,11 +45,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.fluid.Fluid;
+import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.consume.ConsumeEffect;
 import net.minecraft.network.packet.CustomPayload;
+import net.minecraft.particle.ParticleType;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.potion.Potion;
+import net.minecraft.potion.Potions;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.entry.RegistryEntry;
@@ -57,9 +64,12 @@ import net.minecraft.server.network.ServerCommonNetworkHandler;
 import net.minecraft.server.network.ServerConfigurationNetworkHandler;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.Direction;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
+import xyz.nucleoid.packettweaker.PacketContext;
 
 public interface PolyMap {
     /**
@@ -126,7 +136,6 @@ public interface PolyMap {
      * @see io.github.theepicblock.polymc.mixins.block.ResyncImplementation
      * @see io.github.theepicblock.polymc.impl.mixin.CustomBlockBreakingCheck#needsCustomBreaking(ServerPlayerEntity, BlockState)
      * @see GuiPolyImplementation
-     * @see io.github.theepicblock.polymc.mixins.item.CustomRecipeFix
      */
     boolean isVanillaLikeMap();
 
@@ -147,6 +156,10 @@ public interface PolyMap {
      */
     default <T> boolean canReceiveRegistryEntry(Registry<T> registry, RegistryEntry<T> entry) {
         return Util.isVanillaAndRegistered(entry) || RegistrySyncUtils.isServerEntry(registry, entry.value());
+    }
+
+    default <T> boolean canReceiveEntry(Registry<T> registry, T entry) {
+        return Util.isVanilla(registry.getId(entry)) || RegistrySyncUtils.isServerEntry(registry, entry);
     }
 
     default boolean canReceiveBlockEntity(BlockEntityType<?> e) {
@@ -195,4 +208,32 @@ public interface PolyMap {
     default boolean canReceiveConsumeEffect(ConsumeEffect.Type<? extends ConsumeEffect> type) {
         return Util.isVanilla(Registries.CONSUME_EFFECT_TYPE.getId(type));
     };
+
+    default Object tryRemapping(Object val, PacketContext player) {
+        if (val instanceof Item entry) {
+            var poly = this.getItemPoly(entry);
+            if (poly != null) {
+                return poly.getClientItem(new ItemStack(entry), player.getPlayer(), ItemLocationStaticHack.location.get()).getItem();
+            }
+        } else if (val instanceof Block entry) {
+            var poly = this.getBlockPoly(entry);
+            if (poly != null) {
+                return poly.getClientBlock(entry.getDefaultState()).getBlock();
+            }
+        } else if (val instanceof SoundEvent entry && !this.canReceiveEntry(Registries.SOUND_EVENT, entry)) {
+            return SoundEvents.INTENTIONALLY_EMPTY;
+        } else if (val instanceof Fluid entry && !this.canReceiveEntry(Registries.FLUID, entry)) {
+            return Fluids.EMPTY;
+        } else if (val instanceof StatusEffect entry && !this.canReceiveStatusEffect(Registries.STATUS_EFFECT.getEntry(entry))) {
+            return StatusEffects.LUCK;
+        } else if (val instanceof EntityType<?> entry && !this.canReceiveEntry(Registries.ENTITY_TYPE, entry)) {
+            return EntityType.ITEM_DISPLAY;
+        } else if (val instanceof Potion entry && !this.canReceiveEntry(Registries.POTION, entry)) {
+            return Potions.LUCK.value();
+        } else if (val instanceof ParticleType<?> entry && !this.canReceiveEntry(Registries.PARTICLE_TYPE, entry)) {
+            return ParticleTypes.SMOKE;
+        }
+
+        return val;
+    }
 }
