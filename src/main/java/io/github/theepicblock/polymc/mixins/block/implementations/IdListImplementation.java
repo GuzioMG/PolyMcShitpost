@@ -1,6 +1,5 @@
 package io.github.theepicblock.polymc.mixins.block.implementations;
 
-import eu.pb4.polymer.common.api.PolymerCommonUtils;
 import io.github.theepicblock.polymc.api.PolyMap;
 import io.github.theepicblock.polymc.impl.Util;
 import net.minecraft.block.Block;
@@ -9,6 +8,7 @@ import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.collection.PackedIntegerArray;
 import net.minecraft.util.collection.PaletteStorage;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.chunk.IdListPalette;
 import net.minecraft.world.chunk.PalettedContainer;
 import org.objectweb.asm.Opcodes;
@@ -18,8 +18,16 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import xyz.nucleoid.packettweaker.PacketContext;
 
+import java.util.stream.StreamSupport;
+
 @Mixin(PalettedContainer.Data.class)
 public class IdListImplementation {
+
+    @Unique
+    private static final int VANILLA_BIT_COUNT = MathHelper.ceilLog2((int) StreamSupport.stream(Block.STATE_IDS.spliterator(), false)
+            .takeWhile(Util::isVanilla)
+            .count());
+
     @Redirect(method = "writePacket", at = @At(value = "FIELD", opcode = Opcodes.GETFIELD, target = "Lnet/minecraft/world/chunk/PalettedContainer$Data;storage:Lnet/minecraft/util/collection/PaletteStorage;"))
     private PaletteStorage getData(PalettedContainer.Data<?> container, PacketByteBuf buf)  {
         var originalStorage = container.storage();
@@ -28,8 +36,8 @@ public class IdListImplementation {
             return originalStorage;
         }
 
-        var player = PacketContext.get();
-        var polyMap = Util.tryGetPolyMap(player);
+        var ctx = PacketContext.get();
+        var polyMap = Util.tryGetPolyMap(ctx);
 
         if (!polyMap.isVanillaLikeMap()) {
             return originalStorage;
@@ -40,37 +48,25 @@ public class IdListImplementation {
             return originalStorage;
         }
 
-        var oldArray = originalStorage.getData();
-        var newArray = new long[oldArray.length]; // SAFETY the size of the array mustn't change, otherwise we'd have to inject into getPacketSize as well
-
-        var elementBits = originalStorage.getElementBits(); // The amount of bits per element
         var size = originalStorage.getSize();
-        var elementsPerLong = (char)(64 / elementBits);
-        var maxValue = (1L << elementBits) - 1L;
+        var data = new PackedIntegerArray(VANILLA_BIT_COUNT, size);
+        var player = ctx.getPlayer();
 
-        int i = 0; // Counts the elements
-        a: for (int j = 0; j < oldArray.length; j++) {
-            long oldLong = oldArray[j];
-            long newLong = 0;
-            for (int k = 0; k < elementsPerLong; k++) {
-                var oldElementValue = oldLong & maxValue;
-                var newElementValue = transform(oldElementValue, polyMap, player.getPlayer());
-
-                newLong |= newElementValue << (elementBits * k); // Insert the next element
-                oldLong >>= elementBits; // Shift oldLong to read the next element
-
-                i++; // Check if we've reached the end already
-                if (i >= size) break a;
-            }
-            newArray[j] = newLong;
+        for (int i = 0; i < size; i++) {
+            data.set(i, transform(originalStorage.get(i), polyMap, player));
         }
 
-        return new PackedIntegerArray(elementBits, size, newArray);
+        return data;
     }
 
     @Unique
-    private long transform(long in, PolyMap map, ServerPlayerEntity playerEntity) {
-        var state = Block.getStateFromRawId((int)in);
-        return map.getClientStateRawId(state, playerEntity);
+    private int transform(long in, PolyMap map, ServerPlayerEntity playerEntity) {
+
+        // Assume the AIR blockstate will never be changed
+        if (in == 0) {
+            return 0;
+        }
+
+        return map.getClientStateRawId(Block.getStateFromRawId((int)in), playerEntity);
     }
 }
