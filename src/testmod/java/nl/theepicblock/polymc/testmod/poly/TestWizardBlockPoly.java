@@ -39,7 +39,7 @@ public class TestWizardBlockPoly implements BlockPoly {
 
         @Override
         public void onMove(PacketConsumer players) {
-            item.move(players, this.getPosition(), (byte)0, (byte)0, true);
+            item.move(players, this.getPosition(), 0, 0, true);
         }
 
         @Override
