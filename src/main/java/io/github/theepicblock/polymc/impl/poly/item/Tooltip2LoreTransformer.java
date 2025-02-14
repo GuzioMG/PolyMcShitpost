@@ -45,12 +45,17 @@ public class Tooltip2LoreTransformer implements ItemTransformer {
     @Override
     public ItemStack transform(ItemStack original, ItemStack input, PolyMap polyMap, @Nullable ServerPlayerEntity player, @Nullable ItemLocation location) {
         Item.TooltipContext ctx;
+        var type = TooltipType.BASIC;
+
         if (player != null) {
             ctx = Item.TooltipContext.create(player.getWorld());
+
+            if (player.isCreative()) {
+                type = type.withCreative();
+            }
         } else {
             ctx = Item.TooltipContext.DEFAULT;
         }
-        var type = TooltipType.BASIC;
 
         if (shouldPort(input, original, ctx, type, player)) {
             // Copy if needed
