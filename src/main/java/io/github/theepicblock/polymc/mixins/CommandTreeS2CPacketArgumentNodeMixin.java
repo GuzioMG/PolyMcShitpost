@@ -17,7 +17,9 @@ public class CommandTreeS2CPacketArgumentNodeMixin {
         var player = PacketContext.get();
         var map = Util.tryGetPolyMap(player);
 
-        if (!map.canReceiveEntry(Registries.COMMAND_ARGUMENT_TYPE, original.getSerializer())) {
+        var id = Registries.COMMAND_ARGUMENT_TYPE.getId(original.getSerializer());
+        var isBrigadier = id != null && id.getNamespace().equals("brigadier");
+        if (!map.canReceiveEntry(Registries.COMMAND_ARGUMENT_TYPE, original.getSerializer()) && !isBrigadier) {
             return ArgumentTypes.getArgumentTypeProperties(StringArgumentType.word());
         }
         return original;
