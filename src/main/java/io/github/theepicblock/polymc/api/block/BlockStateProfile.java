@@ -110,10 +110,10 @@ public class BlockStateProfile {
             blockState != blockState.getBlock().getDefaultState().with(LeavesBlock.PERSISTENT, true) &&
             !blockState.get(LeavesBlock.WATERLOGGED);
     private static final Predicate<BlockState> WALL_FILTER = (blockState) ->
-            blockState.get(WallBlock.NORTH_SHAPE) == WallShape.NONE &&
-            blockState.get(WallBlock.WEST_SHAPE) == WallShape.NONE &&
-            blockState.get(WallBlock.EAST_SHAPE) == WallShape.NONE &&
-            blockState.get(WallBlock.SOUTH_SHAPE) == WallShape.NONE &&
+            blockState.get(WallBlock.NORTH_WALL_SHAPE) == WallShape.NONE &&
+            blockState.get(WallBlock.WEST_WALL_SHAPE) == WallShape.NONE &&
+            blockState.get(WallBlock.EAST_WALL_SHAPE) == WallShape.NONE &&
+            blockState.get(WallBlock.SOUTH_WALL_SHAPE) == WallShape.NONE &&
             blockState.get(WallBlock.UP) == false;
     private static final Predicate<BlockState> TRIPWIRE_FILTER = BlockStateProfile::isStringUseable;
     private static final Predicate<BlockState> PRESSURE_PLATE_FILTER = state -> state.get(Properties.POWER) > 1;

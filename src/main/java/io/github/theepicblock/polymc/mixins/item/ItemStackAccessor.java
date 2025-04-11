@@ -15,9 +15,5 @@ import java.util.function.Consumer;
 
 @Mixin(ItemStack.class)
 public interface ItemStackAccessor {
-    @Invoker
-    <T extends TooltipAppender> void callAppendTooltip(ComponentType<T> componentType, Item.TooltipContext context, Consumer<Text> textConsumer, TooltipType type);
 
-    @Invoker
-    void callAppendAttributeModifiersTooltip(Consumer<Text> textConsumer, @Nullable PlayerEntity player);
 }

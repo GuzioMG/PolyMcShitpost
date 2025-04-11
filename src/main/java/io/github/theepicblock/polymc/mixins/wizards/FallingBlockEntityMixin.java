@@ -27,16 +27,15 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
 @Mixin(FallingBlockEntity.class)
 public abstract class FallingBlockEntityMixin extends Entity implements WatchListener {
-    @Shadow private BlockState block;
 
+    @Shadow private BlockState blockState;
     @Unique
-    private final PolyMapMap<Wizard> wizards = new PolyMapMap<>((map) -> {
-
+    private final PolyMapMap<Wizard> wizards = new PolyMapMap<Wizard>((map) -> {
         World world = this.getWorld();
 
         if (!(world instanceof ServerWorld)) return null;
 
-        var block = this.block.getBlock();
+        var block = this.blockState.getBlock();
         var poly = map.getBlockPoly(block);
         if (poly != null && poly.hasWizard()) {
             try {
@@ -117,16 +116,6 @@ public abstract class FallingBlockEntityMixin extends Entity implements WatchLis
             var view = new SinglePlayerView(playerEntity);
             wizard.removePlayer(view);
             view.sendBatched();
-        }));
-    }
-
-    @Inject(method = "setRemoved(Lnet/minecraft/entity/Entity$RemovalReason;)V", at = @At("RETURN"))
-    private void onRemove(CallbackInfo ci) {
-        var allNearbyPlayers = PolyMapFilteredPlayerView.getAll((ServerWorld)this.getWorld(), this.getChunkPos());
-        wizards.forEach(((polyMap, wizard) -> {
-            var filteredView = new PolyMapFilteredPlayerView(allNearbyPlayers, polyMap);
-            if (wizard != null) wizard.onRemove(filteredView);
-            filteredView.sendBatched();
         }));
     }
 

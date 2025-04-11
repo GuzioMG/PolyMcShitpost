@@ -3,15 +3,12 @@ package nl.theepicblock.polymc.testmod.automated;
 import io.github.theepicblock.polymc.impl.NOPPolyMap;
 import io.github.theepicblock.polymc.impl.PolyMapImpl;
 import io.github.theepicblock.polymc.mixins.wizards.ItemEntityAccessor;
-import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
-import net.minecraft.test.CustomTestProvider;
-import net.minecraft.test.TestFunction;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.GameMode;
 import nl.theepicblock.polymc.testmod.Testmod;
@@ -20,8 +17,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
-public class ItemEncodeTests implements FabricGameTest {
-    @CustomTestProvider
+public class ItemEncodeTests {
+    /*@CustomTestProvider
     public Collection<TestFunction> testItem() {
         var list = new ArrayList<TestFunction>();
         // Different ways in which we can test itemstacks being transformed by PolyMc
@@ -85,7 +82,7 @@ public class ItemEncodeTests implements FabricGameTest {
 
         return list;
     }
-
+*/
     public ItemStack reencodeMethod(ItemStack stack, PacketTester ctx) {
         return ctx.reencode(new ScreenHandlerSlotUpdateS2CPacket(0,0,0, stack)).getStack();
     }

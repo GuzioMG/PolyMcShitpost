@@ -8,6 +8,8 @@ import io.github.theepicblock.polymc.impl.mixin.TransformingComponent;
 import io.github.theepicblock.polymc.mixins.item.ItemEnchantmentsComponentAccessor;
 import io.github.theepicblock.polymc.mixins.item.ItemStackAccessor;
 import it.unimi.dsi.fastutil.objects.AbstractReferenceList;
+import it.unimi.dsi.fastutil.objects.ReferenceLinkedOpenHashSet;
+import it.unimi.dsi.fastutil.objects.ReferenceSortedSets;
 import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.*;
@@ -17,6 +19,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PotionItem;
 import net.minecraft.item.equipment.trim.ArmorTrim;
+import net.minecraft.item.tooltip.TooltipAppender;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Style;
@@ -31,7 +34,7 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class Tooltip2LoreTransformer implements ItemTransformer {
-    private static final List<HideableTooltip<?>> HIDEABLE_TOOLTIPS = List.of(
+    /*private static final List<HideableTooltip<?>> HIDEABLE_TOOLTIPS = List.of(
             HideableTooltip.of(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent::withShowInTooltip),
             HideableTooltip.of(DataComponentTypes.TRIM, ArmorTrim::withShowInTooltip),
             HideableTooltip.ofNeg(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent::isEmpty, ItemEnchantmentsComponent::withShowInTooltip),
@@ -40,7 +43,7 @@ public class Tooltip2LoreTransformer implements ItemTransformer {
             HideableTooltip.of(DataComponentTypes.CAN_BREAK, BlockPredicatesChecker::withShowInTooltip),
             HideableTooltip.of(DataComponentTypes.JUKEBOX_PLAYABLE, JukeboxPlayableComponent::withShowInTooltip),
             HideableTooltip.of(DataComponentTypes.CAN_PLACE_ON, BlockPredicatesChecker::withShowInTooltip)
-    );
+    );*/
 
     @Override
     public ItemStack transform(ItemStack original, ItemStack input, PolyMap polyMap, @Nullable ServerPlayerEntity player, @Nullable ItemLocation location) {
@@ -58,16 +61,20 @@ public class Tooltip2LoreTransformer implements ItemTransformer {
             try {
                 var list = original.getTooltip(ctx, player, type);
                 if (list.isEmpty()) {
-                    input.set(DataComponentTypes.HIDE_TOOLTIP, Unit.INSTANCE);
+                    input.set(DataComponentTypes.TOOLTIP_DISPLAY, new TooltipDisplayComponent(true, ReferenceSortedSets.emptySet()));
                 } else {
                     list.removeFirst();
                     var style = Style.EMPTY.withItalic(false).withColor(Formatting.WHITE);
                     list.replaceAll(text -> Text.empty().setStyle(style).append(text));
                     output.set(DataComponentTypes.LORE, new LoreComponent(list, null));
-                    output.set(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP, Unit.INSTANCE);
-                    for (var x : HIDEABLE_TOOLTIPS) {
-                        x.apply(output);
+                    var hidden = new ReferenceLinkedOpenHashSet<ComponentType<?>>();
+                    //output.set(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP, Unit.INSTANCE);
+                    for (var x : output.getComponents()) {
+                        if (x.type() != DataComponentTypes.LORE && x.value() instanceof TooltipAppender) {
+                            hidden.add(x.type());
+                        }
                     }
+                    input.set(DataComponentTypes.TOOLTIP_DISPLAY, new TooltipDisplayComponent(false, hidden));
                 }
             } catch (Throwable e) {
                 fallbackPortToLore(output, player, ctx, type);
@@ -93,7 +100,7 @@ public class Tooltip2LoreTransformer implements ItemTransformer {
 
         var pctx = Util.getContext(player);
 
-        if (original.contains(DataComponentTypes.HIDE_TOOLTIP)) {
+        if (original.getOrDefault(DataComponentTypes.TOOLTIP_DISPLAY, TooltipDisplayComponent.DEFAULT).hideTooltip()) {
             return false;
         }
 
@@ -107,12 +114,13 @@ public class Tooltip2LoreTransformer implements ItemTransformer {
             if (TransformingComponent.requireTransformForTooltip(original.get(DataComponentTypes.POTION_CONTENTS), pctx)) {
                 return true;
             }
-        } else if (!ItemStack.areItemsAndComponentsEqual(original, stack) && !original.contains(DataComponentTypes.HIDE_ADDITIONAL_TOOLTIP)) {
-            try {
+        } else if (!ItemStack.areItemsAndComponentsEqual(original, stack)) {
+            /*try {
                 original.getItem().appendTooltip(original, ctx, CrashyList.INSTANCE, type);
             } catch (TriedInsertException e) {
                 return true;
-            }
+            }*/
+            return true;
         }
 
         return false;
@@ -161,7 +169,7 @@ public class Tooltip2LoreTransformer implements ItemTransformer {
         // Should match the order of ItemStack#getTooltip
 
         var hasAdditional = addAdditionalTooltip(input, ctx, append_function, type);
-        invoker.callAppendTooltip(DataComponentTypes.TRIM, ctx, append_function, type);
+        /*invoker.callAppendTooltip(DataComponentTypes.TRIM, ctx, append_function, type);
         invoker.callAppendTooltip(DataComponentTypes.STORED_ENCHANTMENTS, ctx, append_function, type);
         invoker.callAppendTooltip(DataComponentTypes.ENCHANTMENTS, ctx, append_function, type);
         invoker.callAppendTooltip(DataComponentTypes.DYED_COLOR, ctx, append_function, type);
@@ -202,18 +210,18 @@ public class Tooltip2LoreTransformer implements ItemTransformer {
 
         /////////////////
         // Insert the LORE component
-        // No need to set styledLines, it's not used for serialization
+        // No need to set styledLines, it's not used for serialization*/
         input.set(DataComponentTypes.LORE, new LoreComponent(lore, null));
     }
 
     /**
-     * Adds tooltip lines appended by {@link net.minecraft.item.Item#appendTooltip(ItemStack, Item.TooltipContext, List, TooltipType)}
+     * Adds tooltip lines appended by {@link net.minecraft.item.Item#}
      *
      * @return true if something was inserted
      */
     private static boolean addAdditionalTooltip(ItemStack stack, Item.TooltipContext ctx, Consumer<Text> textConsumer, TooltipType type) {
         var list = new ArrayList<Text>();
-        stack.getItem().appendTooltip(stack, ctx, list, type);
+        //stack.getItem().appendTooltip(stack, ctx, list, type);
         list.forEach(textConsumer);
         return !list.isEmpty();
     }

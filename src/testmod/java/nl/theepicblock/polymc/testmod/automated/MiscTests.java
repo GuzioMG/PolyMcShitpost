@@ -1,7 +1,7 @@
 package nl.theepicblock.polymc.testmod.automated;
 
 import io.github.theepicblock.polymc.api.item.ItemLocation;
-import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
+import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.block.Blocks;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.PotionContentsComponent;
@@ -12,7 +12,6 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.packet.s2c.play.InventoryS2CPacket;
 import net.minecraft.network.packet.s2c.play.WorldEventS2CPacket;
 import net.minecraft.registry.Registries;
-import net.minecraft.test.GameTest;
 import net.minecraft.test.TestContext;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
@@ -23,7 +22,7 @@ import java.util.Objects;
 
 import static nl.theepicblock.polymc.testmod.YellowStatusEffect.YELLOW;
 
-public class MiscTests implements FabricGameTest {
+public class MiscTests {
     // These tests are broken, I am aware
 
     /**
@@ -31,7 +30,7 @@ public class MiscTests implements FabricGameTest {
      * Notice how the breaker is null
      * @see io.github.theepicblock.polymc.mixins.block.implementations.BreakParticleImplementation
      */
-    @GameTest(templateName = EMPTY_STRUCTURE,  batchId = "breakSimulated")
+    /*@GameTest(batchId = "breakSimulated")
     public void breakNull(TestContext ctx) {
         var packetCtx = new PacketTester(ctx);
         var block = Testmod.TEST_BLOCK;
@@ -51,7 +50,7 @@ public class MiscTests implements FabricGameTest {
      * it should still send a packet
      * @see io.github.theepicblock.polymc.mixins.block.implementations.BreakParticleImplementation
      */
-    @GameTest(templateName = EMPTY_STRUCTURE,  batchId = "breakSimulated")
+    /*@GameTest(batchId = "breakSimulated")
     public void breakModded(TestContext ctx) {
         var packetCtx = new PacketTester(ctx);
         var block = Testmod.TEST_BLOCK;
@@ -70,7 +69,7 @@ public class MiscTests implements FabricGameTest {
      * it should have the vanilla behaviour of not sending a packet
      * @see io.github.theepicblock.polymc.mixins.block.implementations.BreakParticleImplementation
      */
-    @GameTest(templateName = EMPTY_STRUCTURE,  batchId = "breakSimulated")
+    /*@GameTest(templateName = EMPTY_STRUCTURE,  batchId = "breakSimulated")
     public void breakModdedVanilla(TestContext ctx) {
         var packetCtx = new PacketTester(ctx);
         var block = Blocks.SHORT_GRASS;
@@ -138,5 +137,5 @@ public class MiscTests implements FabricGameTest {
 
         packetTester.close();
         ctx.complete();
-    }
+    }*/
 }

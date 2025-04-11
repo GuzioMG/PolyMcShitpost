@@ -15,8 +15,9 @@ import java.util.Objects;
 import java.util.function.Function;
 
 @Mixin(HoverEvent.class)
-public abstract class HoverEventFixerMixin {
-    @ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Lcom/mojang/serialization/Codec;xmap(Ljava/util/function/Function;Ljava/util/function/Function;)Lcom/mojang/serialization/Codec;"))
+public interface  HoverEventFixerMixin {
+    // Todo
+    /*@ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Lcom/mojang/serialization/Codec;xmap(Ljava/util/function/Function;Ljava/util/function/Function;)Lcom/mojang/serialization/Codec;"))
     private static Codec<HoverEvent> replaceCodec(Codec<HoverEvent> codec) {
         return codec.xmap(Function.identity(), content -> {
             var ctx = PacketContext.get();
@@ -36,5 +37,5 @@ public abstract class HoverEventFixerMixin {
             }
             return content;
         });
-    }
+    }*/
 }

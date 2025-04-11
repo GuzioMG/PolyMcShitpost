@@ -61,9 +61,9 @@ public class PolyMcCommands {
                             .then(literal("clientItem")
                                     .executes((context) -> {
                                         var player = context.getSource().getPlayerOrThrow();
-                                        var heldItem = player.getInventory().getMainHandStack();
+                                        var heldItem = player.getInventory().getSelectedStack();
                                         var polydItem = PolyMapProvider.getPolyMap(player).getClientItem(heldItem, player, null);
-                                        var heldItemTag = polydItem.toNbtAllowEmpty(context.getSource().getRegistryManager());
+                                        var heldItemTag = polydItem.toNbt(context.getSource().getRegistryManager());
                                         var nbtText = NbtHelper.toPrettyPrintedText(heldItemTag);
                                         context.getSource().sendFeedback(() -> nbtText, false);
                                         return Command.SINGLE_SUCCESS;
@@ -159,7 +159,7 @@ public class PolyMcCommands {
 
         var hoverTxt = Text.literal("Target packet count: ").append(Text.literal(PacketCountManager.MIN_PACKETS+"-"+PacketCountManager.MAX_PACKETS+" packets per tick").formatted(Formatting.AQUA));
         source.sendFeedback(() -> Text.literal("Average packet count per tick: ")
-                .styled(style -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverTxt)))
+                .styled(style -> style.withHoverEvent(new HoverEvent.ShowText(hoverTxt)))
                 .append(packetCount2Text(trackerInfo.calculateAveragePacketCount())), false);
         var packetHistory = Text.literal("History: [");
         for (int i = 0; ; i++) {
@@ -203,6 +203,6 @@ public class PolyMcCommands {
                 .append(Text.literal(" packets per tick =  ").formatted(Formatting.RESET))
                 .append(Text.literal(String.valueOf(count * 20)).setStyle(t.getStyle()))
                 .append(Text.literal(" packets per second").formatted(Formatting.RESET));
-        return t.styled(style -> style.withHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, hoverText)));
+        return t.styled(style -> style.withHoverEvent(new HoverEvent.ShowText(hoverText)));
     }
 }

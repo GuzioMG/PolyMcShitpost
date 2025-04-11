@@ -41,7 +41,7 @@ public class ModdedResourceContainerImpl implements ModdedResources {
     }
 
     @Override
-    public @NotNull Set<Pair<Identifier,InputSupplier<InputStream>>> locateFiles(String prefix) {
+    public @NotNull Set<Pair<Identifier, InputSupplier<InputStream>>> locateFiles(String prefix) {
         return inner.locateFiles(prefix);
     }
 

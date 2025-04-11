@@ -6,6 +6,7 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BundleS2CPacket;
+import net.minecraft.network.state.NetworkState;
 import net.minecraft.network.state.PlayStateFactories;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ChunkDataSender;

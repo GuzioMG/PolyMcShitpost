@@ -18,10 +18,6 @@ public abstract class AttributeModifiersComponentMixin implements TransformingCo
 
     @Shadow @Final private List<AttributeModifiersComponent.Entry> modifiers;
 
-    @Shadow public abstract boolean showInTooltip();
-
-    @Shadow @Final private boolean showInTooltip;
-
     @Override
     public Object polymc$getTransformed(PacketContext player) {
         if (!polymc$requireModification(player)) {
@@ -36,7 +32,7 @@ public abstract class AttributeModifiersComponentMixin implements TransformingCo
             }
         }
 
-        return new AttributeModifiersComponent(list, this.showInTooltip());
+        return new AttributeModifiersComponent(list);
     }
 
     @Override
@@ -48,10 +44,5 @@ public abstract class AttributeModifiersComponentMixin implements TransformingCo
             }
         }
         return false;
-    }
-
-    @Override
-    public boolean polymc$showTooltip() {
-        return this.showInTooltip;
     }
 }

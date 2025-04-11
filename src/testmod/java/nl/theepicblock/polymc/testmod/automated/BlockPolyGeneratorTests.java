@@ -1,17 +1,17 @@
 package nl.theepicblock.polymc.testmod.automated;
 
-import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
+import net.fabricmc.fabric.api.gametest.v1.GameTest;
 import net.minecraft.block.*;
 import net.minecraft.state.property.Properties;
-import net.minecraft.test.GameTest;
 import net.minecraft.test.TestContext;
+import net.minecraft.text.Text;
 import net.minecraft.util.math.BlockPos;
 import nl.theepicblock.polymc.testmod.Testmod;
 
 import java.util.function.BiPredicate;
 
-public class BlockPolyGeneratorTests implements FabricGameTest {
-    @GameTest(templateName = EMPTY_STRUCTURE)
+public class BlockPolyGeneratorTests {
+    @GameTest()
     public void testDoor(TestContext ctx) {
         assertPoly(
                 ctx,
@@ -28,7 +28,7 @@ public class BlockPolyGeneratorTests implements FabricGameTest {
         ctx.complete();
     }
 
-    @GameTest(templateName = EMPTY_STRUCTURE)
+    @GameTest()
     public void testTrapDoor(TestContext ctx) {
         assertPoly(
                 ctx,
@@ -45,7 +45,7 @@ public class BlockPolyGeneratorTests implements FabricGameTest {
         ctx.complete();
     }
 
-    @GameTest(templateName = EMPTY_STRUCTURE)
+    @GameTest()
     public void testSlab(TestContext ctx) {
         assertPoly(
                 ctx,
@@ -60,7 +60,7 @@ public class BlockPolyGeneratorTests implements FabricGameTest {
         var poly = TestUtil.getMap().getBlockPoly(a);
         a.getStateManager().getStates().forEach(serverState -> {
             var polied = poly.getClientBlock(serverState);
-            ctx.assertTrue(check.test(serverState, polied), serverState+" didn't get polied correctly: "+message+ " but found "+polied+" instead");
+            ctx.assertTrue(check.test(serverState, polied), Text.literal(serverState+" didn't get polied correctly: "+message+ " but found "+polied+" instead"));
         });
     }
 

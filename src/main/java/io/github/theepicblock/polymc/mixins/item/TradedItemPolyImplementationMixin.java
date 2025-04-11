@@ -6,7 +6,7 @@ import io.github.theepicblock.polymc.impl.misc.TransformingPacketCodec;
 import io.github.theepicblock.polymc.impl.mixin.ItemLocationStaticHack;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.predicate.ComponentPredicate;
+import net.minecraft.predicate.component.ComponentMapPredicate;
 import net.minecraft.village.TradedItem;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -20,7 +20,7 @@ public class TradedItemPolyImplementationMixin {
             var ctx = PacketContext.get();
             var map = Util.tryGetPolyMap(ctx.getClientConnection());
             var stack = map.getClientItem(tradedItem.itemStack(), ctx.getPlayer(), ItemLocationStaticHack.location.get());
-            return new TradedItem(stack.getItem().getRegistryEntry(), stack.getCount(), ComponentPredicate.of(stack.getComponents()));
+            return new TradedItem(stack.getItem().getRegistryEntry(), stack.getCount(), ComponentMapPredicate.of(stack.getComponents()));
         });
     }
 }

@@ -394,7 +394,6 @@ public class Util {
             DataComponentTypes.ATTRIBUTE_MODIFIERS,
             DataComponentTypes.BANNER_PATTERNS,
             DataComponentTypes.BASE_COLOR,
-            DataComponentTypes.HIDE_TOOLTIP,
             DataComponentTypes.CAN_BREAK,
             DataComponentTypes.CAN_PLACE_ON,
             DataComponentTypes.REPAIR_COST,
@@ -417,6 +416,7 @@ public class Util {
             DataComponentTypes.GLIDER,
             DataComponentTypes.CUSTOM_MODEL_DATA,
             DataComponentTypes.DYED_COLOR,
+            DataComponentTypes.TOOLTIP_DISPLAY,
             DataComponentTypes.REPAIRABLE
     };
 
@@ -433,11 +433,14 @@ public class Util {
         var polymap = tryGetPolyMap(context.getClientConnection());
 
 
-        if (original.contains("Items", NbtElement.LIST_TYPE)) {
-            var list = original.getList("Items", NbtElement.COMPOUND_TYPE);
+        if (original.contains("Items")) {
+            var list = original.getListOrEmpty("Items");
             for (int i = 0; i < list.size(); i++) {
-                var nbt = list.getCompound(i);
-                var stack = ItemStack.fromNbtOrEmpty(lookup, nbt);
+                var nbt = list.getCompoundOrEmpty(i);
+                if (nbt.isEmpty()) {
+                    continue;
+                }
+                var stack = ItemStack.fromNbt(lookup, nbt).orElse(ItemStack.EMPTY);
                 var x = polymap.getClientItem(stack, context.getPlayer(), ItemLocation.EQUIPMENT);
                 if (x != stack) {
                     if (override == null) {
@@ -447,26 +450,26 @@ public class Util {
                     nbt.remove("id");
                     nbt.remove("components");
                     nbt.remove("count");
-                    override.getList("Items", NbtElement.COMPOUND_TYPE).set(i, x.isEmpty() ? new NbtCompound() : x.toNbt(lookup, nbt));
+                    override.getListOrEmpty("Items").set(i, x.isEmpty() ? new NbtCompound() : x.toNbt(lookup, nbt));
                 }
             }
         }
 
-        if (original.contains("item", NbtElement.COMPOUND_TYPE)) {
-            var stack = ItemStack.fromNbtOrEmpty(lookup, original.getCompound("item"));
+        if (original.contains("item")) {
+            var stack = ItemStack.fromNbt(lookup, original.getCompoundOrEmpty("item")).orElse(ItemStack.EMPTY);
             var x = polymap.getClientItem(stack, context.getPlayer(), ItemLocation.EQUIPMENT);
             if (stack != x) {
                 if (override == null) {
                     override = original.copy();
                 }
-                override.put("item", x.toNbtAllowEmpty(lookup));
+                override.put("item", x.toNbt(lookup));
             }
         }
 
-        if (original.contains("components", NbtElement.COMPOUND_TYPE)) {
+        if (original.contains("components")) {
             var ops = lookup.getOps(NbtOps.INSTANCE);
 
-            var comp = ComponentMap.CODEC.decode(ops, original.getCompound("components"));
+            var comp = ComponentMap.CODEC.decode(ops, original.getCompoundOrEmpty("components"));
             if (comp.isSuccess()) {
                 var map = comp.getOrThrow().getFirst();
                 ComponentMap.Builder builder = null;

@@ -43,20 +43,11 @@ public class ItemPolyGenerator {
         if (item instanceof AxeItem) {
             return new SimpleItemPoly(Items.IRON_AXE);
         }
-        if (item instanceof PickaxeItem) {
-            return new SimpleItemPoly(Items.IRON_PICKAXE);
-        }
         if (item instanceof HoeItem) {
             return new SimpleItemPoly(Items.IRON_HOE);
         }
         if (item instanceof ShovelItem) {
             return new SimpleItemPoly(Items.IRON_SHOVEL);
-        }
-        if (item instanceof SwordItem) {
-            return new SimpleItemPoly(Items.IRON_SWORD);
-        }
-        if (item instanceof MiningToolItem) {
-            return new SimpleItemPoly(Items.STONE_HOE);
         }
         if (item instanceof ShieldItem) {
             return new SimpleItemPoly(Items.SHIELD);

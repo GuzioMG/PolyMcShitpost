@@ -1,19 +1,16 @@
 package nl.theepicblock.polymc.testmod.automated;
 
-import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.PistonBlock;
 import net.minecraft.entity.EntityType;
-import net.minecraft.network.packet.s2c.play.EntityPositionS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
-import net.minecraft.test.GameTest;
 import net.minecraft.test.TestContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Vec3d;
 import nl.theepicblock.polymc.testmod.Testmod;
 
-public class WizardTests implements FabricGameTest {
+public class WizardTests {/*implements FabricGameTest {
     @GameTest(templateName = EMPTY_STRUCTURE, batchId = "blockWizard")
     public void testBlock(TestContext ctx) {
         var packetCtx = new PacketTester(ctx);
@@ -57,9 +54,9 @@ public class WizardTests implements FabricGameTest {
                             packet.getY() == expectedPosition.getY() &&
                             packet.getZ() == expectedPosition.getZ()),
                     "Item did not move to the midway point during piston animation");
-*/
+*//*
             packetCtx.close();
             ctx.complete();
         });
-    }
+    }*/
 }

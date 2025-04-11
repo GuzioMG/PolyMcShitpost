@@ -26,12 +26,10 @@ public abstract class MixinPistonBlockEntity extends BlockEntity {
         super(type, pos, state);
     }
 
-    @Shadow private BlockState pushedBlock;
-
     @Shadow public abstract BlockState getPushedBlock();
 
     @Unique
-    private final PolyMapMap<Wizard> wizards = new PolyMapMap<>((map) -> {
+    private final PolyMapMap<Wizard> wizards = new PolyMapMap<Wizard>((map) -> {
         if (!(world instanceof ServerWorld)) return null;
 
         var block = this.getPushedBlock().getBlock();
@@ -88,7 +86,7 @@ public abstract class MixinPistonBlockEntity extends BlockEntity {
         });
     }
 
-    @Inject(method = "markRemoved()V", at = @At("HEAD"))
+    @Inject(method = "onBlockReplaced", at = @At("HEAD"))
     private void onRemove(CallbackInfo ci) {
         if (!(this.getWorld() instanceof ServerWorld)) return;
         var allNearbyPlayers = PolyMapFilteredPlayerView.getAll((ServerWorld)this.getWorld(), this.getPos());

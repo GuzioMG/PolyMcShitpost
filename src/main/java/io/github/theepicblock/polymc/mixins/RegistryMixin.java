@@ -47,7 +47,7 @@ public interface RegistryMixin {
                 } else if (val instanceof Block item) {
                     var client = map.getClientState(item.getDefaultState(), ctx.getPlayer());
                     return this.getEntry(this.getRawId(client.getBlock())).orElse(fallback);
-                } else if (val instanceof SoundEvent ) {
+                } else if (val instanceof SoundEvent) {
                     return this.getEntry(this.getRawId(SoundEvents.INTENTIONALLY_EMPTY)).orElse(fallback);
                 }
 

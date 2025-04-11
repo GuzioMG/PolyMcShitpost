@@ -8,12 +8,9 @@ public interface TransformingComponent {
     }
 
     static boolean requireTransformForTooltip(Object object, PacketContext player) {
-        return object instanceof TransformingComponent t && t.polymc$showTooltip() && t.polymc$requireModification(player);
+        return object instanceof TransformingComponent t && t.polymc$requireModification(player);
     }
 
     Object polymc$getTransformed(PacketContext context);
     boolean polymc$requireModification(PacketContext context);
-    default boolean polymc$showTooltip() {
-        return false;
-    };
 }

@@ -39,7 +39,7 @@ public class BreakParticleImplementation {
      * Replaces the call to {@link World#syncWorldEvent(PlayerEntity, int, BlockPos, int)} with a call to {@link PacketReplacementUtil#syncWorldEvent(World, PlayerEntity, int, BlockPos, BlockState)}
      * to respect different PolyMaps
      */
-    @ModifyVariable(method = "spawnBreakParticles", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;syncWorldEvent(Lnet/minecraft/entity/player/PlayerEntity;ILnet/minecraft/util/math/BlockPos;I)V"), argsOnly = true)
+    @ModifyVariable(method = "spawnBreakParticles", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;syncWorldEvent(Lnet/minecraft/entity/Entity;ILnet/minecraft/util/math/BlockPos;I)V"), argsOnly = true)
     public PlayerEntity onBreakParticlePacket(@Nullable PlayerEntity player, World world, @Nullable PlayerEntity player2, BlockPos pos, BlockState state) {
         if (player instanceof ServerPlayerEntity spe) {
             var needsCustomBreaking = CustomBlockBreakingCheck.needsCustomBreaking(spe, state);

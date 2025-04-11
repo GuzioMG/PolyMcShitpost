@@ -126,9 +126,7 @@ public class PolyMapImpl implements PolyMap {
             var optional = advancement.value().display().map(AdvancementDisplay::getBackground).flatMap(x -> x);
             if (optional.isPresent()) {
                 var texture = optional.get();
-                if (texture.getPath().startsWith("textures/")) {
-                    ADVANCEMENT_BACKGROUNDS.add(texture);
-                }
+                ADVANCEMENT_BACKGROUNDS.add(texture.texturePath());
             }
         }
     }

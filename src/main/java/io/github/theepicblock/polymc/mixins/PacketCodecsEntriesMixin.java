@@ -8,7 +8,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$17", priority = 800)
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$19", priority = 800)
 public abstract class PacketCodecsEntriesMixin {
 
     @ModifyVariable(method = "encode(Lio/netty/buffer/ByteBuf;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true)

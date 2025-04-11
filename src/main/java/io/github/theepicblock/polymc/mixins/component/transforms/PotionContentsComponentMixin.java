@@ -47,10 +47,4 @@ public abstract class PotionContentsComponentMixin implements TransformingCompon
         }
         return false;
     }
-
-    @Override
-    public boolean polymc$showTooltip() {
-        // Potions always have tooltip, (at least on `PotionItem`s)
-        return true;
-    }
 }

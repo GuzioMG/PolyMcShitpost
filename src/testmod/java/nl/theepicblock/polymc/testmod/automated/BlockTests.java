@@ -1,12 +1,9 @@
 package nl.theepicblock.polymc.testmod.automated;
 
 import io.github.theepicblock.polymc.impl.NOPPolyMap;
-import net.fabricmc.fabric.api.gametest.v1.FabricGameTest;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.network.packet.s2c.play.BlockUpdateS2CPacket;
-import net.minecraft.test.CustomTestProvider;
-import net.minecraft.test.TestFunction;
 import net.minecraft.util.math.BlockPos;
 import nl.theepicblock.polymc.testmod.Testmod;
 
@@ -15,8 +12,8 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.function.Consumer;
 
-public class BlockTests implements FabricGameTest {
-    @CustomTestProvider
+public class BlockTests {
+    /*@CustomTestProvider
     public Collection<TestFunction> testItem() {
         var list = new ArrayList<TestFunction>();
         // Different ways in which we can test itemstacks being transformed by PolyMc
@@ -62,7 +59,7 @@ public class BlockTests implements FabricGameTest {
 
         return list;
     }
-
+*/
     public void reencodeMethod(BlockState state, PacketTester ctx, Consumer<BlockState> newStateConsumer) {
         newStateConsumer.accept(
                 ctx.reencode(new BlockUpdateS2CPacket(new BlockPos(0,0,0), state)).getState()

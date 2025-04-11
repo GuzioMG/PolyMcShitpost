@@ -10,14 +10,7 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 
 @Mixin(ItemEnchantmentsComponent.class)
 public interface ItemEnchantmentsComponentAccessor {
-    @Invoker("<init>")
-    static ItemEnchantmentsComponent createItemEnchantmentsComponent(Object2IntOpenHashMap<RegistryEntry<Enchantment>> enchantments, boolean showInTooltip) {
-        throw new UnsupportedOperationException();
-    }
 
     @Accessor
     Object2IntOpenHashMap<RegistryEntry<Enchantment>> getEnchantments();
-
-    @Accessor
-    boolean isShowInTooltip();
 }
