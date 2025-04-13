@@ -1,5 +1,6 @@
 package nl.theepicblock.polymc.testmod;
 
+import net.minecraft.component.type.TooltipDisplayComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.StackReference;
@@ -13,6 +14,7 @@ import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import java.util.List;
+import java.util.function.Consumer;
 
 public class TestItem extends Item {
     public TestItem(Settings settings) {
@@ -20,10 +22,10 @@ public class TestItem extends Item {
     }
 
     @Override
-    public void appendTooltip(ItemStack stack, TooltipContext context, List<Text> tooltip, TooltipType type) {
-        tooltip.add(Text.literal("Normal tooltip"));
-        tooltip.add(Text.literal("Red tooltip").formatted(Formatting.RED));
-        super.appendTooltip(stack, context, tooltip, type);
+    public void appendTooltip(ItemStack stack, TooltipContext context, TooltipDisplayComponent displayComponent, Consumer<Text> textConsumer, TooltipType type) {
+        textConsumer.accept(Text.literal("Normal tooltip"));
+        textConsumer.accept(Text.literal("Red tooltip").formatted(Formatting.RED));
+        super.appendTooltip(stack, context, displayComponent, textConsumer, type);
     }
 
     @Override

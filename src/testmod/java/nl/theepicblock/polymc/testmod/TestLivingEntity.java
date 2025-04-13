@@ -15,11 +15,6 @@ public class TestLivingEntity extends LivingEntity {
     }
 
     @Override
-    public Iterable<ItemStack> getArmorItems() {
-        return List.of();
-    }
-
-    @Override
     public ItemStack getEquippedStack(EquipmentSlot slot) {
         return ItemStack.EMPTY;
     }

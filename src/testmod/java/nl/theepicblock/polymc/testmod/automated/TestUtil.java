@@ -14,7 +14,7 @@ public class TestUtil {
         return PolyMc.getMainMap();
     }
 
-    @Contract("null, _ -> fail")
+    /*@Contract("null, _ -> fail")
     public static void assertNonNull(@Nullable Object o, String message) {
         if (o == null) {
             var line = Thread.currentThread().getStackTrace()[2].getLineNumber();
@@ -91,5 +91,5 @@ public class TestUtil {
         }
 
         throw new GameTestException("L"+line+" Method didn't throw exception: "+message);
-    }
+    }*/
 }

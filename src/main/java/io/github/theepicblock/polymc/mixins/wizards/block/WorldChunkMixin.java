@@ -236,7 +236,7 @@ public abstract class WorldChunkMixin extends Chunk implements WatchListener, Wi
     }
 
     @Inject(method = "setBlockState", at = @At("TAIL"))
-    private void onSet(BlockPos pos, BlockState state, boolean moved, CallbackInfoReturnable<BlockState> cir) {
+    private void onSet(BlockPos pos, BlockState state, int flags, CallbackInfoReturnable<BlockState> cir) {
         List<ServerPlayerEntity> allPlayers = null;
         for (var entry : wizards.entrySet()) {
             var polyMap = entry.getKey();

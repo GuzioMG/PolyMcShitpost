@@ -1,9 +1,9 @@
 package io.github.theepicblock.polymc.impl.generator;
 
+import eu.pb4.polymer.common.impl.entity.InternalEntityHelpers;
 import io.github.theepicblock.polymc.api.PolyRegistry;
 import io.github.theepicblock.polymc.api.entity.EntityPoly;
 import io.github.theepicblock.polymc.impl.Util;
-import io.github.theepicblock.polymc.impl.misc.InternalEntityHelpers;
 import io.github.theepicblock.polymc.impl.poly.entity.DefaultedEntityPoly;
 import io.github.theepicblock.polymc.impl.poly.entity.FlyingItemEntityPoly;
 import io.github.theepicblock.polymc.impl.poly.entity.MissingEntityPoly;

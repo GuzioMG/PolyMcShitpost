@@ -5,7 +5,7 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.poly.item.PlaceableItemPoly;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.Entity;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
@@ -21,15 +21,15 @@ public abstract class PlaceAnimationAndSoundFix extends Item {
         super(settings);
     }
 
-    @ModifyArg(method = "place(Lnet/minecraft/item/ItemPlacementContext;)Lnet/minecraft/util/ActionResult;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"))
-    private PlayerEntity removeSource(PlayerEntity player) {
-        if (player instanceof ServerPlayerEntity serverPlayerEntity
+    @ModifyArg(method = "place(Lnet/minecraft/item/ItemPlacementContext;)Lnet/minecraft/util/ActionResult;", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/World;playSound(Lnet/minecraft/entity/Entity;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/sound/SoundEvent;Lnet/minecraft/sound/SoundCategory;FF)V"))
+    private Entity removeSource(Entity source) {
+        if (source instanceof ServerPlayerEntity serverPlayerEntity
                 && Util.tryGetPolyMap(serverPlayerEntity).getItemPoly(this) instanceof PlaceableItemPoly) {
             // Causes the player that broke the block to also receive the sound packet
             return null;
         }
 
-        return player;
+        return source;
     }
 
 
