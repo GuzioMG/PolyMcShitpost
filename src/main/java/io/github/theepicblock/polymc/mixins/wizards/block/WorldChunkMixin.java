@@ -203,6 +203,7 @@ public abstract class WorldChunkMixin extends Chunk implements WatchListener, Wi
 
     @Override
     public void polymc$removePlayer(ServerPlayerEntity playerEntity) {
+        if (!(this.world instanceof ServerWorld)) return;
         PolyMap map = PolyMapProvider.getPolyMap(playerEntity);
         this.wizards.get(map).values().forEach((wizard) -> {
             try {
@@ -217,6 +218,7 @@ public abstract class WorldChunkMixin extends Chunk implements WatchListener, Wi
 
     @Override
     public void polymc$removeAllPlayers() {
+        if (!(this.world instanceof ServerWorld)) return;
         var allPlayers = PolyMapFilteredPlayerView.getAll((ServerWorld)world, this.getPos());
         this.wizards.forEach((polyMap, wizardMap) -> {
             if (!wizardMap.isEmpty()) {
@@ -237,6 +239,7 @@ public abstract class WorldChunkMixin extends Chunk implements WatchListener, Wi
 
     @Inject(method = "setBlockState", at = @At("TAIL"))
     private void onSet(BlockPos pos, BlockState state, int flags, CallbackInfoReturnable<BlockState> cir) {
+        if (!(this.world instanceof ServerWorld)) return;
         List<ServerPlayerEntity> allPlayers = null;
         for (var entry : wizards.entrySet()) {
             var polyMap = entry.getKey();
@@ -286,6 +289,8 @@ public abstract class WorldChunkMixin extends Chunk implements WatchListener, Wi
 
     @Override
     public PolyMapMap<Wizard> removeWizards(BlockPos pos, boolean move) {
+        if (!(this.world instanceof ServerWorld)) return new PolyMapMap<>(null);
+
         PolyMapMap<Wizard> ret = new PolyMapMap<>(null);
         var allPlayers = move ? null : PolyMapFilteredPlayerView.getAll((ServerWorld)this.getWorld(), this.getPos());
 

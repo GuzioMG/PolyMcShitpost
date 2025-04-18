@@ -64,14 +64,16 @@ public abstract class FallingBlockEntityMixin extends Entity implements WatchLis
 
     @Inject(method = "tick", at = @At("RETURN"))
     private void onTick(CallbackInfo ci) {
-        var allNearbyPlayers = PolyMapFilteredPlayerView.getAll((ServerWorld)this.getWorld(), this.getChunkPos());
-        wizards.forEach(((polyMap, wizard) -> {
-            if (wizard == null) return;
-            var filteredView = new PolyMapFilteredPlayerView(allNearbyPlayers, polyMap);
-            wizard.onMove(filteredView); // It is assumed that sand is constantly falling
-            wizard.onTick(filteredView);
-            filteredView.sendBatched();
-        }));
+        if (this.getWorld() instanceof ServerWorld world) {
+            var allNearbyPlayers = PolyMapFilteredPlayerView.getAll(world, this.getChunkPos());
+            wizards.forEach(((polyMap, wizard) -> {
+                if (wizard == null) return;
+                var filteredView = new PolyMapFilteredPlayerView(allNearbyPlayers, polyMap);
+                wizard.onMove(filteredView); // It is assumed that sand is constantly falling
+                wizard.onTick(filteredView);
+                filteredView.sendBatched();
+            }));
+        }
     }
 
     @Override
@@ -121,11 +123,13 @@ public abstract class FallingBlockEntityMixin extends Entity implements WatchLis
 
     @Override
     public void polymc$removeAllPlayers() {
-        var allNearbyPlayers = PolyMapFilteredPlayerView.getAll((ServerWorld)this.getWorld(), this.getChunkPos());
-        wizards.forEach(((polyMap, wizard) -> {
-            var filteredView = new PolyMapFilteredPlayerView(allNearbyPlayers, polyMap);
-            if (wizard != null) wizard.removeAllPlayers(filteredView);
-            filteredView.sendBatched();
-        }));
+        if (this.getWorld() instanceof ServerWorld world) {
+            var allNearbyPlayers = PolyMapFilteredPlayerView.getAll(world, this.getChunkPos());
+            wizards.forEach(((polyMap, wizard) -> {
+                var filteredView = new PolyMapFilteredPlayerView(allNearbyPlayers, polyMap);
+                if (wizard != null) wizard.removeAllPlayers(filteredView);
+                filteredView.sendBatched();
+            }));
+        }
     }
 }

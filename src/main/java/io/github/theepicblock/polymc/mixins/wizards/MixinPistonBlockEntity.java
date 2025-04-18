@@ -57,6 +57,8 @@ public abstract class MixinPistonBlockEntity extends BlockEntity {
 
     @Inject(method = "setWorld(Lnet/minecraft/world/World;)V", at = @At("RETURN"))
     private void onInit(World world, CallbackInfo ci) {
+        if (!(this.world instanceof ServerWorld)) return;
+
         if (!world.isClient) {
             var allPlayers = PolyMapFilteredPlayerView.getAll((ServerWorld)world, this.getPos());
             allPlayers.forEach((player) -> {
@@ -73,6 +75,8 @@ public abstract class MixinPistonBlockEntity extends BlockEntity {
 
     @Inject(method = "tick(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/BlockState;Lnet/minecraft/block/entity/PistonBlockEntity;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/block/entity/PistonBlockEntity;pushEntities(Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;FLnet/minecraft/block/entity/PistonBlockEntity;)V"))
     private static void onTick(World world, BlockPos pos, BlockState state, PistonBlockEntity blockEntity, CallbackInfo ci) {
+        if (!(world instanceof ServerWorld)) return;
+
         MixinPistonBlockEntity be = (MixinPistonBlockEntity)(Object)blockEntity;
         if (be == null) return;
 

@@ -39,6 +39,7 @@ import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.registry.DynamicRegistryManager;
+import net.minecraft.registry.Registries;
 import net.minecraft.server.ServerAdvancementLoader;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.Identifier;
@@ -52,7 +53,9 @@ public class PolyMc implements ModInitializer {
     public static final SimpleLogger LOGGER = new Log4JWrapper(LogManager.getLogger("PolyMc"));
     private static PolyMap map;
     @ApiStatus.Internal
-    public static DynamicRegistryManager.Immutable FALLBACK_REGISTRY_MANAGER = null;
+    public static DynamicRegistryManager.Immutable FALLBACK_REGISTRY_MANAGER_BASE = DynamicRegistryManager.of(Registries.REGISTRIES);
+    @ApiStatus.Internal
+    public static DynamicRegistryManager.Immutable FALLBACK_REGISTRY_MANAGER = FALLBACK_REGISTRY_MANAGER_BASE;
 
     /**
      * Called when the registries are definitely final (eg, on world start).
@@ -60,8 +63,7 @@ public class PolyMc implements ModInitializer {
      * so it can't really support dynamic registration unless you want to regenerate your resource pack constantly.
      */
     @ApiStatus.Internal
-    public static void onRegistryClosed(DynamicRegistryManager.Immutable registryManager) {
-        FALLBACK_REGISTRY_MANAGER = registryManager;
+    public static void onRegistryClosed() {
         if (ConfigManager.getConfig().remapVanillaBlockIds) {
             BlockIdRemapper.remapFromInternalList();
         }
@@ -118,8 +120,17 @@ public class PolyMc implements ModInitializer {
     public void onInitialize() {
         PolyMcCommands.registerCommands();
         var polyMcEarly = Identifier.of("polymc", "early");
-        ServerLifecycleEvents.SERVER_STARTING.register(x -> PolyMapImpl.updateAdvancementBackgrounds(x.getAdvancementLoader()));
-        ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((x, a, b) -> PolyMapImpl.updateAdvancementBackgrounds(x.getAdvancementLoader()));
+        ServerLifecycleEvents.SERVER_STARTING.register(x -> {
+            FALLBACK_REGISTRY_MANAGER = x.getRegistryManager();
+        });
+        ServerLifecycleEvents.SERVER_STOPPED.register(x -> {
+            FALLBACK_REGISTRY_MANAGER = FALLBACK_REGISTRY_MANAGER_BASE;
+        });
+
+
+        //ServerLifecycleEvents.END_DATA_PACK_RELOAD.register((x, a, b) -> PolyMapImpl.updateAdvancementBackgrounds(x.getAdvancementLoader()));
+
+
 
         ServerConfigurationConnectionEvents.BEFORE_CONFIGURE.addPhaseOrdering(polyMcEarly, Event.DEFAULT_PHASE);
         ServerConfigurationConnectionEvents.BEFORE_CONFIGURE.register(polyMcEarly, (handler, server) -> {
