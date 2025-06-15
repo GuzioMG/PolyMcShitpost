@@ -13,7 +13,7 @@ import xyz.nucleoid.packettweaker.PacketContext;
 public abstract class PacketCodecsRegistryMixin<T> {
     
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryByteBuf;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true, index = 2)
+    @ModifyVariable(method = "encode(Ljava/lang/Object;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true, index = 2)
     private Object polymer$changeData(Object val) {
         var player = PacketContext.get();
         if (player == null) {

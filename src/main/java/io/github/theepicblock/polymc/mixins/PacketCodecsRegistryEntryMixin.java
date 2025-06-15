@@ -15,9 +15,9 @@ import xyz.nucleoid.packettweaker.PacketContext;
 @Mixin(targets = "net/minecraft/network/codec/PacketCodecs$33", priority = 500)
 public abstract class PacketCodecsRegistryEntryMixin<T> {
     
-    @ModifyArg(method = "encode(Lnet/minecraft/network/RegistryByteBuf;Lnet/minecraft/registry/entry/RegistryEntry;)V", 
+    @ModifyArg(method = "encode(Ljava/lang/Object;Ljava/lang/Object;)V", 
                at = @At(value = "INVOKE", 
-                        target = "Lnet/minecraft/network/codec/PacketCodec;encode(Lnet/minecraft/network/RegistryByteBuf;Ljava/lang/Object;)V"),
+                        target = "Lnet/minecraft/network/codec/PacketCodec;encode(Ljava/lang/Object;Ljava/lang/Object;)V"),
                index = 1)
     private Object polymer$changeData(Object val) {
         if (val instanceof RegistryEntry<?> entry) {

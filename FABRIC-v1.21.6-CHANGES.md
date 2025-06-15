@@ -207,7 +207,7 @@ The PacketCodecs anonymous inner classes have changed their structure and number
 ### Known Issues
 
 1. **PacketCodecs Mixins**: Currently disabled (`PacketCodecsEntriesMixin`, `PacketCodecsRegistryEntryMixin`, `PacketCodecsRegistryMixin`) due to signature mismatches
-2. **Polymer Compatibility**: Using Polymer 0.12.3+1.21.5 as 1.21.6 version is not yet available
+2. **Polymer Compatibility**: Updated to Polymer 0.13.0-pre.1+1.21.6-pre2 (fixes DimensionType constructor issue)
 
 ### Fixed Issues
 
