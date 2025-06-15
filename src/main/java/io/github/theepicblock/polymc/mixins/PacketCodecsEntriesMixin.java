@@ -9,7 +9,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$18", priority = 800)
+// AIDEV-TODO: Fix for 1.21.6 - anonymous class numbers have changed
+// Was $18 in previous version, now appears to be $31 based on source analysis
+// However, the mixin is failing to find the encode method - needs further investigation
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$31", priority = 800)
 public abstract class PacketCodecsEntriesMixin<T> {
     
     @Redirect(method = "encode(Lio/netty/buffer/ByteBuf;Ljava/lang/Object;)V", 

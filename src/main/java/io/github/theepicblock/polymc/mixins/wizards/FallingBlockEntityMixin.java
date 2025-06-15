@@ -79,26 +79,18 @@ public abstract class FallingBlockEntityMixin extends Entity implements WatchLis
     @Override
     public void onStartedTrackingBy(ServerPlayerEntity player) {
         super.onStartedTrackingBy(player);
+        this.polymc$addPlayer(player);
     }
 
     @Override
     public void onStoppedTrackingBy(ServerPlayerEntity player) {
         super.onStoppedTrackingBy(player);
+        this.polymc$removePlayer(player);
     }
 
     @Override
     public void setRemoved(RemovalReason reason) {
         super.setRemoved(reason);
-    }
-
-    @Inject(method = "onStartedTrackingBy", at = @At("RETURN"))
-    private void onStartTracking(ServerPlayerEntity player, CallbackInfo ci) {
-        this.polymc$addPlayer(player);
-    }
-
-    @Inject(method = "onStoppedTrackingBy", at = @At("RETURN"))
-    private void onStopTracking(ServerPlayerEntity player, CallbackInfo ci) {
-        this.polymc$removePlayer(player);
     }
 
     @Override

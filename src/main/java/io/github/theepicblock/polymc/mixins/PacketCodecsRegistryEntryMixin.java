@@ -12,7 +12,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$20", priority = 500)
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$33", priority = 500)
 public abstract class PacketCodecsRegistryEntryMixin<T> {
     
     @ModifyArg(method = "encode(Lnet/minecraft/network/RegistryByteBuf;Lnet/minecraft/registry/entry/RegistryEntry;)V", 
