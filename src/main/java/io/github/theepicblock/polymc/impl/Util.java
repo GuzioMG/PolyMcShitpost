@@ -430,6 +430,8 @@ public class Util {
         if (lookup == null) {
             return original;
         }
+        // Create the RegistryOps instance once
+        final var ops = lookup.getOps(NbtOps.INSTANCE);
         var polymap = tryGetPolyMap(context.getClientConnection());
 
 
@@ -440,34 +442,40 @@ public class Util {
                 if (nbt.isEmpty()) {
                     continue;
                 }
-                var stack = ItemStack.fromNbt(lookup, nbt).orElse(ItemStack.EMPTY);
+                var stack = ItemStack.CODEC.parse(ops, nbt)
+                        .resultOrPartial(error -> PolyMc.LOGGER.error("Failed to parse ItemStack from NBT: " + error))
+                        .orElse(ItemStack.EMPTY);
                 var x = polymap.getClientItem(stack, context.getPlayer(), ItemLocation.EQUIPMENT);
                 if (x != stack) {
                     if (override == null) {
                         override = original.copy();
                     }
-                    nbt = nbt.copy();
-                    nbt.remove("id");
-                    nbt.remove("components");
-                    nbt.remove("count");
-                    override.getListOrEmpty("Items").set(i, x.isEmpty() ? new NbtCompound() : x.toNbt(lookup, nbt));
+                    var newNbt = x.isEmpty()
+                            ? new NbtCompound()
+                            : (NbtCompound) ItemStack.CODEC.encodeStart(ops, x)
+                                    .getOrThrow(IllegalStateException::new);
+                    override.getListOrEmpty("Items").set(i, newNbt);
                 }
             }
         }
 
         if (original.contains("item")) {
-            var stack = ItemStack.fromNbt(lookup, original.getCompoundOrEmpty("item")).orElse(ItemStack.EMPTY);
+            var stack = ItemStack.CODEC.parse(ops, original.getCompoundOrEmpty("item"))
+                    .resultOrPartial(error -> PolyMc.LOGGER.error("Failed to parse ItemStack from NBT: " + error))
+                    .orElse(ItemStack.EMPTY);
             var x = polymap.getClientItem(stack, context.getPlayer(), ItemLocation.EQUIPMENT);
             if (stack != x) {
                 if (override == null) {
                     override = original.copy();
                 }
-                override.put("item", x.toNbt(lookup));
+                var newItemNbt = ItemStack.CODEC.encodeStart(ops, x)
+                        .getOrThrow(IllegalStateException::new);
+                override.put("item", newItemNbt);
             }
         }
 
         if (original.contains("components")) {
-            var ops = lookup.getOps(NbtOps.INSTANCE);
+            // ops already created at the start of the method
 
             var comp = ComponentMap.CODEC.decode(ops, original.getCompoundOrEmpty("components"));
             if (comp.isSuccess()) {

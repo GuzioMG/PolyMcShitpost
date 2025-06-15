@@ -37,6 +37,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;
+import net.minecraft.nbt.NbtOps;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -63,7 +64,13 @@ public class PolyMcCommands {
                                         var player = context.getSource().getPlayerOrThrow();
                                         var heldItem = player.getInventory().getSelectedStack();
                                         var polydItem = PolyMapProvider.getPolyMap(player).getClientItem(heldItem, player, null);
-                                        var heldItemTag = polydItem.toNbt(context.getSource().getRegistryManager());
+                                        // Convert ItemStack to NBT using the new CODEC system
+                                        var registryOps = context.getSource().getRegistryManager().getOps(NbtOps.INSTANCE);
+                                        var dataResult = ItemStack.CODEC.encodeStart(registryOps, polydItem);
+                                        var heldItemTag = dataResult.result()
+                                                .filter(tag -> tag instanceof NbtCompound)
+                                                .map(tag -> (NbtCompound) tag)
+                                                .orElse(new NbtCompound());
                                         var nbtText = NbtHelper.toPrettyPrintedText(heldItemTag);
                                         context.getSource().sendFeedback(() -> nbtText, false);
                                         return Command.SINGLE_SUCCESS;

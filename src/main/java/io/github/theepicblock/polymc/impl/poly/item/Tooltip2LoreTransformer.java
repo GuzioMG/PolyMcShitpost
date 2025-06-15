@@ -14,7 +14,7 @@ import net.minecraft.component.ComponentType;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.*;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.BlockPredicatesChecker;
+import net.minecraft.component.type.BlockPredicatesComponent;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.PotionItem;
@@ -34,17 +34,6 @@ import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class Tooltip2LoreTransformer implements ItemTransformer {
-    /*private static final List<HideableTooltip<?>> HIDEABLE_TOOLTIPS = List.of(
-            HideableTooltip.of(DataComponentTypes.ATTRIBUTE_MODIFIERS, AttributeModifiersComponent::withShowInTooltip),
-            HideableTooltip.of(DataComponentTypes.TRIM, ArmorTrim::withShowInTooltip),
-            HideableTooltip.ofNeg(DataComponentTypes.ENCHANTMENTS, ItemEnchantmentsComponent::isEmpty, ItemEnchantmentsComponent::withShowInTooltip),
-            HideableTooltip.ofNeg(DataComponentTypes.STORED_ENCHANTMENTS, ItemEnchantmentsComponent::isEmpty, ItemEnchantmentsComponent::withShowInTooltip),
-            HideableTooltip.of(DataComponentTypes.UNBREAKABLE, UnbreakableComponent::withShowInTooltip),
-            HideableTooltip.of(DataComponentTypes.CAN_BREAK, BlockPredicatesChecker::withShowInTooltip),
-            HideableTooltip.of(DataComponentTypes.JUKEBOX_PLAYABLE, JukeboxPlayableComponent::withShowInTooltip),
-            HideableTooltip.of(DataComponentTypes.CAN_PLACE_ON, BlockPredicatesChecker::withShowInTooltip)
-    );*/
-
     @Override
     public ItemStack transform(ItemStack original, ItemStack input, PolyMap polyMap, @Nullable ServerPlayerEntity player, @Nullable ItemLocation location) {
         Item.TooltipContext ctx;

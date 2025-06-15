@@ -18,7 +18,7 @@
 package io.github.theepicblock.polymc.mixins.block.implementations;
 
 import io.github.theepicblock.polymc.impl.Util;
-import net.minecraft.network.PacketCallbacks;
+import io.netty.channel.ChannelFutureListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.server.network.ServerCommonNetworkHandler;
@@ -31,7 +31,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class RemoveModdedBlockEntitiesInPacket {
 
     @Inject(method = "send", at = @At("HEAD"), cancellable = true)
-    public void sendPacketInject(Packet<?> packet, PacketCallbacks callbacks, CallbackInfo ci) {
+    public void sendPacketInject(Packet<?> packet, ChannelFutureListener callbacks, CallbackInfo ci) {
         var polymap = Util.tryGetPolyMap((ServerCommonNetworkHandler) (Object) this, false);
         if (packet instanceof BlockEntityUpdateS2CPacket packet1 && !polymap.canReceiveBlockEntity(packet1.getBlockEntityType())) {
             ci.cancel();

@@ -23,7 +23,7 @@ public abstract class WatchProviderMixin {
     @Inject(method = "unload",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayNetworkHandler;sendPacket(Lnet/minecraft/network/packet/Packet;)V"))
     private void onSendUnloadPacket(ServerPlayerEntity player, ChunkPos pos, CallbackInfo ci) {
-        var chunk = player.getServerWorld().getChunkManager().getChunk(pos.x, pos.z);
+        var chunk = player.getWorld().getChunkManager().getChunk(pos.x, pos.z);
         if (!(chunk instanceof WatchListener)) return;
 
         ((WatchListener)chunk).polymc$removePlayer(player);

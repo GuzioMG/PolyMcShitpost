@@ -18,7 +18,7 @@
 package io.github.theepicblock.polymc.mixins.entity;
 
 import io.github.theepicblock.polymc.impl.Util;
-import net.minecraft.network.PacketCallbacks;
+import io.netty.channel.ChannelFutureListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.common.CustomPayloadS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntityStatusEffectS2CPacket;
@@ -36,7 +36,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class CustomEffectsDisabler {
 
     @Inject(method = "send", at = @At("HEAD"), cancellable = true)
-    public void sendPacketInject(Packet<?> packet, PacketCallbacks callbacks, CallbackInfo ci) {
+    public void sendPacketInject(Packet<?> packet, ChannelFutureListener callbacks, CallbackInfo ci) {
         if (((Object) this) instanceof ServerPlayNetworkHandler handler) {
             var map = Util.tryGetPolyMap(handler);
             if ((packet instanceof EntityStatusEffectS2CPacket packet1 && !map.canReceiveStatusEffect(packet1.getEffectId()))

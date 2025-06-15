@@ -24,6 +24,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
+import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import eu.pb4.polymer.common.api.PolymerCommonUtils;
@@ -62,6 +63,7 @@ import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.ServerAdvancementLoader;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
+import net.minecraft.text.TextCodecs;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
@@ -353,8 +355,11 @@ public class PolyMapImpl implements PolyMap {
 
     private void addTranslation(Map<String, String> mainLangMap, String key, JsonElement value) {
         if (value instanceof JsonArray array) { // Assume owo lib text
-            var x = Text.Serialization.fromJsonTree(array, PolyMc.FALLBACK_REGISTRY_MANAGER);
-            mainLangMap.put(key, x != null ? x.getString() : "<INVALID TRANSLATION: " + key + ">");
+            var dataResult = TextCodecs.CODEC.decode(PolyMc.FALLBACK_REGISTRY_MANAGER.getOps(JsonOps.INSTANCE), array);
+            var text = dataResult.result()
+                    .map(pair -> pair.getFirst())
+                    .orElse(null);
+            mainLangMap.put(key, text != null ? text.getString() : "<INVALID TRANSLATION: " + key + ">");
         } else if (value instanceof JsonObject object) { // Assume that one library which allows objects for text
             for (var e : object.entrySet()) {
                 addTranslation(mainLangMap, key + "." + e.getKey(), e.getValue());

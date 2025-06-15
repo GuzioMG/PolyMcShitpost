@@ -91,12 +91,12 @@ public abstract class FallingBlockEntityMixin extends Entity implements WatchLis
         super.setRemoved(reason);
     }
 
-    @Inject(method = "onStartedTrackingBy(Lnet/minecraft/server/network/ServerPlayerEntity;)V", at = @At("RETURN"))
+    @Inject(method = "onStartedTrackingBy", at = @At("RETURN"))
     private void onStartTracking(ServerPlayerEntity player, CallbackInfo ci) {
         this.polymc$addPlayer(player);
     }
 
-    @Inject(method = "onStoppedTrackingBy(Lnet/minecraft/server/network/ServerPlayerEntity;)V", at = @At("RETURN"))
+    @Inject(method = "onStoppedTrackingBy", at = @At("RETURN"))
     private void onStopTracking(ServerPlayerEntity player, CallbackInfo ci) {
         this.polymc$removePlayer(player);
     }

@@ -2,6 +2,7 @@ package nl.theepicblock.polymc.testmod.automated;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.network.*;
+import io.netty.channel.ChannelFutureListener;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.listener.PacketListener;
 import net.minecraft.network.packet.Packet;
@@ -34,10 +35,10 @@ public class FakeNetworkHandler extends ServerPlayNetworkHandler {
     }
 
     @Override
-    public void send(Packet<?> packet, PacketCallbacks callbacks) {
+    public void send(Packet<?> packet, ChannelFutureListener listener) {
         if (packet instanceof BundleS2CPacket bundle) {
             for (var packet2 : bundle.getPackets()) {
-                this.send(packet2, callbacks);
+                this.send(packet2, listener);
             }
             return;
         }

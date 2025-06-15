@@ -3,35 +3,42 @@ package io.github.theepicblock.polymc.mixins;
 
 import io.github.theepicblock.polymc.impl.Util;
 import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$20", priority = 500)
-public abstract class PacketCodecsRegistryMixin {
-    @Shadow @Final private RegistryKey field_57058;
-
-    @SuppressWarnings({"rawtypes", "ShadowModifiers"})
-
-    @ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryByteBuf;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true)
-    private Object polymer$changeData(Object val, RegistryByteBuf buf) {
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$32", priority = 500)
+public abstract class PacketCodecsRegistryMixin<T> {
+    
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    @ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryByteBuf;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true, index = 2)
+    private Object polymer$changeData(Object val) {
         var player = PacketContext.get();
+        if (player == null) {
+            return val;
+        }
         var map = Util.tryGetPolyMap(player);
-
-        if (val instanceof RegistryEntry<?> registryEntry) {
-            var value = registryEntry.value();
-            var out = map.tryRemapping(value, player);
-            if (value != out) {
-                return buf.getRegistryManager().getOrThrow(this.field_57058).getEntry(out);
-            }
+        if (map == null) {
             return val;
         }
 
+        // Handle RegistryEntry specially
+        if (val instanceof RegistryEntry registryEntry) {
+            var value = registryEntry.value();
+            var out = map.tryRemapping(value, player);
+
+            if (value == out) {
+                // Value was not remapped, return the original entry.
+                return val;
+            }
+
+            // Return a direct entry with the remapped value
+            return RegistryEntry.of(out);
+        }
+
+        // For non-RegistryEntry values, just remap directly
         return map.tryRemapping(val, player);
     }
 }
