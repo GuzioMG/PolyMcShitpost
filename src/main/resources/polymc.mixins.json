@@ -5,6 +5,7 @@
   "compatibilityLevel": "JAVA_21",
   "priority": 1500,
   "plugin": "io.github.theepicblock.polymc.mixins.MixinConfigPlugin",
+  "refmap": "PolyMc-refmap.json",
   "mixins": [
     "CommandSuggestionFix",
     "CommandTreeS2CPacketArgumentNodeMixin",
@@ -12,11 +13,9 @@
     "DisableCustomParticles",
     "ForceNetworkSerializationForRegistrySyncMixin",
     "HoverEventFixerMixin",
-    // AIDEV-TODO: PacketCodecs mixins disabled - need bytecode analysis to fix for 1.21.6
-    // These mixins handle packet data remapping but have incorrect signatures/targets
-    // "PacketCodecsEntriesMixin",
-    // "PacketCodecsRegistryEntryMixin",
-    // "PacketCodecsRegistryMixin",
+    "PacketCodecsEntriesMixin",
+    "PacketCodecsRegistryEntryMixin",
+    "PacketCodecsRegistryMixin",
     "PolyMapProviderImpl",
     "ReferenceAccessor",
     "RegistryElementCodecMixin",
