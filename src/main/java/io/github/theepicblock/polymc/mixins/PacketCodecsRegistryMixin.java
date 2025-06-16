@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
 // Targets anonymous class in PacketCodecs.registry() method (line ~804)
-// In 1.21.6, this is class $31
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$31", priority = 500)
+// In 1.21.6, this is class $22 (was $31 in refmap, but runtime shows $22)
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$22", priority = 500)
 public abstract class PacketCodecsRegistryMixin<T> {
     
     @SuppressWarnings({"rawtypes", "unchecked"})

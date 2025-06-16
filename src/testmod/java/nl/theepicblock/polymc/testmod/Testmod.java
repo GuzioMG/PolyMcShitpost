@@ -93,6 +93,7 @@ public class Testmod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        
         FabricDefaultAttributeRegistry.register(TEST_ENTITY_DIRECT, CreeperEntity.createCreeperAttributes());
         FabricDefaultAttributeRegistry.register(TEST_ENTITY_EXTEND_DIRECT, CreeperEntity.createCreeperAttributes());
 

@@ -13,8 +13,8 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import xyz.nucleoid.packettweaker.PacketContext;
 
 // Targets anonymous class in PacketCodecs.registryEntry() method (line ~871)
-// In 1.21.6, this is class $32
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$32", priority = 500)
+// In 1.21.6, this is class $24 (was $32 in refmap, but runtime shows $24)
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$24", priority = 500)
 public abstract class PacketCodecsRegistryEntryMixin<T> {
     
     // Due to generics erasure, the actual method signature uses Object parameters

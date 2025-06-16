@@ -10,8 +10,8 @@ import org.spongepowered.asm.mixin.injection.Redirect;
 import xyz.nucleoid.packettweaker.PacketContext;
 
 // Targets anonymous class in PacketCodecs.collection() method (line ~611)
-// In 1.21.6, this is class $26 (was $18 in previous version)
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$26", priority = 800)
+// In 1.21.6, this is class $17 (was $26 in refmap, but runtime shows $17)
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$17", priority = 800)
 public abstract class PacketCodecsEntriesMixin<T> {
     
     // Due to generics erasure, the actual method signature uses Object parameters

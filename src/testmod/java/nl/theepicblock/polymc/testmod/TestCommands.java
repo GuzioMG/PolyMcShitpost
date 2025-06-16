@@ -15,6 +15,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.state.property.Properties;
+import nl.theepicblock.polymc.testmod.automated.PacketCodecsTest;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +27,8 @@ import static net.minecraft.server.command.CommandManager.literal;
 public class TestCommands {
     public static void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment environment) {
         dispatcher.register(literal("polymc-test")
-                .then(literal("find-states").executes(TestCommands::findState)));
+                .then(literal("find-states").executes(TestCommands::findState))
+                .then(literal("packet-codecs").executes(TestCommands::testPacketCodecs)));
     }
 
     private static int findState(CommandContext<ServerCommandSource> ctx) {
@@ -72,5 +74,27 @@ public class TestCommands {
             e.printStackTrace();
         }
         return Command.SINGLE_SUCCESS;
+    }
+
+    private static int testPacketCodecs(CommandContext<ServerCommandSource> ctx) {
+        ServerCommandSource source = ctx.getSource();
+        SimpleLogger logger = new CommandSourceLogger(source, true);
+        
+        try {
+            PacketCodecsTest test = new PacketCodecsTest();
+            boolean success = test.runTests(source.getServer(), logger);
+            
+            if (success) {
+                logger.info("§aAll PacketCodecs tests passed!");
+            } else {
+                logger.error("§cSome PacketCodecs tests failed!");
+            }
+            
+            return success ? Command.SINGLE_SUCCESS : 0;
+        } catch (Exception e) {
+            logger.error("§cFailed to run PacketCodecs tests: " + e.getMessage());
+            e.printStackTrace();
+            return 0;
+        }
     }
 }
