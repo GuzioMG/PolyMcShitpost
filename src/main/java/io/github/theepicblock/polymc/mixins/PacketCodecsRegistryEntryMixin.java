@@ -12,9 +12,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$33", priority = 500)
+// Targets anonymous class in PacketCodecs.registryEntry() method (line ~871)
+// In 1.21.6, this is class $32
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$32", priority = 500)
 public abstract class PacketCodecsRegistryEntryMixin<T> {
     
+    // Due to generics erasure, the actual method signature uses Object parameters
+    // Target the bridge method since we're modifying a generic call
     @ModifyArg(method = "encode(Ljava/lang/Object;Ljava/lang/Object;)V", 
                at = @At(value = "INVOKE", 
                         target = "Lnet/minecraft/network/codec/PacketCodec;encode(Ljava/lang/Object;Ljava/lang/Object;)V"),

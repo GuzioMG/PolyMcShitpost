@@ -9,11 +9,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$32", priority = 500)
+// Targets anonymous class in PacketCodecs.registry() method (line ~804)
+// In 1.21.6, this is class $31
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$31", priority = 500)
 public abstract class PacketCodecsRegistryMixin<T> {
     
     @SuppressWarnings({"rawtypes", "unchecked"})
-    @ModifyVariable(method = "encode(Ljava/lang/Object;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true, index = 2)
+    // Due to generics erasure, the actual method signature uses Object parameters
+    // Target the bridge method for consistency
+    @ModifyVariable(method = "encode(Ljava/lang/Object;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true, index = 1)
     private Object polymer$changeData(Object val) {
         var player = PacketContext.get();
         if (player == null) {

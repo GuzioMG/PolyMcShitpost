@@ -353,12 +353,16 @@ public class PolyMapImpl implements PolyMap {
         return pack;
     }
 
+    // AIDEV-NOTE: TextCodecs.CODEC correctly handles JSON arrays in 1.21.6 - compatible with owo lib text format
     private void addTranslation(Map<String, String> mainLangMap, String key, JsonElement value) {
         if (value instanceof JsonArray array) { // Assume owo lib text
             var dataResult = TextCodecs.CODEC.decode(PolyMc.FALLBACK_REGISTRY_MANAGER.getOps(JsonOps.INSTANCE), array);
             var text = dataResult.result()
                     .map(pair -> pair.getFirst())
-                    .orElse(null);
+                    .orElseGet(() -> {
+                        dataResult.error().ifPresent(e -> PolyMc.LOGGER.warn("Failed to decode text for key '" + key + "': " + e.message()));
+                        return null;
+                    });
             mainLangMap.put(key, text != null ? text.getString() : "<INVALID TRANSLATION: " + key + ">");
         } else if (value instanceof JsonObject object) { // Assume that one library which allows objects for text
             for (var e : object.entrySet()) {

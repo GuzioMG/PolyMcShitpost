@@ -9,12 +9,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-// AIDEV-TODO: Fix for 1.21.6 - anonymous class numbers have changed
-// Was $18 in previous version, now appears to be $31 based on source analysis
-// However, the mixin is failing to find the encode method - needs further investigation
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$31", priority = 800)
+// Targets anonymous class in PacketCodecs.collection() method (line ~611)
+// In 1.21.6, this is class $26 (was $18 in previous version)
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$26", priority = 800)
 public abstract class PacketCodecsEntriesMixin<T> {
     
+    // Due to generics erasure, the actual method signature uses Object parameters
+    // Target the bridge method since we're redirecting a generic call
     @Redirect(method = "encode(Ljava/lang/Object;Ljava/lang/Object;)V", 
               at = @At(value = "INVOKE", 
                        target = "Lnet/minecraft/network/codec/PacketCodec;encode(Ljava/lang/Object;Ljava/lang/Object;)V"))

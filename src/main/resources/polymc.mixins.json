@@ -12,6 +12,11 @@
     "DisableCustomParticles",
     "ForceNetworkSerializationForRegistrySyncMixin",
     "HoverEventFixerMixin",
+    // AIDEV-TODO: PacketCodecs mixins disabled - need bytecode analysis to fix for 1.21.6
+    // These mixins handle packet data remapping but have incorrect signatures/targets
+    // "PacketCodecsEntriesMixin",
+    // "PacketCodecsRegistryEntryMixin",
+    // "PacketCodecsRegistryMixin",
     "PolyMapProviderImpl",
     "ReferenceAccessor",
     "RegistryElementCodecMixin",
