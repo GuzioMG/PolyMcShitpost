@@ -17,9 +17,9 @@ import xyz.nucleoid.packettweaker.PacketContext;
 @Mixin(targets = "net/minecraft/network/codec/PacketCodecs$24", priority = 500)
 public abstract class PacketCodecsRegistryEntryMixin<T> {
     
-    // Due to generics erasure, the actual method signature uses Object parameters
-    // Target the bridge method since we're modifying a generic call
-    @ModifyArg(method = "encode(Ljava/lang/Object;Ljava/lang/Object;)V", 
+    // We need to target the actual implementation method, not the bridge method
+    // The method has specific types: encode(RegistryByteBuf, RegistryEntry<T>)
+    @ModifyArg(method = "encode(Lnet/minecraft/network/RegistryByteBuf;Lnet/minecraft/registry/entry/RegistryEntry;)V", 
                at = @At(value = "INVOKE", 
                         target = "Lnet/minecraft/network/codec/PacketCodec;encode(Ljava/lang/Object;Ljava/lang/Object;)V"),
                index = 1)
