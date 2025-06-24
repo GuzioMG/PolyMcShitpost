@@ -12,9 +12,10 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$20", priority = 500)
+@Mixin(targets = "net/minecraft/network/codec/PacketCodecs$22", priority = 500)
 public abstract class PacketCodecsRegistryMixin {
-    @Shadow @Final private RegistryKey field_57058;
+
+    @Shadow @Final private RegistryKey field_60503;
 
     @SuppressWarnings({"rawtypes", "ShadowModifiers"})
 
@@ -27,7 +28,7 @@ public abstract class PacketCodecsRegistryMixin {
             var value = registryEntry.value();
             var out = map.tryRemapping(value, player);
             if (value != out) {
-                return buf.getRegistryManager().getOrThrow(this.field_57058).getEntry(out);
+                return buf.getRegistryManager().getOrThrow(this.field_60503).getEntry(out);
             }
             return val;
         }

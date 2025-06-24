@@ -1,6 +1,7 @@
 package io.github.theepicblock.polymc.mixins;
 
 import io.github.theepicblock.polymc.impl.Util;
+import io.netty.channel.ChannelFutureListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.PacketCallbacks;
 import net.minecraft.network.packet.s2c.play.ParticleS2CPacket;
@@ -17,8 +18,8 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(ServerCommonNetworkHandler.class)
 public class DisableCustomParticles {
-    @Inject(method = "send(Lnet/minecraft/network/packet/Packet;Lnet/minecraft/network/PacketCallbacks;)V", at = @At("HEAD"), cancellable = true)
-    private void sendPacketInject(Packet<?> packet, PacketCallbacks callbacks, CallbackInfo ci) {
+    @Inject(method = "send", at = @At("HEAD"), cancellable = true)
+    private void sendPacketInject(Packet<?> packet, ChannelFutureListener channelFutureListener, CallbackInfo ci) {
         if (this instanceof PlayerAssociatedNetworkHandler player
                 && packet instanceof ParticleS2CPacket particlePacket && Util.isPolyMapVanillaLike(player.getPlayer())) {
             var effect = particlePacket.getParameters();

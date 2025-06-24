@@ -19,6 +19,7 @@ package io.github.theepicblock.polymc.impl;
 
 import com.google.common.base.Splitter;
 import com.google.gson.Gson;
+import com.mojang.datafixers.util.Pair;
 import io.github.theepicblock.polymc.PolyMc;
 import io.github.theepicblock.polymc.api.PolyMap;
 import io.github.theepicblock.polymc.api.item.ItemLocation;
@@ -432,6 +433,8 @@ public class Util {
         }
         var polymap = tryGetPolyMap(context.getClientConnection());
 
+        var ops = lookup.getOps(NbtOps.INSTANCE);
+
 
         if (original.contains("Items")) {
             var list = original.getListOrEmpty("Items");
@@ -440,7 +443,7 @@ public class Util {
                 if (nbt.isEmpty()) {
                     continue;
                 }
-                var stack = ItemStack.fromNbt(lookup, nbt).orElse(ItemStack.EMPTY);
+                var stack = ItemStack.OPTIONAL_CODEC.decode(ops, nbt).result().map(Pair::getFirst).orElse(ItemStack.EMPTY);
                 var x = polymap.getClientItem(stack, context.getPlayer(), ItemLocation.EQUIPMENT);
                 if (x != stack) {
                     if (override == null) {
@@ -450,25 +453,23 @@ public class Util {
                     nbt.remove("id");
                     nbt.remove("components");
                     nbt.remove("count");
-                    override.getListOrEmpty("Items").set(i, x.isEmpty() ? new NbtCompound() : x.toNbt(lookup, nbt));
+                    override.getListOrEmpty("Items").set(i, ItemStack.OPTIONAL_CODEC.encode(x, ops, nbt).getOrThrow());
                 }
             }
         }
 
         if (original.contains("item")) {
-            var stack = ItemStack.fromNbt(lookup, original.getCompoundOrEmpty("item")).orElse(ItemStack.EMPTY);
+            var stack = ItemStack.OPTIONAL_CODEC.decode(ops, original.getCompoundOrEmpty("item")).result().map(Pair::getFirst).orElse(ItemStack.EMPTY);
             var x = polymap.getClientItem(stack, context.getPlayer(), ItemLocation.EQUIPMENT);
             if (stack != x) {
                 if (override == null) {
                     override = original.copy();
                 }
-                override.put("item", x.toNbt(lookup));
+                override.put("item", ItemStack.OPTIONAL_CODEC.encodeStart(ops, x).getOrThrow());
             }
         }
 
         if (original.contains("components")) {
-            var ops = lookup.getOps(NbtOps.INSTANCE);
-
             var comp = ComponentMap.CODEC.decode(ops, original.getCompoundOrEmpty("components"));
             if (comp.isSuccess()) {
                 var map = comp.getOrThrow().getFirst();

@@ -1,5 +1,6 @@
 package nl.theepicblock.polymc.testmod.automated;
 
+import io.netty.channel.ChannelFutureListener;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.network.*;
 import net.minecraft.network.listener.ClientPlayPacketListener;
@@ -13,6 +14,7 @@ import net.minecraft.server.network.ChunkDataSender;
 import net.minecraft.server.network.ConnectedClientData;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import org.jetbrains.annotations.Nullable;
 import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.ArrayList;
@@ -34,10 +36,10 @@ public class FakeNetworkHandler extends ServerPlayNetworkHandler {
     }
 
     @Override
-    public void send(Packet<?> packet, PacketCallbacks callbacks) {
+    public void send(Packet<?> packet, @Nullable ChannelFutureListener channelFutureListener) {
         if (packet instanceof BundleS2CPacket bundle) {
             for (var packet2 : bundle.getPackets()) {
-                this.send(packet2, callbacks);
+                this.send(packet2, channelFutureListener);
             }
             return;
         }

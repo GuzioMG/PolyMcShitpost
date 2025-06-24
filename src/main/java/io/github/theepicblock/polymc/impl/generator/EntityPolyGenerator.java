@@ -10,7 +10,6 @@ import io.github.theepicblock.polymc.impl.poly.entity.MissingEntityPoly;
 import net.minecraft.entity.*;
 import net.minecraft.entity.mob.AbstractPiglinEntity;
 import net.minecraft.entity.mob.AbstractSkeletonEntity;
-import net.minecraft.entity.mob.FlyingEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.entity.passive.AbstractDonkeyEntity;
 import net.minecraft.entity.passive.AbstractHorseEntity;
@@ -95,7 +94,6 @@ public class EntityPolyGenerator {
         otherCommonClasses.put(AbstractMinecartEntity.class, EntityType.MINECART);
         otherCommonClasses.put(ProjectileEntity.class, EntityType.ARROW);
         otherCommonClasses.put(FishEntity.class, EntityType.COD);
-        otherCommonClasses.put(FlyingEntity.class, EntityType.PARROT);
         otherCommonClasses.put(Flutterer.class, EntityType.PARROT);
 
         for (var clazz : otherCommonClasses.keySet()) {
