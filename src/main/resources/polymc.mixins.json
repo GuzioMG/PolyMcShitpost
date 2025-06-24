@@ -90,6 +90,7 @@
     "item.locationproviders.InventoryLocationProvider",
     "item.locationproviders.ScreenHandlerLocationProvider",
     "item.locationproviders.TrackedDataLocationProvider",
+    "item.recipe.IngredientMixin",
     "item.recipe.RecipePropertySetMixin",
     "item.recipe.SlotDisplayMixin",
     "item.recipe.TagSlotDisplayMixin",
