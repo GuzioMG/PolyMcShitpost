@@ -34,9 +34,11 @@ public class IngredientMixin {
                 }
             }
             
-            // If all items were filtered out, return an empty list (which will make the ingredient empty)
+            // If all items were filtered out, return a list with stick as fallback
+            // This prevents "Ingredients can't be empty" error
             if (filtered.isEmpty()) {
-                return RegistryEntryList.of();
+                // AIDEV-NOTE: Using stick as fallback item when all ingredients are modded
+                return RegistryEntryList.of(net.minecraft.item.Items.STICK.getRegistryEntry());
             }
             
             // Return a new registry entry list with only the filtered items
