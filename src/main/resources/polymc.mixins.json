@@ -6,6 +6,7 @@
   "priority": 1500,
   "plugin": "io.github.theepicblock.polymc.mixins.MixinConfigPlugin",
   "mixins": [
+    "BlockEntityDataAccessor",
     "CommandSuggestionFix",
     "CommandTreeS2CPacketArgumentNodeMixin",
     "CustomPacketDisabler",
