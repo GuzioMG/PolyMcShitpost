@@ -5,13 +5,15 @@ import io.github.theepicblock.polymc.mixins.wizards.EntityAccessor;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.player.PlayerPosition;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.EntityPositionS2CPacket;
-import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
-import net.minecraft.network.packet.s2c.play.EntityVelocityUpdateS2CPacket;
+import net.minecraft.network.packet.s2c.play.*;
+import net.minecraft.util.math.Vec3d;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Set;
 
 public class EntityUtil {
     public static int getNewEntityId() {
@@ -29,16 +31,21 @@ public class EntityUtil {
             }
         }
 
-        PacketByteBuf byteBuf = PacketByteBufs.create();
-        byteBuf.writeVarInt(id);
-        byteBuf.writeDouble(x);
-        byteBuf.writeDouble(y);
-        byteBuf.writeDouble(z);
-        byteBuf.writeByte(yaw);
-        byteBuf.writeByte(pitch);
-        byteBuf.writeBoolean(onGround);
+        PlayerPosition change = new PlayerPosition(
+                new Vec3d(x, y, z),
+                Vec3d.ZERO,
+                yaw,
+                pitch
+        );
 
-        return EntityPositionS2CPacket.CODEC.decode(byteBuf);
+        Set<PositionFlag> relatives = Collections.emptySet();
+
+        return EntityPositionS2CPacket.create(
+                id,
+                change,
+                relatives,
+                onGround
+        );
     }
 
     public static EntityVelocityUpdateS2CPacket createEntityVelocityUpdate(int id, int x, int y, int z) {
