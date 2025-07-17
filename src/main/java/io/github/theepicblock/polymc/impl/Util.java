@@ -60,6 +60,8 @@ import java.io.OutputStreamWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
 
@@ -144,12 +146,16 @@ public class Util {
 
     public static String getPropertiesFromEntries(Map<Property<?>,Comparable<?>> entries) {
         StringBuilder v = new StringBuilder();
-        entries.forEach((property, value) -> {
-            v.append(property.getName());
+        var list = new ArrayList<>(entries.entrySet());
+        list.sort(Map.Entry.comparingByKey(Comparator.comparing(Property::getName)));
+
+        list.forEach((entry) -> {
+            v.append(entry.getKey().getName());
             v.append("=");
-            v.append(nameValue(property, value));
+            v.append(nameValue(entry.getKey(), entry.getValue()));
             v.append(",");
         });
+
         String res = v.toString();
         if (res.isEmpty()) return res;
         return res.substring(0, res.length() - 1); //this removes the last comma
