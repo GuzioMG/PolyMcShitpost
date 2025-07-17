@@ -36,6 +36,7 @@ import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
@@ -323,10 +324,29 @@ public class Util {
      * Returns a copy of the provided {@link ItemStack}, but with the item set to the target item.
      */
     public static ItemStack copyWithItem(ItemStack original, Item target, @Nullable ServerPlayerEntity player) {
-        var out = new ItemStack(target, original.getCount());
-        for (var x : original.getComponents().getTypes()) {
-            if (original.getComponents().get(x) == null) {
-                out.set(x, null);
+
+        ItemStack out;
+        ComponentMap components;
+
+        try {
+            out = new ItemStack(target, original.getCount());
+            components = original.getComponents();
+        } catch (Exception e) {
+            PolyMc.LOGGER.error("Failed to copy item " + original);
+            e.printStackTrace();
+            return new ItemStack(Items.BARRIER);
+        }
+
+        for (var x : components.getTypes()) {
+            try {
+                if (components.get(x) == null) {
+                    out.set(x, null);
+                }
+            } catch (Exception e) {
+                try {
+                    PolyMc.LOGGER.error("Failed to copy component " + x + " of " + original);
+                    e.printStackTrace();
+                } catch (Throwable ignored) { }
             }
         }
         var ctx = player == null ? PacketContext.get() : PacketContext.of(player);

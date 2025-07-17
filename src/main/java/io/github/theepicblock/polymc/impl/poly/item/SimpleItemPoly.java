@@ -17,6 +17,7 @@
  */
 package io.github.theepicblock.polymc.impl.poly.item;
 
+import io.github.theepicblock.polymc.PolyMc;
 import io.github.theepicblock.polymc.api.item.CustomModelDataManager;
 import io.github.theepicblock.polymc.api.item.ItemLocation;
 import io.github.theepicblock.polymc.api.item.ItemPoly;
@@ -65,21 +66,33 @@ public class SimpleItemPoly implements ItemPoly {
     @SuppressWarnings("ConstantConditions")
     @Override
     public ItemStack getClientItem(ItemStack input, @Nullable ServerPlayerEntity player, @Nullable ItemLocation location) {
-        var output = Util.copyWithItem(input, clientItem, player);
 
-        {
-            var current = input.get(DataComponentTypes.USE_COOLDOWN);
-            if (current == null) {
-                output.set(DataComponentTypes.USE_COOLDOWN, new UseCooldownComponent(0.00001f, Optional.of(Registries.ITEM.getId(input.getItem()))));
-            } else if (current.cooldownGroup().isEmpty()) {
-                output.set(DataComponentTypes.USE_COOLDOWN, new UseCooldownComponent(current.seconds(), Optional.of(Registries.ITEM.getId(input.getItem()))));
+        try {
+            var output = Util.copyWithItem(input, clientItem, player);
+
+            {
+                var current = input.get(DataComponentTypes.USE_COOLDOWN);
+                if (current == null) {
+                    output.set(DataComponentTypes.USE_COOLDOWN, new UseCooldownComponent(0.00001f, Optional.of(Registries.ITEM.getId(input.getItem()))));
+                } else if (current.cooldownGroup().isEmpty()) {
+                    output.set(DataComponentTypes.USE_COOLDOWN, new UseCooldownComponent(current.seconds(), Optional.of(Registries.ITEM.getId(input.getItem()))));
+                }
             }
+
+            this.addCustomTagsToItem(output);
+            try {
+                output.set(DataComponentTypes.ITEM_NAME, input.getItem().getName(input));
+            } catch (Exception e) {
+                PolyMc.LOGGER.error("Failed to set item name " + e);
+                e.printStackTrace();
+            }
+
+            return output;
+        } catch (Exception e) {
+            PolyMc.LOGGER.error("Failed to poly item " + e);
+            e.printStackTrace();
+            return new ItemStack(Items.BARRIER);
         }
-
-        this.addCustomTagsToItem(output);
-        output.set(DataComponentTypes.ITEM_NAME, input.getItem().getName(input));
-
-        return output;
     }
 
     @Override
