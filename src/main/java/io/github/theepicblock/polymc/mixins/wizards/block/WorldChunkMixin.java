@@ -190,6 +190,11 @@ public abstract class WorldChunkMixin extends Chunk implements WatchListener, Wi
     @Override
     public void polymc$addPlayer(ServerPlayerEntity playerEntity) {
         PolyMap map = PolyMapProvider.getPolyMap(playerEntity);
+
+        if (map == null) {
+            return;
+        }
+
         this.wizards.get(map).values().forEach((wizard) -> {
             try {
                 var playerView = new SinglePlayerView(playerEntity);
@@ -205,6 +210,11 @@ public abstract class WorldChunkMixin extends Chunk implements WatchListener, Wi
     public void polymc$removePlayer(ServerPlayerEntity playerEntity) {
         if (!(this.world instanceof ServerWorld)) return;
         PolyMap map = PolyMapProvider.getPolyMap(playerEntity);
+
+        if (map == null) {
+            return;
+        }
+
         this.wizards.get(map).values().forEach((wizard) -> {
             try {
                 var playerView = new SinglePlayerView(playerEntity);

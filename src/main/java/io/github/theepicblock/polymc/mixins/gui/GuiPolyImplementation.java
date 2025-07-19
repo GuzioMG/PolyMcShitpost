@@ -40,7 +40,10 @@ public class GuiPolyImplementation {
         ScreenHandler base = namedScreenHandlerFactory.createMenu(syncId, inv, player);
         if (base == null) return null;
 
-        GuiPoly poly = PolyMapProvider.getPolyMap((ServerPlayerEntity)player).getGuiPoly(base.getType());
+        var map = PolyMapProvider.getPolyMap((ServerPlayerEntity)player);
+        if (map == null) return base;
+
+        GuiPoly poly = map.getGuiPoly(base.getType());
         if (poly != null) {
             return poly.replaceScreenHandler(base, (ServerPlayerEntity)player, syncId);
         } else {

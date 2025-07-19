@@ -41,6 +41,12 @@ public class CreativeItemStackFix {
 
     @ModifyExpressionValue(method = "onCreativeInventoryAction(Lnet/minecraft/network/packet/c2s/play/CreativeInventoryActionC2SPacket;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/packet/c2s/play/CreativeInventoryActionC2SPacket;stack()Lnet/minecraft/item/ItemStack;"))
     private ItemStack creativemodeSetSlotRedirect(ItemStack original) {
-        return PolyMapProvider.getPolyMap(player).reverseClientItem(original, player);
+        var map = PolyMapProvider.getPolyMap(player);
+
+        if (map == null) {
+            return original;
+        }
+
+        return map.reverseClientItem(original, player);
     }
 }

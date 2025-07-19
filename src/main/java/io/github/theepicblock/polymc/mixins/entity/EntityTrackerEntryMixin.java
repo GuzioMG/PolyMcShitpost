@@ -75,6 +75,11 @@ public class EntityTrackerEntryMixin implements EntityTrackerEntryDuck {
     @Inject(method = "startTracking", at = @At("HEAD"))
     private void onStartTracking(ServerPlayerEntity player, CallbackInfo ci) {
         var polymap = PolyMapProvider.getPolyMap(player);
+
+        if (polymap == null) {
+            return;
+        }
+
         var wizard = wizards.get(polymap);
         if (wizard != null) {
             try {
@@ -91,6 +96,11 @@ public class EntityTrackerEntryMixin implements EntityTrackerEntryDuck {
     @Inject(method = "stopTracking", at = @At("HEAD"))
     private void onStopTracking(ServerPlayerEntity player, CallbackInfo ci) {
         var polymap = PolyMapProvider.getPolyMap(player);
+
+        if (polymap == null) {
+            return;
+        }
+
         var wizard = wizards.get(polymap);
         if (wizard != null) {
             try {
