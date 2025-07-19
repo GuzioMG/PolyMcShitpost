@@ -1,6 +1,5 @@
 package io.github.theepicblock.polymc.impl.mixin;
 
-import io.github.theepicblock.polymc.PolyMc;
 import io.github.theepicblock.polymc.api.misc.PolyMapProvider;
 import io.github.theepicblock.polymc.impl.Util;
 import net.fabricmc.fabric.api.entity.FakePlayer;
@@ -31,6 +30,10 @@ public class CustomBlockBreakingCheck {
             return false;
 
         var polyMap = PolyMapProvider.getPolyMap(player);
+
+        if (polyMap == null) {
+            return false;
+        }
 
         // A modded block is being broken, this always requires custom breaking
         if (polyMap.getBlockPoly(blockState.getBlock()) != null) {

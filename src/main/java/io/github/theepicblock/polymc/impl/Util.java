@@ -232,7 +232,13 @@ public class Util {
             return NOPPolyMap.INSTANCE;
         }
 
-        return PolyMapProvider.getPolyMap(player);
+        var result = PolyMapProvider.getPolyMap(player);
+
+        if (result == null) {
+            return NOPPolyMap.INSTANCE;
+        }
+
+        return result;
     }
 
     @NotNull

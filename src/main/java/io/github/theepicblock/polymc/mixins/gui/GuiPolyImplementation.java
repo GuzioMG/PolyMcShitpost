@@ -46,8 +46,11 @@ public class GuiPolyImplementation {
 
     /*@Inject(method = "openHandledScreen", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerPlayNetworkHandler;sendPacket(Lnet/minecraft/network/packet/Packet;)V", shift = At.Shift.BEFORE))
     private void replaceHandler(NamedScreenHandlerFactory factory, CallbackInfoReturnable<OptionalInt> cir, @Local LocalRef<ScreenHandler> handler) {
-        var base = handler.get();
-        GuiPoly poly = PolyMapProvider.getPolyMap((ServerPlayerEntity) (Object) this).getGuiPoly(base.getType());
+
+        var map = PolyMapProvider.getPolyMap((ServerPlayerEntity)player);
+        if (map == null) return base;
+
+        GuiPoly poly = map.getGuiPoly(base.getType());
         if (poly != null) {
             handler.set(poly.replaceScreenHandler(base, (ServerPlayerEntity) (Object) this, this.screenHandlerSyncId));
         }

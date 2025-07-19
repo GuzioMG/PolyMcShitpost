@@ -16,7 +16,11 @@ import java.util.function.Consumer;
 public class DisableCustomEntities {
     @Redirect(method = "startTracking", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/EntityTrackerEntry;sendPackets(Lnet/minecraft/server/network/ServerPlayerEntity;Ljava/util/function/Consumer;)V"))
     public void polymc$maybeBlockSpawnPacket(EntityTrackerEntry instance, ServerPlayerEntity player, Consumer<Packet<ClientPlayPacketListener>> sender) {
-        if (((EntityTrackerEntryDuck)this).polymc$getWizards().get(PolyMapProvider.getPolyMap(player)) == null) {
+
+        var map = PolyMapProvider.getPolyMap(player);
+        if (map == null) return;
+
+        if (((EntityTrackerEntryDuck)this).polymc$getWizards().get(map) == null) {
             instance.sendPackets(player, sender);
         }
     }

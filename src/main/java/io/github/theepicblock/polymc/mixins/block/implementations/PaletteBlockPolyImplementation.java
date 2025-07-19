@@ -17,7 +17,6 @@
  */
 package io.github.theepicblock.polymc.mixins.block.implementations;
 
-import eu.pb4.polymer.common.api.PolymerCommonUtils;
 import io.github.theepicblock.polymc.api.PolyMap;
 import io.github.theepicblock.polymc.impl.Util;
 import net.caffeinemc.mods.lithium.common.world.chunk.LithiumHashPalette;
@@ -44,7 +43,10 @@ public abstract class PaletteBlockPolyImplementation {
             var player = PacketContext.get().getPlayer();
 
             PolyMap map = Util.tryGetPolyMap(player);
-            return map.getClientStateRawId((BlockState)object, player);
+
+            if (map != null) {
+                return map.getClientStateRawId((BlockState) object, player);
+            }
         }
 
         return instance.getRawId(object);
