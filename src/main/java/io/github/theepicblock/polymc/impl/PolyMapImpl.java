@@ -261,10 +261,12 @@ public class PolyMapImpl implements PolyMap {
         }
 
         for (var itemFile : moddedResources.locateFiles("models/")) {
-            try {
-                pack.setAsset(itemFile.getLeft().getNamespace(), itemFile.getLeft().getPath(), JModelImpl.of(itemFile.getRight().get(), itemFile.getLeft().toString()));
-            } catch (IOException e) {
-                logger.error(e);
+            if (itemFile.getLeft().getPath().endsWith(".json")) {
+                try {
+                    pack.setAsset(itemFile.getLeft().getNamespace(), itemFile.getLeft().getPath(), JModelImpl.of(itemFile.getRight().get(), itemFile.getLeft().toString()));
+                } catch (IOException e) {
+                    logger.error(e);
+                }
             }
         }
 
