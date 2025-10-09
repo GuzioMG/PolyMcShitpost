@@ -59,7 +59,7 @@ public abstract class MixinPistonBlockEntity extends BlockEntity {
     private void onInit(World world, CallbackInfo ci) {
         if (!(this.world instanceof ServerWorld)) return;
 
-        if (!world.isClient) {
+        if (!world.isClient()) {
             var allPlayers = PolyMapFilteredPlayerView.getAll((ServerWorld)world, this.getPos());
             allPlayers.forEach((player) -> {
                 Wizard wiz = wizards.get(PolyMapProvider.getPolyMap(player));

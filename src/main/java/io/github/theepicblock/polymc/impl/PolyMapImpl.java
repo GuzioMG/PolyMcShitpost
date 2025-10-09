@@ -24,9 +24,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
 import com.mojang.datafixers.util.Pair;
-import com.mojang.serialization.Codec;
-import com.mojang.serialization.JsonOps;
-import com.mojang.serialization.MapCodec;
+import com.mojang.serialization.*;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import eu.pb4.polymer.common.api.PolymerCommonUtils;
 import io.github.theepicblock.polymc.PolyMc;
@@ -57,6 +55,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.registry.RegistryOps;
@@ -134,6 +133,33 @@ public class PolyMapImpl implements PolyMap {
         }
     }
 
+    /**
+     * Get the NBTCompound of a component
+     */
+    public static @Nullable NbtCompound extractCompound(@Nullable NbtComponent component) {
+
+        if (component == null) {
+            return null;
+        }
+
+        // @TODO: return the un-copied version
+        return component.copyNbt();
+    }
+
+    public static <T> DataResult<NbtComponent> nbtComponentWith(NbtComponent component, DynamicOps<NbtElement> ops, MapEncoder<T> encoder, T value) {
+        NbtCompound nbtCompound = extractCompound(component);
+        return encoder.encode(value, ops, ops.mapBuilder()).build(nbtCompound).map(nbt -> NbtComponent.of((NbtCompound)nbt));
+    }
+
+    /**
+     * Implementation of the removed `NbtComponent.get` method
+     */
+    public static <T> DataResult<T> nbtComponentGet(NbtComponent component, DynamicOps<NbtElement> ops, MapDecoder<T> decoder) {
+        NbtCompound nbtCompound = extractCompound(component);
+        MapLike<NbtElement> mapLike = ops.getMap(nbtCompound).getOrThrow();
+        return decoder.decode(ops, mapLike);
+    }
+
     @Override
     public ItemStack getClientItem(ItemStack serverItem, @Nullable ServerPlayerEntity player, @Nullable ItemLocation location) {
         if (serverItem.isEmpty()) {
@@ -159,7 +185,7 @@ public class PolyMapImpl implements PolyMap {
             // Preserves the nbt of the original item, so it can be reverted
             var finalRet = ret;
             PolymerCommonUtils.executeWithoutNetworkingLogic(() -> {
-                NbtComponent.DEFAULT.with(registryOps, ORIGINAL_ITEM_CODEC, Optional.of(serverItem)).result().ifPresent((nbt) -> {
+                nbtComponentWith(NbtComponent.DEFAULT, registryOps, ORIGINAL_ITEM_CODEC, Optional.of(serverItem)).result().ifPresent((nbt) -> {
                     finalRet.set(DataComponentTypes.CUSTOM_DATA, nbt);
                 });
             });
@@ -199,7 +225,7 @@ public class PolyMapImpl implements PolyMap {
             return input;
         }
         var registryOps = Util.getRegistryManager(player).getOps(NbtOps.INSTANCE);
-        var result = data.get(registryOps, ORIGINAL_ITEM_CODEC);
+        var result = nbtComponentGet(data, registryOps, ORIGINAL_ITEM_CODEC);
         if (result.error().isPresent()) {
             var stack = new ItemStack(Items.CLAY_BALL);
             stack.set(DataComponentTypes.CUSTOM_NAME, Text.literal("Invalid Item").formatted(Formatting.ITALIC));

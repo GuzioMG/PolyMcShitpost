@@ -20,7 +20,7 @@ public class EntityWizardInfo implements WizardInfo {
 
     @Override
     public @NotNull Vec3d getPosition() {
-        return source.getPos();
+        return source.getEntityPos();
     }
 
     @Override
@@ -48,6 +48,6 @@ public class EntityWizardInfo implements WizardInfo {
 
     @Override
     public @Nullable ServerWorld getWorld() {
-        return (ServerWorld)source.getWorld();
+        return (ServerWorld)source.getEntityWorld();
     }
 }

@@ -47,7 +47,7 @@ public class Tooltip2LoreTransformer implements ItemTransformer {
     public ItemStack transform(ItemStack original, ItemStack input, PolyMap polyMap, @Nullable ServerPlayerEntity player, @Nullable ItemLocation location) {
         Item.TooltipContext ctx;
         if (player != null) {
-            ctx = Item.TooltipContext.create(player.getWorld());
+            ctx = Item.TooltipContext.create(player.getEntityWorld());
         } else {
             ctx = Item.TooltipContext.DEFAULT;
         }
@@ -61,7 +61,7 @@ public class Tooltip2LoreTransformer implements ItemTransformer {
                 if (list.isEmpty()) {
                     input.set(DataComponentTypes.TOOLTIP_DISPLAY, new TooltipDisplayComponent(true, ReferenceSortedSets.emptySet()));
                 } else {
-                    list.removeFirst();
+                    list.remove(0);
                     var style = Style.EMPTY.withItalic(false).withColor(Formatting.WHITE);
                     list.replaceAll(text -> Text.empty().setStyle(style).append(text));
                     output.set(DataComponentTypes.LORE, new LoreComponent(list, null));

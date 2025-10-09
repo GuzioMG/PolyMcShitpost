@@ -31,7 +31,7 @@ public abstract class FallingBlockEntityMixin extends Entity implements WatchLis
     @Shadow private BlockState blockState;
     @Unique
     private final PolyMapMap<Wizard> wizards = new PolyMapMap<Wizard>((map) -> {
-        World world = this.getWorld();
+        World world = this.getEntityWorld();
 
         if (!(world instanceof ServerWorld)) return null;
 
@@ -64,7 +64,7 @@ public abstract class FallingBlockEntityMixin extends Entity implements WatchLis
 
     @Inject(method = "tick", at = @At("RETURN"))
     private void onTick(CallbackInfo ci) {
-        if (this.getWorld() instanceof ServerWorld world) {
+        if (this.getEntityWorld() instanceof ServerWorld world) {
             var allNearbyPlayers = PolyMapFilteredPlayerView.getAll(world, this.getChunkPos());
             wizards.forEach(((polyMap, wizard) -> {
                 if (wizard == null) return;
@@ -123,7 +123,7 @@ public abstract class FallingBlockEntityMixin extends Entity implements WatchLis
 
     @Override
     public void polymc$removeAllPlayers() {
-        if (this.getWorld() instanceof ServerWorld world) {
+        if (this.getEntityWorld() instanceof ServerWorld world) {
             var allNearbyPlayers = PolyMapFilteredPlayerView.getAll(world, this.getChunkPos());
             wizards.forEach(((polyMap, wizard) -> {
                 var filteredView = new PolyMapFilteredPlayerView(allNearbyPlayers, polyMap);

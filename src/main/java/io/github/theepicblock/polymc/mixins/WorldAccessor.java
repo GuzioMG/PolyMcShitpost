@@ -32,11 +32,6 @@ public interface WorldAccessor {
     @Accessor("properties")
     void polymc$setProperties(MutableWorldProperties properties);
 
-
-    @Mutable
-    @Accessor("border")
-    void polymc$setBorder(WorldBorder border);
-
     @Mutable
     @Accessor("biomeAccess")
     void polymc$setBiomeAccess(BiomeAccess biomeAccess);

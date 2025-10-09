@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '1.10.+'
+	id 'fabric-loom' version '1.11.+'
 	id 'maven-publish'
 	id 'org.ajoberstar.grgit' version '5.2.2'
 }
@@ -12,6 +12,8 @@ version = "${project.mod_version}${getVersionMetadata()}+${project.minecraft_ver
 group = project.maven_group
 
 repositories {
+	mavenLocal() // Check local Maven cache first
+
 	maven {
 		url "https://jitpack.io"
 		content {
@@ -51,8 +53,6 @@ repositories {
 		name = 'Ladysnake Mods'
 		url = 'https://maven.ladysnake.org/releases'
 	}
-
-	mavenLocal()
 }
 
 dependencies {
