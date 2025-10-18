@@ -16,7 +16,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class EnsureBreakingDisabled {
     @Shadow @Final private Entity entity;
 
-    @Inject(method = "syncEntityData", at = @At(value = "INVOKE", shift = At.Shift.AFTER, target = "Lnet/minecraft/server/network/EntityTrackerEntry;sendSyncPacket(Lnet/minecraft/network/packet/Packet;)V", ordinal = 1))
+    @Inject(
+            method = "syncEntityData",
+            at = @At(
+                    value = "INVOKE",
+                    shift = At.Shift.AFTER,
+                    target = "Lnet/minecraft/server/network/EntityTrackerEntry$TrackerPacketSender;sendToSelfAndListeners(Lnet/minecraft/network/packet/Packet;)V",
+                    ordinal = 1
+            )
+    )
     private void onSyncAttributes(CallbackInfo ci) {
         if (this.entity instanceof ServerPlayerEntity serverPlayer) {
             if (((BlockBreakingDuck)serverPlayer.interactionManager).polymc$isBreakingServerside()) {
