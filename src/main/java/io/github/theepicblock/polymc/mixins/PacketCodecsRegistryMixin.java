@@ -20,7 +20,7 @@ public abstract class PacketCodecsRegistryMixin {
     @SuppressWarnings({"rawtypes", "ShadowModifiers"})
 
     @ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryByteBuf;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true)
-    private Object polymer$changeData(Object val, RegistryByteBuf buf) {
+    private Object polymc$changeData(Object val, RegistryByteBuf buf) {
         var player = PacketContext.get();
         var map = Util.tryGetPolyMap(player);
 
