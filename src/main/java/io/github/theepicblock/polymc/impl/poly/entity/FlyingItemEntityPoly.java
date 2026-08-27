@@ -5,16 +5,16 @@ import io.github.theepicblock.polymc.api.wizard.PacketConsumer;
 import io.github.theepicblock.polymc.api.wizard.VSnowball;
 import io.github.theepicblock.polymc.api.wizard.Wizard;
 import io.github.theepicblock.polymc.api.wizard.WizardInfo;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.FlyingItemEntity;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.projectile.ItemSupplier;
 
-public class FlyingItemEntityPoly<T extends Entity & FlyingItemEntity> implements EntityPoly<T> {
+public class FlyingItemEntityPoly<T extends Entity & ItemSupplier> implements EntityPoly<T> {
     @Override
     public Wizard createWizard(WizardInfo info, T entity) {
         return new FlyingItemEntityWizard<T>(info, entity);
     }
 
-    public static class FlyingItemEntityWizard<T extends Entity & FlyingItemEntity> extends EntityWizard<T> {
+    public static class FlyingItemEntityWizard<T extends Entity & ItemSupplier> extends EntityWizard<T> {
         private final VSnowball snowball;
 
         public FlyingItemEntityWizard(WizardInfo info, T entity) {
@@ -28,13 +28,13 @@ public class FlyingItemEntityPoly<T extends Entity & FlyingItemEntity> implement
 
             snowball.spawn(
                     player,
-                    entity.getEntityPos(),
-                    entity.getPitch(),
-                    entity.getYaw(),
+                    entity.position(),
+                    entity.getXRot(),
+                    entity.getYRot(),
                     0,
-                    entity.getVelocity()
+                    entity.getDeltaMovement()
             );
-            snowball.sendItem(player, entity.getStack());
+            snowball.sendItem(player, entity.getItem());
             snowball.sendSyncPacket(player, entity);
         }
 

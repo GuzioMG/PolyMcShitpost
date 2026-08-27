@@ -149,7 +149,7 @@ loom {
 dependencies {
 	// To change the versions, see the gradle.properties file.
 	minecraft("com.mojang:minecraft:${project.property("minecraft_version")}")
-	mappings("net.fabricmc:yarn:${project.property("yarn_mappings")}:v2")
+	mappings(loom.officialMojangMappings())
 	modImplementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
 
 	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}") //SWITCH THE VAR NAME TO fabric_api_version POST-REMAP!!! (and also disable mappings() and remove mod from mod*(), but that's obvious)
