@@ -32,7 +32,7 @@ public class ImmPtlChunkTrackingMixin {
     @Unique
     private static void removePlayer(ServerPlayerEntity player, ImmPtlChunkTracking.PlayerWatchRecord record) {
         var pos = new ChunkPos(record.chunkPos);
-        ((WatchListener)player.getServer().getWorld(record.dimension)
+        ((WatchListener)player.getEntityWorld().getServer().getWorld(record.dimension)
                 .getChunk(pos.x, pos.z))
                 .polymc$removePlayer(player);
     }

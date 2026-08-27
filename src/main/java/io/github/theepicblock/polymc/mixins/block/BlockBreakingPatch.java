@@ -66,7 +66,7 @@ public abstract class BlockBreakingPatch implements BlockBreakingDuck {
     public void breakIfTakingTooLong(BlockState state, BlockPos pos, int i, CallbackInfoReturnable<Float> cir) {
         if (CustomBlockBreakingCheck.needsCustomBreaking(player, state)) {
             int j = tickCounter - i;
-            float f = state.calcBlockBreakingDelta(this.player, this.player.getWorld(), pos) * (float)(j);
+            float f = state.calcBlockBreakingDelta(this.player, this.player.getEntityWorld(), pos) * (float)(j);
 
             if (blockBreakingCooldown > 0) {
                 --blockBreakingCooldown;
@@ -93,7 +93,7 @@ public abstract class BlockBreakingPatch implements BlockBreakingDuck {
         if (CustomBlockBreakingCheck.needsCustomBreaking(player, world.getBlockState(pos))) {
             if (action == PlayerActionC2SPacket.Action.START_DESTROY_BLOCK) {
                 // This prevents the client from trying to break the block themselves.
-                if (this.world.getBlockState(pos).calcBlockBreakingDelta(this.player, this.player.getWorld(), pos) < 1) {
+                if (this.world.getBlockState(pos).calcBlockBreakingDelta(this.player, this.player.getEntityWorld(), pos) < 1) {
                     disableClientBreaking();
                 }
             } else if (action == PlayerActionC2SPacket.Action.ABORT_DESTROY_BLOCK) {

@@ -28,7 +28,7 @@ public class FlyingItemEntityPoly<T extends Entity & FlyingItemEntity> implement
 
             snowball.spawn(
                     player,
-                    entity.getPos(),
+                    entity.getEntityPos(),
                     entity.getPitch(),
                     entity.getYaw(),
                     0,

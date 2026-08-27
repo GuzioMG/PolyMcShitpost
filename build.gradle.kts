@@ -8,7 +8,7 @@ import org.gradle.api.publish.maven.MavenPublication
 //import org.gradle.credentials.PasswordCredentials
 
 plugins {
-	id("net.fabricmc.fabric-loom")
+	id("net.fabricmc.fabric-loom-remap") version "1.17.+"
 	id("maven-publish")
 	id("org.jetbrains.kotlin.jvm") version "2.4.10"
 	id("org.ajoberstar.grgit") version "5.2.2"
@@ -22,6 +22,8 @@ version = "${project.property("mod_version")}${getVersionMetadata()}+${project.p
 group = project.property("maven_group").toString()
 
 repositories {
+	mavenLocal() // Check local Maven cache first
+
 	maven {
 		url = uri("https://jitpack.io")
 		content {
@@ -64,8 +66,6 @@ repositories {
 		name = "Ladysnake Mods"
 		url = uri("https://maven.ladysnake.org/releases")
 	}
-
-	mavenLocal()
 }
 
 /*sourceSets {
@@ -148,23 +148,23 @@ fabricApi {
 dependencies {
 	// To change the versions, see the gradle.properties file.
 	minecraft("com.mojang:minecraft:${project.property("minecraft_version")}")
-	//mappings("net.fabricmc:yarn:${project.property("yarn_mappings")}:v2")
-	implementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
+	mappings("net.fabricmc:yarn:${project.property("yarn_mappings")}:v2")
+	modImplementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
 
-	implementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_api_version")}")
-	implementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
+	modImplementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}") //SWITCH THE VAR NAME TO fabric_api_version POST-REMAP!!! (and also disable mappings() and remove mod from mod*(), but that's obvious)
+	modImplementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
 
-	implementation(include("nl.theepicblock:resource-locator-api:${project.property("resource_locator_api_version")}")){}
-	implementation(include("xyz.nucleoid:packet-tweaker:${project.property("packet_tweaker_version")}")){}
-	implementation(include("eu.pb4:polymer-common:${project.property("polymer_version")}")){}
-	implementation(include("eu.pb4:polymer-reg-sync-manipulator:${project.property("polymer_version")}")){}
+	modImplementation(include("nl.theepicblock:resource-locator-api:${project.property("resource_locator_api_version")}")){}
+	modImplementation(include("xyz.nucleoid:packet-tweaker:${project.property("packet_tweaker_version")}")){}
+	modImplementation(include("eu.pb4:polymer-common:${project.property("polymer_version")}")){}
+	modImplementation(include("eu.pb4:polymer-reg-sync-manipulator:${project.property("polymer_version")}")){}
 
 	// Compat
-	compileOnly(
+	modCompileOnly(
 		"maven.modrinth:lithium:${project.property("lithium_version")}"
 	)
 
-	compileOnly(
+	modCompileOnly(
 		"com.github.iPortalTeam.ImmersivePortalsMod:imm_ptl_core:${project.property("immersive_portals_version")}"
 	) {
 		exclude(
@@ -174,7 +174,7 @@ dependencies {
 		isTransitive = false
 	}
 
-	compileOnly(
+	modCompileOnly(
 		"com.github.iPortalTeam.ImmersivePortalsMod:q_misc_util:${project.property("immersive_portals_version")}"
 	) {
 		exclude(
@@ -184,7 +184,7 @@ dependencies {
 		isTransitive = false
 	}
 
-	compileOnly(
+	modCompileOnly(
 		"org.ladysnake.cardinal-components-api:cardinal-components-base:${project.property("cardinal_component_version")}"
 	) {
 		exclude(
@@ -194,7 +194,7 @@ dependencies {
 		isTransitive = false
 	}
 
-	// compileOnly("org.quiltmc.qsl.core:registry:${project.property("qsl_version")}") {
+	// modCompileOnly("org.quiltmc.qsl.core:registry:${project.property("qsl_version")}") {
 	//     isTransitive = false
 	// }
 }

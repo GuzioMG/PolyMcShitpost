@@ -4,7 +4,7 @@ import io.github.theepicblock.polymc.api.wizard.PacketConsumer;
 import io.github.theepicblock.polymc.api.wizard.VirtualEntity;
 import io.github.theepicblock.polymc.mixins.wizards.EntityAccessor;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerPosition;
+import net.minecraft.entity.EntityPosition;
 import net.minecraft.network.packet.s2c.play.EntityPositionSyncS2CPacket;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.util.math.MathHelper;
@@ -82,7 +82,7 @@ public abstract class AbstractVirtualEntity implements VirtualEntity {
     public void sendSyncPacket(PacketConsumer player, Entity realEntity) {
         player.sendPacket(new EntityPositionSyncS2CPacket(
             this.id,
-            new PlayerPosition(
+            new EntityPosition(
                 realEntity.getSyncedPos(),
                 realEntity.getVelocity(),
                 realEntity.getYaw(),

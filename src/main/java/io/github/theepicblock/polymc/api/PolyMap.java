@@ -225,7 +225,7 @@ public interface PolyMap {
         } else if (val instanceof Fluid entry && !this.canReceiveEntry(Registries.FLUID, entry)) {
             return Fluids.EMPTY;
         } else if (val instanceof StatusEffect entry && !this.canReceiveStatusEffect(Registries.STATUS_EFFECT.getEntry(entry))) {
-            return StatusEffects.LUCK;
+            return StatusEffects.LUCK.value();
         } else if (val instanceof EntityType<?> entry && !this.canReceiveEntry(Registries.ENTITY_TYPE, entry)) {
             return EntityType.ITEM_DISPLAY;
         } else if (val instanceof Potion entry && !this.canReceiveEntry(Registries.POTION, entry)) {

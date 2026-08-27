@@ -3,9 +3,9 @@ package io.github.theepicblock.polymc.impl.poly.wizard;
 import io.github.theepicblock.polymc.PolyMc;
 import io.github.theepicblock.polymc.mixins.wizards.EntityAccessor;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.minecraft.entity.EntityPosition;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
-import net.minecraft.entity.player.PlayerPosition;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.*;
 import net.minecraft.util.math.Vec3d;
@@ -31,7 +31,7 @@ public class EntityUtil {
             }
         }
 
-        PlayerPosition change = new PlayerPosition(
+        EntityPosition change = new EntityPosition(
                 new Vec3d(x, y, z),
                 Vec3d.ZERO,
                 yaw,

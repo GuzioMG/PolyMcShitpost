@@ -22,7 +22,6 @@ import net.minecraft.block.Block;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.MinecraftServer;
-import net.minecraft.server.WorldGenerationProgressListener;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
@@ -52,7 +51,7 @@ public class ProcessSyncedBlockEventServerSideImplementation {
     private final List<Block> serverCalculatedBlockEvents = new ArrayList<>();
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void initInject(MinecraftServer server, Executor workerExecutor, LevelStorage.Session session, ServerWorldProperties properties, RegistryKey worldKey, DimensionOptions dimensionOptions, WorldGenerationProgressListener worldGenerationProgressListener, boolean debugWorld, long seed, List spawners, boolean shouldTickTime, RandomSequencesState randomSequencesState, CallbackInfo ci) {
+    public void initInject(MinecraftServer server, Executor workerExecutor, LevelStorage.Session session, ServerWorldProperties properties, RegistryKey worldKey, DimensionOptions dimensionOptions, boolean debugWorld, long seed, List spawners, boolean shouldTickTime, RandomSequencesState randomSequenceState, CallbackInfo ci) {
         List<String> serverCalculatedBlockEventsAsString = ConfigManager.getConfig().misc.getProcessSyncedBlockEventServerSide();
         for (String s : serverCalculatedBlockEventsAsString) {
             Block e = Registries.BLOCK.get(Identifier.of(s));
