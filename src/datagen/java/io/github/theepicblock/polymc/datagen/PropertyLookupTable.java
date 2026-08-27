@@ -2,10 +2,9 @@ package io.github.theepicblock.polymc.datagen;
 
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.state.property.Property;
-
 import java.util.Set;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.world.level.block.state.properties.Property;
 
 public class PropertyLookupTable {
     private final Object2IntMap<Property<?>> property2Int = new Object2IntOpenHashMap<>();
@@ -18,7 +17,7 @@ public class PropertyLookupTable {
             property2Int.put(property, i);
             var valueMap = new Object2IntOpenHashMap<>();
             var j = 0;
-            for (var value : property.getValues()) {
+            for (var value : property.getPossibleValues()) {
                 valueMap.put(value, j);
                 j++;
             }
@@ -27,7 +26,7 @@ public class PropertyLookupTable {
         }
     }
 
-    public void write(PacketByteBuf buf) {
+    public void write(FriendlyByteBuf buf) {
         var propertyArray = new Property<?>[property2Int.size()];
         property2Int.forEach((property, integer) -> {
             propertyArray[integer] = property;
@@ -36,7 +35,7 @@ public class PropertyLookupTable {
         buf.writeVarInt(propertyArray.length);
         for (int i = 0; i < propertyArray.length; i++) {
             var property = propertyArray[i];
-            buf.writeString(property.getName());
+            buf.writeUtf(property.getName());
 
             var values2int = propertyValues2Int[i];
             var values2intArray = new Object[values2int.size()];
@@ -46,13 +45,13 @@ public class PropertyLookupTable {
 
             buf.writeVarInt(values2int.size());
             for (var value : values2intArray) {
-                buf.writeString(getValueName(property, value));
+                buf.writeUtf(getValueName(property, value));
             }
         }
     }
 
     private static <T extends Comparable<T>> String getValueName(Property<T> property, Object value) {
-        return property.name((T)value);
+        return property.getName((T)value);
     }
 
     public int getPropertyId(Property<?> property) {
