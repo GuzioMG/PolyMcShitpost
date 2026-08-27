@@ -14,6 +14,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.StandardOpenOption;
 import java.util.HashSet;
+import java.util.Objects;
 
 public class Main implements ModInitializer {
     public static final Logger LOGGER = LogManager.getLogger("datagen");
@@ -23,6 +24,10 @@ public class Main implements ModInitializer {
         try {
             LOGGER.info("Retrieving vanilla ids");
             String output = System.getenv("output-dir");
+            if (Objects.isNull(output)){
+                LOGGER.warn("No output-dir envar was passed (Gradle script still broken?) - will output to run/datagen. Please manually move its content to build/polymc-datagen/<version>! (the exact path should've been printed somewhere far above)");
+                output = "datagen";
+            }
             File outputDir = new File(output);
             outputDir.mkdirs();
 

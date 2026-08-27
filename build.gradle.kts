@@ -16,6 +16,7 @@ base {
 	//archivesName.set(project.property("archives_base_name").toString())
 }
 
+val datagenDir = "${rootProject.layout.buildDirectory.get().asFile}/polymc-datagen/${project.property("minecraft_version")}"
 version = "${project.property("mod_version")}${getVersionMetadata()}+${project.property("minecraft_version")}"
 group = project.property("maven_group").toString()
 
@@ -128,8 +129,10 @@ loom {
 		}
 
 		create("datagen") {
+			IO.println("Using datagen directory: $datagenDir") //UPDATE: The bit from below doesn't work, either. It's like Java is impervious to getting envars - imma just add a fallback instead, and print the intended directory here to simplify manual interventions.
 			server()
 			ideConfigGenerated(false)
+			vmArg("-Doutput-dir=$datagenDir") //It seems like Fabric overrides custom settings from tasks.named("runDatagen"), so this must be passed in manually.
 			source(sourceSets["datagen"])
 		}
 	}
@@ -307,12 +310,12 @@ tasks.register<RemapJarTask>("remapTestmodJar") {
 }
 
 // This includes the resources in build/polymc-datagen/<version>/ into the jar.
-val datagenDir =
-	"${rootProject.layout.buildDirectory.get().asFile}/polymc-datagen/${project.property("minecraft_version")}"
-
 sourceSets["main"].resources.srcDir(datagenDir)
 
 tasks.named("runDatagen") {
+	doFirst {
+		logger.info("This task was NOT overriden by Fabric.")
+	}
 	// Loom's environment DSL is supplied by the run task.
 	// This remains equivalent to the original Groovy configuration.
 	extensions.extraProperties["output-dir"] = datagenDir

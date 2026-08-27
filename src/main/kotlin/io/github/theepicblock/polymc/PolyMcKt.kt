@@ -1,7 +1,7 @@
 package io.github.theepicblock.polymc
 
 import net.fabricmc.api.ModInitializer
-import net.minecraft.resources.Identifier
+//import net.minecraft.resources.Identifier
 import org.slf4j.LoggerFactory
 
 object PolyMcKt : ModInitializer {
@@ -17,6 +17,6 @@ object PolyMcKt : ModInitializer {
 		LOGGER.info("Hello Fabric world!")
 	}
 
-	fun id(path: String): Identifier
-		= Identifier.fromNamespaceAndPath(MOD_ID, path)
+	/*fun id(path: String): Identifier
+		= Identifier.fromNamespaceAndPath(MOD_ID, path)*/
 }
