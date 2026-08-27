@@ -13,7 +13,7 @@ plugins {
 }
 
 base {
-	//archivesName.set(project.property("archives_base_name").toString())
+	archivesName.set(project.property("archives_base_name").toString())
 }
 
 val datagenDir = "${rootProject.layout.buildDirectory.get().asFile}/polymc-datagen/${project.property("minecraft_version")}"
