@@ -33,7 +33,7 @@ import io.github.theepicblock.polymc.impl.resource.ResourcePackGenerator;
 import io.github.theepicblock.polymc.mixins.TACSAccessor;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.command.argument.EntityArgumentType;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtHelper;

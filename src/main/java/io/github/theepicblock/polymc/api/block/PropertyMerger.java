@@ -1,6 +1,6 @@
 package io.github.theepicblock.polymc.api.block;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.state.property.Property;
 
 import java.util.function.Predicate;

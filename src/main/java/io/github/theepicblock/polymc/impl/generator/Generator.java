@@ -23,8 +23,8 @@ import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.poly.item.Tooltip2LoreTransformer;
 import io.github.theepicblock.polymc.impl.poly.item.InvalidComponentFixGlobalPoly;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.core.Registry;
 
 import java.util.Comparator;
 import java.util.function.BiConsumer;

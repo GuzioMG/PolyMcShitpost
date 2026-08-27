@@ -2,7 +2,7 @@ package io.github.theepicblock.polymc.common;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.registry.Registries;
+import net.minecraft.core.registries.Registries;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;

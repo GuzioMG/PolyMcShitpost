@@ -1,9 +1,9 @@
 package io.github.theepicblock.polymc.mixins.item;
 
-import net.minecraft.component.ComponentType;
+import net.minecraft.core.component.DataComponentType; //!PREVIOUSLY: ComponentType
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.tooltip.TooltipAppender;
 import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.text.Text;

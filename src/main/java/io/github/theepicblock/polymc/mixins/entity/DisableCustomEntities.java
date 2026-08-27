@@ -2,10 +2,10 @@ package io.github.theepicblock.polymc.mixins.entity;
 
 import io.github.theepicblock.polymc.api.misc.PolyMapProvider;
 import io.github.theepicblock.polymc.impl.mixin.EntityTrackerEntryDuck;
-import net.minecraft.network.listener.ClientPlayPacketListener;
-import net.minecraft.network.packet.Packet;
-import net.minecraft.server.network.EntityTrackerEntry;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.network.listener.ClientPlayPacketListener; //!UNKNOWN
+import net.minecraft.network.packet.Packet; //!UNKNOWN
+import net.minecraft.server.network.EntityTrackerEntry; //!UNKNOWN
+import net.minecraft.server.network.ServerPlayerEntity; //!UNKNOWN
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;

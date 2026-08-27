@@ -1,7 +1,7 @@
 package io.github.theepicblock.polymc.mixins.wizards;
 
 import io.github.theepicblock.polymc.impl.misc.WatchListener;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;

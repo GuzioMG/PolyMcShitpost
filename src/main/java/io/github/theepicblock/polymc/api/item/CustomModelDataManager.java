@@ -20,7 +20,7 @@ package io.github.theepicblock.polymc.api.item;
 import io.github.theepicblock.polymc.api.SharedValuesKey;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.util.Pair;
 import org.jetbrains.annotations.ApiStatus;

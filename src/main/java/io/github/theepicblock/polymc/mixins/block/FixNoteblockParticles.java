@@ -2,7 +2,7 @@ package io.github.theepicblock.polymc.mixins.block;
 
 import net.minecraft.block.NoteBlock;
 import net.minecraft.particle.ParticleEffect;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel; //PREVIOUSLY: ServerWorld
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

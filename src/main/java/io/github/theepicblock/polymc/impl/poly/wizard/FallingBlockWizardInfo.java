@@ -1,6 +1,6 @@
 package io.github.theepicblock.polymc.impl.poly.wizard;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.entity.FallingBlockEntity;
 import org.jetbrains.annotations.Nullable;
 

@@ -20,7 +20,7 @@ package io.github.theepicblock.polymc.impl.generator;
 import io.github.theepicblock.polymc.api.PolyRegistry;
 import io.github.theepicblock.polymc.api.gui.GuiPoly;
 import io.github.theepicblock.polymc.impl.poly.gui.NaiveStackListingChestPoly;
-import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.screen.ScreenHandlerType; //!UNKNOWN
 
 /**
  * Class to automatically generate {@link GuiPoly}s for {@link ScreenHandlerType}s

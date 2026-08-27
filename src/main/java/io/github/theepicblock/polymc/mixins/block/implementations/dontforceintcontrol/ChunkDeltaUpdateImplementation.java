@@ -18,7 +18,7 @@
 package io.github.theepicblock.polymc.mixins.block.implementations.dontforceintcontrol;
 
 import io.github.theepicblock.polymc.impl.Util;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.network.packet.s2c.play.ChunkDeltaUpdateS2CPacket;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

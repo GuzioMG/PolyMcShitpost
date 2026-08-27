@@ -4,9 +4,9 @@ import io.github.theepicblock.polymc.api.PolyMap;
 import io.github.theepicblock.polymc.api.misc.PolyMapProvider;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
+import net.minecraft.server.level.ServerLevel; //PREVIOUSLY: ServerWorld
+import net.minecraft.util.math.BlockPos; //!UNKNOWN
+import net.minecraft.util.math.ChunkPos; //!UNKNOWN
 
 import java.util.List;
 

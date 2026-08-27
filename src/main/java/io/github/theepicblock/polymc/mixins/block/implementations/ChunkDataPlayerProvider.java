@@ -21,8 +21,8 @@ import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import eu.pb4.polymer.common.api.PolymerCommonUtils;
 import net.minecraft.server.network.ChunkDataSender;
-import net.minecraft.server.network.ServerPlayNetworkHandler;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.network.ServerPlayNetworkHandler; //!UNKNOWN
+import net.minecraft.server.level.ServerLevel; //PREVIOUSLY: ServerWorld
 import net.minecraft.world.chunk.WorldChunk;
 import org.spongepowered.asm.mixin.Mixin;
 

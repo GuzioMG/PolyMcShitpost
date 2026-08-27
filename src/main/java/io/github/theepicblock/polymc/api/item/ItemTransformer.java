@@ -1,7 +1,7 @@
 package io.github.theepicblock.polymc.api.item;
 
 import io.github.theepicblock.polymc.api.PolyMap;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.jetbrains.annotations.Nullable;
 

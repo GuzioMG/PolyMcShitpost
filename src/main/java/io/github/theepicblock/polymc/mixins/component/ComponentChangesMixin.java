@@ -7,7 +7,7 @@ import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.misc.TransformingPacketCodec;
 import io.github.theepicblock.polymc.impl.mixin.TransformingComponent;
 import net.minecraft.component.ComponentChanges;
-import net.minecraft.component.ComponentType;
+import net.minecraft.core.component.DataComponentType; //!PREVIOUSLY: ComponentType
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import org.spongepowered.asm.mixin.*;

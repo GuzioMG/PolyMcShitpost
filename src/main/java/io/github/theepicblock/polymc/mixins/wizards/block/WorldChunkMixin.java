@@ -14,14 +14,14 @@ import io.github.theepicblock.polymc.impl.poly.wizard.CachedPolyMapFilteredPlaye
 import io.github.theepicblock.polymc.impl.poly.wizard.PlacedWizardInfo;
 import io.github.theepicblock.polymc.impl.poly.wizard.PolyMapFilteredPlayerView;
 import io.github.theepicblock.polymc.impl.poly.wizard.SinglePlayerView;
-import net.minecraft.block.BlockState;
-import net.minecraft.registry.Registry;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.core.Registry;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel; //PREVIOUSLY: ServerWorld
 import net.minecraft.util.collection.PackedIntegerArray;
 import net.minecraft.util.collection.PaletteStorage;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
+import net.minecraft.util.math.BlockPos; //!UNKNOWN
+import net.minecraft.util.math.ChunkPos; //!UNKNOWN
 import net.minecraft.world.HeightLimitView;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.Biome;

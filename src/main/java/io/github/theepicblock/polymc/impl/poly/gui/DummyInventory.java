@@ -19,7 +19,7 @@ package io.github.theepicblock.polymc.impl.poly.gui;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.Items;
 
 public class DummyInventory implements Inventory {

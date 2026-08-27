@@ -3,16 +3,16 @@ package nl.theepicblock.polymc.testmod.automated;
 import com.mojang.authlib.GameProfile;
 import io.github.theepicblock.polymc.api.PolyMap;
 import io.github.theepicblock.polymc.api.misc.PolyMapProvider;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.c2s.common.SyncedClientOptions;
 import net.minecraft.server.network.ChunkFilter;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.test.TestContext;
 import net.minecraft.text.Text;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos; //!UNKNOWN
+import net.minecraft.util.math.ChunkPos; //!UNKNOWN
+import net.minecraft.util.math.Vec3d; //!UNKNOWN
 import net.minecraft.world.GameMode;
 
 import java.io.Closeable;

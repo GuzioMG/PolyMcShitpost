@@ -5,9 +5,9 @@ import com.llamalad7.mixinextras.sugar.Local;
 import eu.pb4.polymer.common.api.PolymerCommonUtils;
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.mixins.BlockEntityDataAccessor;
-import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.network.packet.s2c.play.ChunkData;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos; //!UNKNOWN
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.nucleoid.packettweaker.PacketContext;

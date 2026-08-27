@@ -2,7 +2,7 @@ package io.github.theepicblock.polymc.mixins.wizards;
 
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.entity.projectile.thrown.ThrownItemEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 

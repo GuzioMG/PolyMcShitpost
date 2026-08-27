@@ -1,13 +1,13 @@
 package io.github.theepicblock.polymc.api.wizard;
 
 import io.github.theepicblock.polymc.impl.poly.wizard.ThreadedWizardUpdater;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkPos;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.server.network.ServerPlayerEntity; //!UNKNOWN
+import net.minecraft.server.level.ServerLevel; //PREVIOUSLY: ServerWorld
+import net.minecraft.util.math.BlockPos; //!UNKNOWN
+import net.minecraft.util.math.ChunkPos; //!UNKNOWN
+import net.minecraft.util.math.Vec3d; //!UNKNOWN
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;

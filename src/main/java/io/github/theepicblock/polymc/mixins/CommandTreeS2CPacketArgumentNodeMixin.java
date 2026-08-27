@@ -2,9 +2,9 @@ package io.github.theepicblock.polymc.mixins;
 
 import com.mojang.brigadier.arguments.StringArgumentType;
 import io.github.theepicblock.polymc.impl.Util;
-import net.minecraft.command.argument.ArgumentTypes;
-import net.minecraft.command.argument.serialize.ArgumentSerializer;
-import net.minecraft.registry.Registries;
+import net.minecraft.command.argument.ArgumentTypes; //!UNKNOWN
+import net.minecraft.command.argument.serialize.ArgumentSerializer; //!UNKNOWN
+import net.minecraft.core.registries.Registries;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;

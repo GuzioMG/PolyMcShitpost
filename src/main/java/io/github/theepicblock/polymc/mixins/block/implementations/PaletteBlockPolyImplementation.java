@@ -20,7 +20,7 @@ package io.github.theepicblock.polymc.mixins.block.implementations;
 import io.github.theepicblock.polymc.api.PolyMap;
 import io.github.theepicblock.polymc.impl.Util;
 import net.caffeinemc.mods.lithium.common.world.chunk.LithiumHashPalette;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.util.collection.IndexedIterable;
 import net.minecraft.world.chunk.ArrayPalette;
 import net.minecraft.world.chunk.BiMapPalette;

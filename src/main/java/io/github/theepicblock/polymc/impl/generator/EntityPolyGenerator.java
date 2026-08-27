@@ -17,7 +17,7 @@ import net.minecraft.entity.passive.FishEntity;
 import net.minecraft.entity.passive.GolemEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.vehicle.AbstractMinecartEntity;
-import net.minecraft.registry.Registries;
+import net.minecraft.core.registries.Registries;
 
 import java.util.ArrayList;
 import java.util.HashMap;

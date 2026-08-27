@@ -2,7 +2,7 @@ package io.github.theepicblock.polymc.mixins.block;
 
 import io.github.theepicblock.polymc.impl.misc.BlockBreakingUtil;
 import io.github.theepicblock.polymc.impl.mixin.BlockBreakingDuck;
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.server.network.EntityTrackerEntry;
 import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Final;

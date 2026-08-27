@@ -1,6 +1,6 @@
 package nl.theepicblock.polymc.testmod;
 
-import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.world.effect.MobEffect; //!PREVIOUSLY: StatusEffect
 import net.minecraft.entity.effect.StatusEffectCategory;
 
 public class YellowStatusEffect extends StatusEffect {

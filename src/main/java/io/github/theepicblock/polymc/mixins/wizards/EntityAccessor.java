@@ -1,6 +1,6 @@
 package io.github.theepicblock.polymc.mixins.wizards;
 
-import net.minecraft.entity.Entity;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.entity.data.TrackedData;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;

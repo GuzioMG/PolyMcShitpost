@@ -1,7 +1,7 @@
 package io.github.theepicblock.polymc.api.wizard;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.util.math.Vec3d; //!UNKNOWN
 
 /**
  * Represents nothing more then an entity id. You can instruct packets to be sent with this id.

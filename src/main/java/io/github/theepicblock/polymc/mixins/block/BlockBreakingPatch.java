@@ -20,15 +20,15 @@ package io.github.theepicblock.polymc.mixins.block;
 import io.github.theepicblock.polymc.impl.misc.BlockBreakingUtil;
 import io.github.theepicblock.polymc.impl.mixin.BlockBreakingDuck;
 import io.github.theepicblock.polymc.impl.mixin.CustomBlockBreakingCheck;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.network.packet.c2s.play.PlayerActionC2SPacket;
 import net.minecraft.network.packet.s2c.play.BlockBreakingProgressS2CPacket;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.network.ServerPlayerInteractionManager;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
+import net.minecraft.server.level.ServerLevel; //PREVIOUSLY: ServerWorld
+import net.minecraft.util.math.BlockPos; //!UNKNOWN
+import net.minecraft.util.math.Direction; //!UNKNOWN
 import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

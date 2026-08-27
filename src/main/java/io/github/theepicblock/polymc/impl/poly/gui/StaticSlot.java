@@ -18,7 +18,7 @@
 package io.github.theepicblock.polymc.impl.poly.gui;
 
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 
 public class StaticSlot extends Slot {

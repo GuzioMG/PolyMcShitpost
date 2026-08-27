@@ -1,13 +1,13 @@
 package nl.theepicblock.polymc.testmod.automated;
 
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.block.PistonBlock;
-import net.minecraft.entity.EntityType;
+import net.minecraft.world.entity.EntityType;
 import net.minecraft.network.packet.s2c.play.EntitySpawnS2CPacket;
 import net.minecraft.test.TestContext;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.BlockPos; //!UNKNOWN
+import net.minecraft.util.math.Direction; //!UNKNOWN
+import net.minecraft.util.math.Vec3d; //!UNKNOWN
 import nl.theepicblock.polymc.testmod.Testmod;
 
 public class WizardTests {/*implements FabricGameTest {

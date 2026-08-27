@@ -18,14 +18,14 @@
 package io.github.theepicblock.polymc.mixins.block;
 
 import io.github.theepicblock.polymc.impl.ConfigManager;
-import net.minecraft.block.Block;
-import net.minecraft.registry.Registries;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.WorldGenerationProgressListener;
-import net.minecraft.server.world.ServerWorld;
+import net.minecraft.server.level.ServerLevel; //PREVIOUSLY: ServerWorld
 import net.minecraft.util.Identifier;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos; //!UNKNOWN
 import net.minecraft.util.math.random.RandomSequencesState;
 import net.minecraft.world.dimension.DimensionOptions;
 import net.minecraft.world.level.ServerWorldProperties;

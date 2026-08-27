@@ -9,8 +9,8 @@ import io.github.theepicblock.polymc.mixins.wizards.block.WorldChunkMixin;
 import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import it.unimi.dsi.fastutil.objects.ObjectLists;
 import it.unimi.dsi.fastutil.objects.Reference2ObjectArrayMap;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.ChunkPos;
+import net.minecraft.server.level.ServerLevel; //PREVIOUSLY: ServerWorld
+import net.minecraft.util.math.ChunkPos; //!UNKNOWN
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 

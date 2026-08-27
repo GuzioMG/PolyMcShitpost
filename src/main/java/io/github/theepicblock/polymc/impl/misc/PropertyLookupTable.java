@@ -1,6 +1,6 @@
 package io.github.theepicblock.polymc.impl.misc;
 
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.state.property.Property;
 

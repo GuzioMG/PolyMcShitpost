@@ -1,7 +1,7 @@
 package io.github.theepicblock.polymc.impl.poly.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
 import net.minecraft.block.SlabBlock;
 
 import java.util.HashMap;

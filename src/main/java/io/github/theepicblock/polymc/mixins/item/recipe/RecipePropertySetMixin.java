@@ -2,10 +2,10 @@ package io.github.theepicblock.polymc.mixins.item.recipe;
 
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import io.github.theepicblock.polymc.impl.Util;
-import net.minecraft.item.Item;
+import net.minecraft.world.item.Item;
 import net.minecraft.recipe.RecipePropertySet;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.registry.entry.RegistryEntry; //!UNKNOWN
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.nucleoid.packettweaker.PacketContext;

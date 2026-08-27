@@ -7,8 +7,8 @@ import io.github.theepicblock.polymc.impl.mixin.WizardTickerDuck;
 import io.github.theepicblock.polymc.mixins.TACSAccessor;
 import io.github.theepicblock.polymc.mixins.entity.EntityTrackerAccessor;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.util.math.ChunkPos;
+import net.minecraft.server.level.ServerLevel; //PREVIOUSLY: ServerWorld
+import net.minecraft.util.math.ChunkPos; //!UNKNOWN
 
 import java.util.List;
 import java.util.Map;

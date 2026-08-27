@@ -4,9 +4,9 @@ package io.github.theepicblock.polymc.mixins;
 import eu.pb4.polymer.rsm.api.RegistrySyncUtils;
 import io.github.theepicblock.polymc.impl.Util;
 import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.registry.entry.RegistryEntry; //!UNKNOWN
+import net.minecraft.sounds.SoundEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;

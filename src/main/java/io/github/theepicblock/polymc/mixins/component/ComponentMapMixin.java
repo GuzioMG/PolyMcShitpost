@@ -5,7 +5,7 @@ import eu.pb4.polymer.common.api.PolymerCommonUtils;
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.mixin.TransformingComponent;
 import net.minecraft.component.ComponentMap;
-import net.minecraft.component.ComponentType;
+import net.minecraft.core.component.DataComponentType; //!PREVIOUSLY: ComponentType
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;

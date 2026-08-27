@@ -18,13 +18,13 @@
 package io.github.theepicblock.polymc.impl.mixin;
 
 import io.github.theepicblock.polymc.impl.Util;
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.packet.s2c.play.WorldEventS2CPacket;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.server.PlayerManager;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.BlockPos; //!UNKNOWN
 import net.minecraft.world.World;
 
 import java.util.function.Consumer;

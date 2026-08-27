@@ -24,10 +24,10 @@ import io.github.theepicblock.polymc.api.item.ItemPoly;
 import io.github.theepicblock.polymc.common.BlockItemType;
 import io.github.theepicblock.polymc.impl.ConfigManager;
 import io.github.theepicblock.polymc.impl.poly.item.*;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.item.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.math.BlockPos; //!UNKNOWN
+import net.minecraft.util.shape.VoxelShape; //!UNKNOWN
 import net.minecraft.util.shape.VoxelShapes;
 
 /**

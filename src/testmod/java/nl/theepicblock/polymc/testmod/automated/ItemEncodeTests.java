@@ -5,11 +5,11 @@ import io.github.theepicblock.polymc.impl.PolyMapImpl;
 import io.github.theepicblock.polymc.mixins.wizards.ItemEntityAccessor;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.entity.ItemEntity;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.packet.s2c.play.EntityTrackerUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.ScreenHandlerSlotUpdateS2CPacket;
-import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3d; //!UNKNOWN
 import net.minecraft.world.GameMode;
 import nl.theepicblock.polymc.testmod.Testmod;
 

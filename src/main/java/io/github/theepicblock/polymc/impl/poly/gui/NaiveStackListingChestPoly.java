@@ -20,10 +20,10 @@ package io.github.theepicblock.polymc.impl.poly.gui;
 import io.github.theepicblock.polymc.api.gui.GuiPoly;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandler;
-import net.minecraft.screen.ScreenHandlerType;
+import net.minecraft.screen.ScreenHandlerType; //!UNKNOWN
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.server.network.ServerPlayerEntity;
 

@@ -1,6 +1,6 @@
 package nl.theepicblock.polymc.testmod;
 
-import net.minecraft.block.BlockState;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.block.StairsBlock;
 
 public class TestStairsBlock extends StairsBlock {

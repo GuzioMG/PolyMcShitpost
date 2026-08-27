@@ -2,7 +2,7 @@ package io.github.theepicblock.polymc.impl.misc;
 
 import net.minecraft.component.ComponentChanges;
 import net.minecraft.component.ComponentMap;
-import net.minecraft.component.ComponentType;
+import net.minecraft.core.component.DataComponentType; //!PREVIOUSLY: ComponentType
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashSet;

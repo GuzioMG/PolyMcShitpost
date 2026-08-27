@@ -8,8 +8,8 @@ import net.minecraft.network.packet.Packet;
 import net.minecraft.registry.VersionedIdentifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ConnectedClientData;
-import net.minecraft.server.network.ServerCommonNetworkHandler;
-import net.minecraft.server.network.ServerConfigurationNetworkHandler;
+import net.minecraft.server.network.ServerCommonNetworkHandler; //!UNKNOWN
+import net.minecraft.server.network.ServerConfigurationNetworkHandler; //!UNKNOWN
 import net.minecraft.server.network.SynchronizeRegistriesTask;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;

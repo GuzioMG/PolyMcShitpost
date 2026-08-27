@@ -2,9 +2,9 @@ package io.github.theepicblock.polymc.datagen;
 
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ModInitializer;
-import net.minecraft.block.Block;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.registry.Registries;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.state.property.Property;
 import net.minecraft.util.Identifier;
 import org.apache.logging.log4j.LogManager;

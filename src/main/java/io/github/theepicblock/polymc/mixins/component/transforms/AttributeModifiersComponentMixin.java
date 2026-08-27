@@ -4,7 +4,7 @@ package io.github.theepicblock.polymc.mixins.component.transforms;
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.mixin.TransformingComponent;
 import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.registry.Registries;
+import net.minecraft.core.registries.Registries;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;

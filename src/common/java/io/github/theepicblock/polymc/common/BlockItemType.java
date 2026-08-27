@@ -2,7 +2,7 @@ package io.github.theepicblock.polymc.common;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.sound.SoundEvent;
+import net.minecraft.sounds.SoundEvent;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

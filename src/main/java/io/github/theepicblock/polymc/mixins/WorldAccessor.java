@@ -2,7 +2,7 @@ package io.github.theepicblock.polymc.mixins;
 
 import net.minecraft.entity.damage.DamageSources;
 import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.registry.entry.RegistryEntry; //!UNKNOWN
 import net.minecraft.util.math.random.Random;
 import net.minecraft.util.profiler.Profiler;
 import net.minecraft.world.MutableWorldProperties;

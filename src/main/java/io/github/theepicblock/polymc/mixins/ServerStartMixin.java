@@ -19,7 +19,7 @@ package io.github.theepicblock.polymc.mixins;
 
 import io.github.theepicblock.polymc.PolyMc;
 import net.minecraft.registry.DynamicRegistryManager;
-import net.minecraft.registry.Registries;
+import net.minecraft.core.registries.Registries;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
