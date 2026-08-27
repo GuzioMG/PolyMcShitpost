@@ -1,7 +1,6 @@
 package nl.theepicblock.polymc.testmod.automated;
 
 import net.fabricmc.fabric.api.gametest.v1.GameTest;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.gametest.framework.GameTestHelper;
 import net.minecraft.network.chat.Component;

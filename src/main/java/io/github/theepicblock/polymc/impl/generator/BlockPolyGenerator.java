@@ -30,7 +30,6 @@ import io.github.theepicblock.polymc.impl.poly.block.SimpleReplacementPoly;
 import io.github.theepicblock.polymc.impl.resource.ModdedResourceContainerImpl;
 import io.github.theepicblock.polymc.mixins.block.SlabBlockAccessor;
 import io.github.theepicblock.polymc.mixins.block.TrapdoorBlockAccessor;
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;

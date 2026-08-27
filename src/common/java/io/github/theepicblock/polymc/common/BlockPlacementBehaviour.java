@@ -1,8 +1,6 @@
 package io.github.theepicblock.polymc.common;
 
-import net.minecraft.block.*;
 import net.minecraft.core.BlockPos;
-import net.minecraft.item.*;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.DoubleHighBlockItem;
 import net.minecraft.world.item.Item;

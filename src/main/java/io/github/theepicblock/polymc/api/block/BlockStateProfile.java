@@ -22,8 +22,6 @@ import io.github.theepicblock.polymc.impl.poly.block.ConditionalSimpleBlockPoly;
 import io.github.theepicblock.polymc.impl.poly.block.ListOfSlabs;
 import io.github.theepicblock.polymc.impl.poly.block.PropertyRetainingReplacementPoly;
 import io.github.theepicblock.polymc.impl.poly.block.SimpleReplacementPoly;
-import net.minecraft.block.*;
-import net.minecraft.block.enums.*;
 import net.minecraft.core.Direction;
 import net.minecraft.world.item.HoneycombItem;
 import net.minecraft.world.level.block.BeehiveBlock;

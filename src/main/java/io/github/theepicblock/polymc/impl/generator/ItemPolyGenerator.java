@@ -25,7 +25,6 @@ import io.github.theepicblock.polymc.common.BlockItemType;
 import io.github.theepicblock.polymc.impl.ConfigManager;
 import io.github.theepicblock.polymc.impl.poly.item.*;
 import net.minecraft.core.BlockPos;
-import net.minecraft.item.*;
 import net.minecraft.world.item.AxeItem;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.BrushItem;

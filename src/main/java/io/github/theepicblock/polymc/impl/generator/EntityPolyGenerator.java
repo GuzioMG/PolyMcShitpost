@@ -8,7 +8,6 @@ import io.github.theepicblock.polymc.impl.poly.entity.DefaultedEntityPoly;
 import io.github.theepicblock.polymc.impl.poly.entity.FlyingItemEntityPoly;
 import io.github.theepicblock.polymc.impl.poly.entity.MissingEntityPoly;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.entity.*;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

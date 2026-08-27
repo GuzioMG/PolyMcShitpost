@@ -6,7 +6,6 @@ import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.Util;
-import net.minecraft.block.*;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -80,12 +79,12 @@ public class Testmod implements ModInitializer {
     public static final Block TEST_BLOCK = registerBlock(id("test_block"), BlockBehaviour.Properties.of(), TestBlock::new);
     public static final Block TEST_STAIRS = registerBlock(id("test_stairs"), BlockBehaviour.Properties.of(), settings -> new TestStairsBlock(TEST_BLOCK.defaultBlockState(), settings));
     public static final Block TEST_SLAB = registerBlock(id("test_slab"), BlockBehaviour.Properties.of(), TestSlabBlock::new);
-    public static final Block TEST_DOOR = registerBlock(id("test_door"), Block.Settings.ofFullCopy(Blocks.OAK_DOOR), settings -> new DoorBlock(TEST_WOOD_BLOCKSET, settings));
-    public static final Block TEST_IRON_DOOR = registerBlock(id("test_iron_door"), Block.Settings.ofFullCopy(Blocks.OAK_DOOR), settings -> new DoorBlock(TEST_IRON_BLOCKSET, settings));
-    public static final Block TEST_TRAP_DOOR = registerBlock(id("test_trapdoor"), Block.Settings.ofFullCopy(Blocks.OAK_TRAPDOOR), settings -> new TrapDoorBlock(TEST_WOOD_BLOCKSET, settings));
-    public static final Block TEST_IRON_TRAP_DOOR = registerBlock(id("test_iron_trapdoor"), Block.Settings.ofFullCopy(Blocks.OAK_TRAPDOOR), settings -> new TrapDoorBlock(TEST_IRON_BLOCKSET, settings));
-    public static final Block TEST_BLOCK_GLOWING = registerBlock(id("test_block_glowing"), Block.Settings.of().lightLevel(x -> 9), Block::new);
-    public static final Block TEST_BLOCK_WIZARD = registerBlock(id("test_block_wizard"), Block.Settings.of(), settings -> new ColoredFallingBlock(new ColorRGBA(0), settings));
+    public static final Block TEST_DOOR = registerBlock(id("test_door"), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR), settings -> new DoorBlock(TEST_WOOD_BLOCKSET, settings));
+    public static final Block TEST_IRON_DOOR = registerBlock(id("test_iron_door"), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_DOOR), settings -> new DoorBlock(TEST_IRON_BLOCKSET, settings));
+    public static final Block TEST_TRAP_DOOR = registerBlock(id("test_trapdoor"), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR), settings -> new TrapDoorBlock(TEST_WOOD_BLOCKSET, settings));
+    public static final Block TEST_IRON_TRAP_DOOR = registerBlock(id("test_iron_trapdoor"), BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_TRAPDOOR), settings -> new TrapDoorBlock(TEST_IRON_BLOCKSET, settings));
+    public static final Block TEST_BLOCK_GLOWING = registerBlock(id("test_block_glowing"), BlockBehaviour.Properties.of().lightLevel(x -> 9), Block::new);
+    public static final Block TEST_BLOCK_WIZARD = registerBlock(id("test_block_wizard"), BlockBehaviour.Properties.of(), settings -> new ColoredFallingBlock(new ColorRGBA(0), settings));
 
     public static final EntityType<? extends LivingEntity> TEST_ENTITY_DIRECT = registerEntity(id("test_entity_direct"), FabricEntityTypeBuilder.create().entityFactory(Creeper::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));
     public static final EntityType<? extends LivingEntity> TEST_ENTITY_EXTEND_DIRECT = registerEntity(id("test_entity_extend_direct"), FabricEntityTypeBuilder.create().entityFactory(TestExtendDirectEntity::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));

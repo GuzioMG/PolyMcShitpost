@@ -61,7 +61,7 @@ public class TestCommands {
                 if (states.size() > 1) {
                     commandSource.info("### "+states.size());
                     states.stream().limit(10).forEach(state -> {
-                        commandSource.info(state.getBlock().getTranslationKey() + " : " + Util.getPropertiesFromBlockState(state));
+                        commandSource.info(state.getBlock().getName() + " : " + Util.getPropertiesFromBlockState(state));
                     });
                 }
             }

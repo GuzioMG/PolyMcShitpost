@@ -47,7 +47,6 @@ import io.github.theepicblock.polymc.impl.resource.json.JModelImpl;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.ChatFormatting;
 import net.minecraft.advancements.DisplayInfo;
-import net.minecraft.block.*;
 import net.minecraft.core.Direction;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.nbt.CompoundTag;

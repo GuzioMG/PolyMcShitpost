@@ -4,7 +4,6 @@ import io.github.theepicblock.polymc.PolyMc;
 import io.github.theepicblock.polymc.mixins.wizards.EntityAccessor;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.network.packet.s2c.play.*;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
 import net.minecraft.network.protocol.game.ClientboundTeleportEntityPacket;
