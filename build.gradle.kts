@@ -1,11 +1,9 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import net.fabricmc.loom.task.RemapJarTask
 import org.gradle.api.JavaVersion
-import org.gradle.api.artifacts.ExcludeRule
 import org.gradle.api.tasks.compile.JavaCompile
 import org.gradle.jvm.tasks.Jar
 import org.gradle.api.publish.maven.MavenPublication
-//import org.gradle.credentials.PasswordCredentials
 
 plugins {
 	id("net.fabricmc.fabric-loom-remap") version "1.17.+"
@@ -68,8 +66,8 @@ repositories {
 	}
 }
 
-/*sourceSets {
-	named("common") {
+sourceSets {
+	create("common") {
 		runtimeClasspath += sourceSets["main"].runtimeClasspath
 		compileClasspath += sourceSets["main"].compileClasspath
 	}
@@ -79,33 +77,33 @@ repositories {
 		compileClasspath += sourceSets["common"].output
 	}
 
-	named("testmod") {
+	create("testmod") {
 		runtimeClasspath += sourceSets["main"].runtimeClasspath + sourceSets["main"].output
 		compileClasspath += sourceSets["main"].compileClasspath + sourceSets["main"].output
 	}
 
-	named("datagen") {
+	create("datagen") {
 		runtimeClasspath += sourceSets["main"].runtimeClasspath + sourceSets["common"].output
 		compileClasspath += sourceSets["main"].compileClasspath + sourceSets["common"].output
 	}
-}*/
+}
 
 loom {
 	mods {
-		/*create("polymc-datagen") {
+		create("polymc-datagen") {
 			sourceSet(sourceSets["datagen"])
-		}*/
+		}
 
 		create("polymc") {
 			sourceSet(sourceSets["main"])
 		}
 
-		/*create("polymc-testmod") {
+		create("polymc-testmod") {
 			sourceSet(sourceSets["testmod"])
-		}*/
+		}
 	}
 
-	/*runs {
+	runs {
 		create("testmodClient") {
 			client()
 			ideConfigGenerated(project.rootProject == project)
@@ -134,16 +132,16 @@ loom {
 			ideConfigGenerated(false)
 			source(sourceSets["datagen"])
 		}
-	}*/
+	}
 
 	accessWidenerPath = file("src/main/resources/polymc.accesswidener")
 }
 
-fabricApi {
+/*fabricApi {
 	configureDataGeneration {
 		client = true
 	}
-}
+}*/
 
 dependencies {
 	// To change the versions, see the gradle.properties file.
