@@ -38,7 +38,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.Connection;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerCommonPacketListenerImpl;
 import net.minecraft.world.entity.player.Player;
@@ -82,7 +82,7 @@ public class Util {
     /**
      * Returns true if this identifier is in the minecraft namespace
      */
-    public static boolean isVanilla(ResourceLocation id) {
+    public static boolean isVanilla(Identifier id) {
         if (id == null) return false;
         return isNamespaceVanilla(id.getNamespace());
     }
@@ -314,9 +314,9 @@ public class Util {
     /**
      * @return null if the id can't be parsed or the string is null
      */
-    public static ResourceLocation parseId(String id) {
+    public static Identifier parseId(String id) {
         if (id == null) return null;
-        return ResourceLocation.tryParse(id);
+        return Identifier.tryParse(id);
     }
 
     public static void writeJsonToStream(OutputStream stream, Gson gson, Object json) throws IOException {

@@ -88,6 +88,7 @@ public interface PolyMapProvider {
      * @param map map to use
      * @deprecated this method should <em>not</em> be used directly! Please create an entry in {@link #EVENT} instead.
      */
+	@Deprecated
     @ApiStatus.Internal
     void setPolyMap(PolyMap map);
 

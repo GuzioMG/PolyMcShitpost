@@ -31,6 +31,6 @@ public class ChunkDataPlayerProvider {
 
     @WrapMethod(method = "sendChunk")
     private static void setPlayerContext(ServerGamePacketListenerImpl handler, ServerLevel world, LevelChunk chunk, Operation<Void> original) {
-        PolymerCommonUtils.executeWithNetworkingLogic(handler, () -> original.call(handler, world, chunk));
+        //TODO PolymerCommonUtils.executeWithNetworkingLogic(handler, () -> original.call(handler, world, chunk)); doesn't exist anymore (the function executeWithNetworkingLogic, I mean)
     }
 }

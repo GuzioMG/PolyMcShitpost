@@ -3,7 +3,7 @@ package io.github.theepicblock.polymc.impl.misc;
 import java.util.Collection;
 import java.util.Collections;
 import net.minecraft.network.protocol.game.ClientboundUpdateAttributesPacket;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.ai.attributes.AttributeInstance;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -11,7 +11,7 @@ import net.minecraft.world.entity.ai.attributes.Attributes;
 
 public class BlockBreakingUtil {
 
-    public static ResourceLocation POLYMC_MODIFIER_ID = ResourceLocation.fromNamespaceAndPath("polymc", "block_breaking");
+    public static Identifier POLYMC_MODIFIER_ID = Identifier.fromNamespaceAndPath("polymc", "block_breaking");
 
     public static Collection<AttributeInstance> DISABLER_ATTRIBUTES = Collections.singleton(
             new AttributeInstance(

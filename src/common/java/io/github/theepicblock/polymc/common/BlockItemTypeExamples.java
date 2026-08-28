@@ -1,6 +1,7 @@
 package io.github.theepicblock.polymc.common;
 
 import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -22,14 +23,15 @@ public class BlockItemTypeExamples {
     }
 
     public BlockItemTypeExamples(FriendlyByteBuf buf) {
-        inner = buf.readMap(i -> new HashMap<>(), BlockItemType::new, buf2 -> {
+        /*inner = buf.readMap(i -> new HashMap<>(), BlockItemType::new, buf2 -> {
             var length = buf.readVarInt();
             var arr = new BlockItem[length];
             for (int i = 0; i < arr.length; i++) {
                 arr[i] = (BlockItem)BuiltInRegistries.BLOCK.byId(buf2.readVarInt()).asItem();
             }
             return arr;
-        });
+        });*/
+        throw new NotImplementedException("BlockItemTypeExamples(FriendlyByteBuf buf) called, but it relies on FriendlyByteBuf having a readMap function, which no longer exists on this version, and no replacement was yet implemented."); //TODO
     }
 
     public void add(@NotNull BlockItemType type, BlockItem item) {
@@ -57,7 +59,8 @@ public class BlockItemTypeExamples {
     }
 
     public void write(FriendlyByteBuf buf) {
-        buf.writeMap(inner, BlockItemType::write, BlockItemTypeExamples::writeArr);
+        //buf.writeMap(inner, BlockItemType::write, BlockItemTypeExamples::writeArr);
+        throw new NotImplementedException("BlockItemTypeExamples.write(FriendlyByteBuf buf) called, but it relies on FriendlyByteBuf having a writeMap function, which no longer exists on this version, and no replacement was yet implemented."); //TODO
     }
 
     private static void writeArr(FriendlyByteBuf buf, BlockItem[] arr) {

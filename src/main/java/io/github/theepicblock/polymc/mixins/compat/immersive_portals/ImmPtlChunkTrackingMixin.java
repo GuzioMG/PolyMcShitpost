@@ -1,5 +1,8 @@
 package io.github.theepicblock.polymc.mixins.compat.immersive_portals;
 
+//Immersive Portals have been dead for decades; all compat disabled
+
+/*
 import com.llamalad7.mixinextras.sugar.Local;
 import io.github.theepicblock.polymc.impl.misc.WatchListener;
 import it.unimi.dsi.fastutil.longs.Long2ObjectMap;
@@ -37,3 +40,4 @@ public class ImmPtlChunkTrackingMixin {
                 .polymc$removePlayer(player);
     }
 }
+*/

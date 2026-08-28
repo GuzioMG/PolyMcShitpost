@@ -51,7 +51,7 @@ public abstract class FixLighting extends GenerationChunkHolder {
                         return true;
                     }
 
-                    var isOnEdge = watcher.getChunkTrackingView().contains(pos) && !watcher.getChunkTrackingView().isInViewDistance(pos.x, pos.z);
+                    var isOnEdge = watcher.getChunkTrackingView().contains(pos) && !watcher.getChunkTrackingView().isInViewDistance(pos.getMinBlockX()/16, pos.getMinBlockZ()/16);
 
                     return isOnEdge;
                 })

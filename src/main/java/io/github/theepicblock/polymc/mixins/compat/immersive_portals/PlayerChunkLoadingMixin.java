@@ -1,5 +1,8 @@
 package io.github.theepicblock.polymc.mixins.compat.immersive_portals;
 
+//Immersive Portals have been dead for decades; all compat disabled
+
+/*
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import eu.pb4.polymer.common.api.PolymerCommonUtils;
@@ -19,4 +22,4 @@ public class PlayerChunkLoadingMixin {
         PolymerCommonUtils.executeWithNetworkingLogic(serverGamePacketListenerImpl, () -> original.call(serverGamePacketListenerImpl, serverLevel, levelChunk));
         ((WatchListener) levelChunk).polymc$addPlayer(serverGamePacketListenerImpl.player);
     }
-}
+}*/

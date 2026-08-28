@@ -5,6 +5,7 @@ import eu.pb4.polymer.common.impl.CompatStatus;
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.misc.SkipCheck;
 import io.github.theepicblock.polymc.impl.misc.TransformingPacketCodec;
+import net.minecraft.world.item.ItemStackTemplate;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.nucleoid.packettweaker.PacketContext;
@@ -26,7 +27,7 @@ public interface SlotDisplayMixin {
 
             return switch (display) {
                 case SlotDisplay.ItemSlotDisplay item when !map.canReceiveRegistryEntry(BuiltInRegistries.ITEM, item.item()) ->
-                        new SlotDisplay.ItemStackSlotDisplay(item.item().value().getDefaultInstance());
+                        new SlotDisplay.ItemStackSlotDisplay(ItemStackTemplate.fromStack(item.item().value().getDefaultInstance()));
                 case SlotDisplay.TagSlotDisplay tagSlot when !((SkipCheck) (Object) tagSlot).polymc$skipped() -> {
                     var tag = buf.registryAccess().lookupOrThrow(Registries.ITEM).get(tagSlot.tag());
                     if (tag.isEmpty()) {

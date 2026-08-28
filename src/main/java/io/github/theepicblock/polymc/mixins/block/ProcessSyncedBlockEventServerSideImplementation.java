@@ -21,7 +21,7 @@ import io.github.theepicblock.polymc.impl.ConfigManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.RandomSequences;
@@ -54,7 +54,7 @@ public class ProcessSyncedBlockEventServerSideImplementation {
     public void initInject(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey worldKey, LevelStem dimensionOptions, boolean debugWorld, long seed, List spawners, boolean shouldTickTime, RandomSequences randomSequenceState, CallbackInfo ci) {
         List<String> serverCalculatedBlockEventsAsString = ConfigManager.getConfig().misc.getProcessSyncedBlockEventServerSide();
         for (String s : serverCalculatedBlockEventsAsString) {
-            Block e = BuiltInRegistries.BLOCK.getValue(ResourceLocation.parse(s));
+            Block e = BuiltInRegistries.BLOCK.getValue(Identifier.parse(s));
             serverCalculatedBlockEvents.add(e);
         }
     }

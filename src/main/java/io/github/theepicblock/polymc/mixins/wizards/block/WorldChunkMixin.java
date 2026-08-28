@@ -177,7 +177,7 @@ public abstract class WorldChunkMixin extends ChunkAccess implements WatchListen
 
     @Unique
     private void processBlock(@NotNull PolyMap map, @NotNull BlockPoly poly, int index, int yOffset, @NotNull Map<@NotNull BlockPos,@NotNull Wizard> wizardMap) {
-        BlockPos pos = Util.fromPalettedContainerIndex(index).offset(this.chunkPos.x * 16, yOffset, this.chunkPos.z * 16);
+        BlockPos pos = Util.fromPalettedContainerIndex(index).offset(this.chunkPos.getMinBlockX(), yOffset, this.chunkPos.getMinBlockZ());
         try {
             var wiz = poly.createWizard(new PlacedWizardInfo(pos, (ServerLevel)this.level));
             if (wiz == null) {

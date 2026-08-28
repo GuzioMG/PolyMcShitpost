@@ -111,7 +111,7 @@ public class PacketCountManager {
         var chunkPos = new Vec3(pos.getMiddleBlockX(), 0, pos.getMiddleBlockZ());
 
         int pSeed = 0;
-        for (var player : PlayerLookup.world(world)) {
+        for (var player : PlayerLookup.level(world)) {
 
             if (player.getChunkTrackingView().contains(pos) &&
                     PolyMapProvider.getPolyMap(player) == map) {

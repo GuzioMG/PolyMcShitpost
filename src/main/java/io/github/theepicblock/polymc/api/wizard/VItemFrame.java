@@ -6,6 +6,7 @@ import io.github.theepicblock.polymc.mixins.wizards.ItemFrameEntityAccessor;
 import net.minecraft.core.Direction;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
@@ -14,7 +15,7 @@ public class VItemFrame extends AbstractVirtualEntity {
     public void spawn(PacketConsumer player, Vec3 pos, Direction facing) {
         player.sendPacket(new ClientboundAddEntityPacket(
                 id,
-                Mth.createInsecureUUID(),
+                Mth.createInsecureUUID(RandomSource.create()),
                 pos.x(),
                 pos.y(),
                 pos.z(),

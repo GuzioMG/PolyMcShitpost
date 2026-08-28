@@ -6,7 +6,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.util.Tuple;
 
@@ -23,8 +23,8 @@ public interface ModdedResources extends AutoCloseable, ResourceContainer {
      */
     @NotNull Set<String> getAllNamespaces();
 
-    @NotNull Set<Tuple<ResourceLocation, IoSupplier<InputStream>>> locateFiles(String prefix);
-    @NotNull Set<Tuple<ResourceLocation, IoSupplier<InputStream>>> locateLanguageFiles();
+    @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateFiles(String prefix);
+    @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateLanguageFiles();
 
     ClientJarResources getClientJar(SimpleLogger logger);
 

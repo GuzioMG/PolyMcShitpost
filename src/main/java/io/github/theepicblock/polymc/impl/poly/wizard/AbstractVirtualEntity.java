@@ -7,8 +7,10 @@ import java.util.UUID;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.network.protocol.game.ClientboundEntityPositionSyncPacket;
 import net.minecraft.util.Mth;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PositionMoveRotation;
+import net.minecraft.world.entity.PositionPath;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractVirtualEntity implements VirtualEntity {
@@ -16,7 +18,7 @@ public abstract class AbstractVirtualEntity implements VirtualEntity {
     protected final int id;
 
     public AbstractVirtualEntity() {
-        this.uuid = Mth.createInsecureUUID();
+        this.uuid = Mth.createInsecureUUID(RandomSource.create());
         this.id = EntityUtil.getNewEntityId();
     }
 
@@ -29,7 +31,7 @@ public abstract class AbstractVirtualEntity implements VirtualEntity {
     public void spawn(PacketConsumer player, Vec3 pos) {
         player.sendPacket(new ClientboundAddEntityPacket(
                 this.id,
-                Mth.createInsecureUUID(),
+                Mth.createInsecureUUID(RandomSource.create()),
                 pos.x(),
                 pos.y(),
                 pos.z(),
@@ -45,7 +47,7 @@ public abstract class AbstractVirtualEntity implements VirtualEntity {
     public void spawn(PacketConsumer player, Vec3 pos, float pitch, float yaw, int entityData, Vec3 velocity) {
         player.sendPacket(new ClientboundAddEntityPacket(
                 this.id,
-                Mth.createInsecureUUID(),
+                Mth.createInsecureUUID(RandomSource.create()),
                 pos.x(),
                 pos.y(),
                 pos.z(),
@@ -81,14 +83,11 @@ public abstract class AbstractVirtualEntity implements VirtualEntity {
     public void sendSyncPacket(PacketConsumer player, Entity realEntity) {
         player.sendPacket(new ClientboundEntityPositionSyncPacket(
             this.id,
-            new PositionMoveRotation(
-                realEntity.trackingPosition(),
-                realEntity.getDeltaMovement(),
-                realEntity.getYRot(),
-                realEntity.getXRot()
-            ),
-            realEntity.onGround())
-        );
+            PositionPath.of(realEntity.position()),
+            realEntity.getYRot(),
+            realEntity.getXRot(),
+            realEntity.onGround()
+        ));
     }
 
     public void sendVelocity(PacketConsumer player, Vec3 velocity) {

@@ -28,7 +28,7 @@ public class PolyMapFilteredPlayerView extends AbstractPacketConsumer {
     }
 
     public static List<ServerPlayer> getAll(ServerLevel world, BlockPos pos) {
-        return getAll(world, new ChunkPos(pos));
+        return getAll(world, new ChunkPos(pos.getX()>>4, pos.getZ()>>4));
     }
 
     public static List<ServerPlayer> getAll(ServerLevel world, ChunkPos pos) {

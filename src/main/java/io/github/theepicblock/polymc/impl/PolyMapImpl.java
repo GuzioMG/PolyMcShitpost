@@ -55,7 +55,7 @@ import net.minecraft.nbt.Tag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.ComponentSerialization;
 import net.minecraft.resources.RegistryOps;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.ServerAdvancementManager;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.util.GsonHelper;
@@ -92,7 +92,7 @@ public class PolyMapImpl implements PolyMap {
      */
     private static final String ORIGINAL_ITEM_NBT = "PolyMcOriginal";
     private static final boolean ALWAYS_ADD_CREATIVE_NBT = ConfigManager.getConfig().alwaysSendFullNbt;
-    private static final List<ResourceLocation> ADVANCEMENT_BACKGROUNDS = new ArrayList<>();
+    private static final List<Identifier> ADVANCEMENT_BACKGROUNDS = new ArrayList<>();
     /**
      * Encodes all data that's meant to be server controlled. In practice this is simply all the ItemStack data minus
      * the count

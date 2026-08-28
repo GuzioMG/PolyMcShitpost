@@ -12,7 +12,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Set;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.util.Tuple;
 
@@ -36,12 +36,12 @@ public class ModdedResourceContainerImpl implements ModdedResources {
     }
 
     @Override
-    public @NotNull Set<Tuple<ResourceLocation,IoSupplier<InputStream>>> locateLanguageFiles() {
+    public @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateLanguageFiles() {
         return inner.locateFiles("lang");
     }
 
     @Override
-    public @NotNull Set<Tuple<ResourceLocation, IoSupplier<InputStream>>> locateFiles(String prefix) {
+    public @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateFiles(String prefix) {
         return inner.locateFiles(prefix);
     }
 

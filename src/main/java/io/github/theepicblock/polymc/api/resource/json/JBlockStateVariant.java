@@ -6,7 +6,7 @@ import io.github.theepicblock.polymc.api.resource.PolyMcResourcePack;
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.misc.logging.SimpleLogger;
 import java.util.Objects;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 @SuppressWarnings("ClassCanBeRecord") // Records don't work with GSON
 public class JBlockStateVariant implements AssetWithDependencies {
@@ -24,7 +24,7 @@ public class JBlockStateVariant implements AssetWithDependencies {
 
     @Override
     public void importRequirements(ModdedResources from, PolyMcResourcePack to, SimpleLogger logger) {
-        ResourceLocation id = Util.parseId(this.model());
+        Identifier id = Util.parseId(this.model());
 
         if (id != null && !Util.isVanilla(id) && to.getModel(id.getNamespace(), id.getPath()) == null) {
             var model = from.getModel(id.getNamespace(), id.getPath());

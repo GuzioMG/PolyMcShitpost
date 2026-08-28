@@ -46,13 +46,13 @@ public interface PacketCodecsEntriesMixin {
                 return (T) registry.wrapAsHolder(map.tryRemapping(((Holder) val).value(), player));
             });
         } else if (iterable == Block.BLOCK_STATE_REGISTRY) {
-            return TransformingPacketCodec.encodeOnly(original, (byteBuf, val) -> {
+            /*return TransformingPacketCodec.encodeOnly(original, (byteBuf, val) -> {
                 var player = PacketContext.get();
                 var map = Util.tryGetPolyMap(player);
 
                 //noinspection unchecked
                 return  (T) map.getClientState((BlockState) val, player.getPlayer());
-            });
+            });*/ //TODO player.getPlayer() is from PacketTweaker...
         }
 
         return original;

@@ -23,7 +23,7 @@ import io.github.theepicblock.polymc.api.gui.GuiPoly;
 import io.github.theepicblock.polymc.api.misc.PolyMapProvider;
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.mixin.ScreenHandlerFactoryWrapperSoFabricApiDoesntDetectIt;
-import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
+//import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -58,5 +58,5 @@ public class GuiPolyImplementation {
             return new ScreenHandlerFactoryWrapperSoFabricApiDoesntDetectIt(factory);
         }
         return factory;
-    }*/
+    }*/ //TODO This was basically all outdeted; disabled for future update
 }

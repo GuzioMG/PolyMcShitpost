@@ -12,7 +12,7 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.TagKey;
 import net.minecraft.util.ColorRGBA;
@@ -120,25 +120,25 @@ public class Testmod implements ModInitializer {
         if (playerEntity != null) playerEntity.displayClientMessage(Component.literal(text), false);
     }
 
-    private static <T extends Entity> EntityType<T> registerEntity(ResourceLocation id, FabricEntityTypeBuilder<T> builder) {
+    private static <T extends Entity> EntityType<T> registerEntity(Identifier id, FabricEntityTypeBuilder<T> builder) {
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, id, builder.build(ResourceKey.create(Registries.ENTITY_TYPE, id)));
     }
 
 
-    private static <T extends Item> T registerItem(ResourceLocation id, Function<Item.Properties, T> block) {
+    private static <T extends Item> T registerItem(Identifier id, Function<Item.Properties, T> block) {
         var entry = block.apply(new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id)));
         Registry.register(BuiltInRegistries.ITEM, id, entry);
         return entry;
     }
 
-    private static <T extends Block> T registerBlock(ResourceLocation id, BlockBehaviour.Properties settings, Function<BlockBehaviour.Properties, T> block) {
+    private static <T extends Block> T registerBlock(Identifier id, BlockBehaviour.Properties settings, Function<BlockBehaviour.Properties, T> block) {
         var entry = block.apply(settings.setId(ResourceKey.create(Registries.BLOCK, id)));
         Registry.register(BuiltInRegistries.BLOCK, id, entry);
         Registry.register(BuiltInRegistries.ITEM, id, new BlockItem(entry, new Item.Properties().setId(ResourceKey.create(Registries.ITEM, id))));
         return entry;
     }
 
-    private static ResourceLocation id(String path) {
-        return ResourceLocation.fromNamespaceAndPath(MODID, path);
+    private static Identifier id(String path) {
+        return Identifier.fromNamespaceAndPath(MODID, path);
     }
 }

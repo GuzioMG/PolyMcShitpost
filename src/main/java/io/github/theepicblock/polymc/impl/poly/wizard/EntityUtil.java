@@ -2,7 +2,7 @@ package io.github.theepicblock.polymc.impl.poly.wizard;
 
 import io.github.theepicblock.polymc.PolyMc;
 import io.github.theepicblock.polymc.mixins.wizards.EntityAccessor;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.FriendlyByteBufs;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.protocol.game.ClientboundSetEntityMotionPacket;
@@ -60,7 +60,7 @@ public class EntityUtil {
             }
         }
 
-        FriendlyByteBuf byteBuf = PacketByteBufs.create();
+        FriendlyByteBuf byteBuf = FriendlyByteBufs.create();
         byteBuf.writeVarInt(id);
         byteBuf.writeShort(x);
         byteBuf.writeShort(y);

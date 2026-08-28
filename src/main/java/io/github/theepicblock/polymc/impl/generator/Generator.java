@@ -52,9 +52,9 @@ public class Generator {
     private static <T> void generateMissingPolys(PolyRegistry builder, Registry<T> registry, BiConsumer<T, PolyRegistry> generator, BooleanFunction<T> contains) {
         registry.entrySet()
                 .stream()
-                .filter(entry -> !Util.isVanilla(entry.getKey().location()))
+                .filter(entry -> !Util.isVanilla(entry.getKey().identifier()))
                 .filter(entry -> !contains.accept(entry.getValue()))
-                .sorted(Comparator.comparing(a -> a.getKey().location()))  // Compares the identifier
+                .sorted(Comparator.comparing(a -> a.getKey().identifier()))  // Compares the identifier
                 .forEach(entry -> generator.accept(entry.getValue(), builder));
     }
 

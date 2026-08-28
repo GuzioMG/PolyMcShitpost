@@ -1,6 +1,6 @@
 package io.github.theepicblock.polymc.impl.resource;
 
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
 public class ResourceConstants {
     public static final String ASSETS = "assets/";
@@ -29,7 +29,7 @@ public class ResourceConstants {
         return BLOCKSTATES + in + ".json"; //FIXME
     }
 
-    public static String itemLocation(ResourceLocation item) {
+    public static String itemLocation(Identifier item) {
         return item.getNamespace() + ":" + "item/" + item.getPath();
     }
 }

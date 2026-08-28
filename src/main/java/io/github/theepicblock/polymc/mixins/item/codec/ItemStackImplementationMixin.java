@@ -21,18 +21,19 @@ public class ItemStackImplementationMixin {
             if (PolymerCommonUtils.isServerNetworkingThread()) {
                 var ctx = PacketContext.get();
                 var map = Util.tryGetPolyMap(ctx);
-                return map.reverseClientItem(content, ctx.getPlayer());
+                //return map.reverseClientItem(content, ctx.getPlayer());
+                //TODO I dread packet-tweaker migration
             }
             return content;
         }, content -> { // Encode
-            if (PolymerCommonUtils.isServerNetworkingThreadWithContext()) {
+            /*if (PolymerCommonUtils.isServerNetworkingThreadWithContext()) {
                 var ctx = PacketContext.get();
                 if (ctx.getPacketListener() == null) {
                     return content;
                 }
                 var map = Util.tryGetPolyMap(ctx);
                 return map.getClientItem(content, ctx.getPlayer(), ItemLocationStaticHack.location.get());
-            }
+            }*/ //TODO isServerNetworkingThreadWithContext no longer exists in PolymerCommonUtils, presumably because it's related to packet-tweaker which itself no longer exists. Whole branch disabled for now.
             return content;
         });
     }

@@ -7,7 +7,7 @@ import io.github.theepicblock.polymc.impl.mixin.WizardTickerDuck;
 import it.unimi.dsi.fastutil.objects.ObjectArraySet;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLevelEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.thread.ReentrantBlockableEventLoop;
@@ -29,7 +29,7 @@ public class ThreadedWizardUpdater extends ReentrantBlockableEventLoop<Runnable>
     private volatile long tickStart = System.nanoTime(); // The time in milliseconds of when this tick started, used to calculate tick delta
 
     public ThreadedWizardUpdater(MinecraftServer server) {
-        super("PolyMc wizard updater");
+        super("PolyMc wizard updater", true); //TODO see if we actually should propagate crashes
         this.server = server;
     }
 
@@ -45,12 +45,12 @@ public class ThreadedWizardUpdater extends ReentrantBlockableEventLoop<Runnable>
             MAIN.stop();
         });
 
-        ServerWorldEvents.LOAD.register((server, world) -> {
+        ServerLevelEvents.LOAD.register((server, world) -> {
             if (MAIN == null) return;
             MAIN.execute(() -> MAIN.worlds.add(world));
         });
 
-        ServerWorldEvents.UNLOAD.register((server, world) -> {
+        ServerLevelEvents.UNLOAD.register((server, world) -> {
             if (MAIN == null) return;
             MAIN.execute(() -> MAIN.worlds.remove(world));
         });

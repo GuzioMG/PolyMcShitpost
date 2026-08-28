@@ -26,8 +26,8 @@ public abstract class ForceNetworkSerializationForRegistrySyncMixin extends Serv
 
     @WrapOperation(method = "handleSelectKnownPacks", at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/config/SynchronizeRegistriesTask;handleResponse(Ljava/util/List;Ljava/util/function/Consumer;)V"))
     private void wrapWithContext(SynchronizeRegistriesTask instance, List<KnownPack> clientKnownPacks, Consumer<Packet<?>> sender, Operation<Void> original) {
-        PolymerCommonUtils.executeWithNetworkingLogic(this, () -> {
+        /*PolymerCommonUtils.executeWithNetworkingLogic(this, () -> {
             original.call(instance, clientKnownPacks, sender);
-        });
+        });*/ //TODO executeWithNetworkingLogic doesnt seem to exist anymore
     }
 }

@@ -15,13 +15,13 @@ import net.minecraft.tags.TagNetworkSerialization;
 
 @Mixin(ClientboundUpdateTagsPacket.class)
 public class SynchronizeTagsMixin {
-    @ModifyArg(method = "write", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/FriendlyByteBuf;writeMap(Ljava/util/Map;Lnet/minecraft/network/codec/StreamEncoder;Lnet/minecraft/network/codec/StreamEncoder;)V"))
+    /*@ModifyArg(method = "write", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/FriendlyByteBuf;writeMap(Ljava/util/Map;Lnet/minecraft/network/codec/StreamEncoder;Lnet/minecraft/network/codec/StreamEncoder;)V"))
     public Map<ResourceKey<? extends Registry<?>>, TagNetworkSerialization.NetworkPayload> editTagMap(Map<ResourceKey<? extends Registry<?>>, TagNetworkSerialization.NetworkPayload> in) {
         if (Util.isPolyMapVanillaLike(PacketContext.get().getClientConnection())) {
             // Vanilla doesn't like it if it receives tags for registries that don't exist
             var newMap = new HashMap<ResourceKey<? extends Registry<?>>, TagNetworkSerialization.NetworkPayload>();
             in.forEach((key, tags) -> {
-                if (Util.isVanilla(key.location())) {
+                if (Util.isVanilla(key.identifier())) {
                     newMap.put(key, tags);
                 }
             });
@@ -29,5 +29,5 @@ public class SynchronizeTagsMixin {
         } else {
             return in;
         }
-    }
+    }*/ //TODO Method write doesn't seem to exist anymore?
 }

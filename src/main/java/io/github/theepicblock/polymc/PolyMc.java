@@ -40,7 +40,7 @@ import net.fabricmc.fabric.api.networking.v1.ServerConfigurationConnectionEvents
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import org.apache.logging.log4j.LogManager;
 import org.jetbrains.annotations.ApiStatus;
@@ -118,7 +118,7 @@ public class PolyMc implements ModInitializer {
     @Override
     public void onInitialize() {
         PolyMcCommands.registerCommands();
-        var polyMcEarly = ResourceLocation.fromNamespaceAndPath("polymc", "early");
+        var polyMcEarly = Identifier.fromNamespaceAndPath("polymc", "early");
         ServerLifecycleEvents.SERVER_STARTING.register(x -> {
             FALLBACK_REGISTRY_MANAGER = x.registryAccess();
         });

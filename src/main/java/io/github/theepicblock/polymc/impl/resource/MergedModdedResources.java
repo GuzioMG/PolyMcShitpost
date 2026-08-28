@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.util.Tuple;
 
@@ -42,14 +42,14 @@ public class MergedModdedResources implements ModdedResources {
     }
 
     @Override
-    public @NotNull Set<Tuple<ResourceLocation,IoSupplier<InputStream>>> locateLanguageFiles() {
+    public @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateLanguageFiles() {
         var set = new HashSet<>(base.locateLanguageFiles());
         set.addAll(client.locateLanguageFiles());
         return set;
     }
 
     @Override
-    public @NotNull Set<Tuple<ResourceLocation, IoSupplier<InputStream>>> locateFiles(String prefix) {
+    public @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateFiles(String prefix) {
         return this.base.locateFiles(prefix);
     }
 

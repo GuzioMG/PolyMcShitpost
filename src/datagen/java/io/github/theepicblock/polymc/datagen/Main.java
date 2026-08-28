@@ -4,7 +4,7 @@ import io.netty.buffer.Unpooled;
 import net.fabricmc.api.ModInitializer;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.FriendlyByteBuf;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.properties.Property;
 import org.apache.logging.log4j.LogManager;
@@ -63,7 +63,7 @@ public class Main implements ModInitializer {
     }
 
     private static void writeBlock(Block block, PropertyLookupTable table, FriendlyByteBuf buf) {
-        ResourceLocation id = BuiltInRegistries.BLOCK.getKey(block);
+        Identifier id = BuiltInRegistries.BLOCK.getKey(block);
         if (!id.getNamespace().equals("minecraft")) {
             // This is supposed to be a list with vanilla ids, no modded allowed
             throw new AssertionError("Non-mc block detected: "+id);
@@ -74,9 +74,9 @@ public class Main implements ModInitializer {
 
         // Write property types
         var properties = block.getStateDefinition().getProperties();
-        buf.writeCollection(properties, (byteBuf, property) -> {
+        /*buf.writeCollection(properties, (byteBuf, property) -> {
             byteBuf.writeVarInt(table.getPropertyId(property));
-        });
+        });*/ //TODO
 
 
         var states = block.getStateDefinition().getPossibleStates();

@@ -4,7 +4,7 @@ import io.github.theepicblock.polymc.api.resource.ClientJarResources;
 import io.github.theepicblock.polymc.impl.misc.logging.SimpleLogger;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.IoSupplier;
 import net.minecraft.util.Tuple;
@@ -62,7 +62,7 @@ public class ClientJarResourcesImpl implements ClientJarResources {
     }
 
     @Override
-    public Set<Tuple<ResourceLocation,IoSupplier<InputStream>>> locateLanguageFiles() {
+    public Set<Tuple<Identifier,IoSupplier<InputStream>>> locateLanguageFiles() {
         throw new NotImplementedException();
     }
 

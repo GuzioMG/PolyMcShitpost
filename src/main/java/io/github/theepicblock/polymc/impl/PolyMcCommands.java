@@ -40,7 +40,9 @@ import net.minecraft.nbt.NbtOps;
 import net.minecraft.nbt.NbtUtils;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.HoverEvent;
+import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.server.permissions.PermissionLevel;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import java.io.IOException;
@@ -55,7 +57,7 @@ public class PolyMcCommands {
 
     public static void registerCommands() {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-            dispatcher.register(literal("polymc").requires(source -> source.hasPermission(2))
+            dispatcher.register(literal("polymc").requires(source -> source.checkPermission(Identifier.fromNamespaceAndPath("polymc", "command"), PermissionLevel.byId(2)))
                     .then(literal("debug")
                             .then(literal("clientItem")
                                     .executes((context) -> {

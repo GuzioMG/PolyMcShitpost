@@ -16,14 +16,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class WatchProviderMixin {
     @Inject(method = "sendChunk",
             at = @At("HEAD"))
-    private static void onSendChunkData(ServerGamePacketListenerImpl handler, ServerLevel world, LevelChunk chunk, CallbackInfo ci) {
-        ((WatchListener)chunk).polymc$addPlayer(handler.player);
+    private static void onSendChunkData(ServerGamePacketListenerImpl connection, ServerLevel level, LevelChunk chunk, CallbackInfo ci) {
+        ((WatchListener)chunk).polymc$addPlayer(connection.player);
     }
 
     @Inject(method = "dropChunk",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/server/network/ServerGamePacketListenerImpl;send(Lnet/minecraft/network/protocol/Packet;)V"))
     private void onSendUnloadPacket(ServerPlayer player, ChunkPos pos, CallbackInfo ci) {
-        var chunk = player.level().getChunkSource().getChunkForLighting(pos.x, pos.z);
+        var chunk = player.level().getChunkSource().getChunkForLighting(pos.getMinBlockX()/16, pos.getMinBlockZ()/16);
         if (!(chunk instanceof WatchListener)) return;
 
         ((WatchListener)chunk).polymc$removePlayer(player);
