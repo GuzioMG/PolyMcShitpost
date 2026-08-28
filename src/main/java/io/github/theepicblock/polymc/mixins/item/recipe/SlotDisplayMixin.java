@@ -37,7 +37,7 @@ public interface SlotDisplayMixin {
                     var array = new ArrayList<SlotDisplay>();
                     for (var entry : tag.get()) {
                         if (!map.canReceiveRegistryEntry(BuiltInRegistries.ITEM, entry)) {
-                            array.add(new SlotDisplay.ItemStackSlotDisplay(entry.value().getDefaultInstance()));
+                            array.add(new SlotDisplay.ItemStackSlotDisplay(ItemStackTemplate.fromStack(entry.value().getDefaultInstance())));
                         }
                     }
                     if (!array.isEmpty()) {

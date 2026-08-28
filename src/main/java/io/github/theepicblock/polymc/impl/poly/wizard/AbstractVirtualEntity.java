@@ -10,7 +10,6 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PositionMoveRotation;
-import net.minecraft.world.entity.PositionPath;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractVirtualEntity implements VirtualEntity {
@@ -81,13 +80,7 @@ public abstract class AbstractVirtualEntity implements VirtualEntity {
     }
 
     public void sendSyncPacket(PacketConsumer player, Entity realEntity) {
-        player.sendPacket(new ClientboundEntityPositionSyncPacket(
-            this.id,
-            PositionPath.of(realEntity.position()),
-            realEntity.getYRot(),
-            realEntity.getXRot(),
-            realEntity.onGround()
-        ));
+        player.sendPacket(new ClientboundEntityPositionSyncPacket(this.id, PositionMoveRotation.of(realEntity), realEntity.onGround()));
     }
 
     public void sendVelocity(PacketConsumer player, Vec3 velocity) {
