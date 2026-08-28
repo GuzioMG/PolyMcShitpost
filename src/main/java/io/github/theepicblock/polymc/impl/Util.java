@@ -50,6 +50,7 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.properties.Property;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import xyz.nucleoid.packettweaker.PacketContext;
@@ -64,6 +65,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public class Util {
     public static final Gson GSON = new Gson();
@@ -88,7 +90,7 @@ public class Util {
     }
 
     public static boolean isVanillaAndRegistered(Holder<?> v) {
-        return v.unwrapKey().isPresent() && Util.isVanilla(v.unwrapKey().get().location());
+        return v.unwrapKey().isPresent() && Util.isVanilla(v.unwrapKey().get().identifier());
     }
 
     /**
@@ -144,15 +146,15 @@ public class Util {
         return getPropertiesFromEntries(state.getValues());
     }
 
-    public static String getPropertiesFromEntries(Map<Property<?>,Comparable<?>> entries) {
+    public static String getPropertiesFromEntries(Stream<Property.Value<?>> entries) {
         StringBuilder v = new StringBuilder();
-        var list = new ArrayList<>(entries.entrySet());
-        list.sort(Map.Entry.comparingByKey(Comparator.comparing(Property::getName)));
+        var list = new ArrayList<>(entries.toList());
+        list.sort(Comparator.comparing(Property.Value::valueName));
 
         list.forEach((entry) -> {
-            v.append(entry.getKey().getName());
+            v.append(entry.valueName());
             v.append("=");
-            v.append(nameValue(entry.getKey(), entry.getValue()));
+            v.append(nameValue(entry.property(), entry.value()));
             v.append(",");
         });
 
@@ -354,14 +356,15 @@ public class Util {
                 } catch (Throwable ignored) { }
             }
         }
-        var ctx = player == null ? PacketContext.get() : PacketContext.of(player);
+        //var ctx = player == null ? PacketContext.get() : PacketContext.of(player);
 
         for (DataComponentType<?> type : COMPONENTS_TO_COPY) {
             var x = original.get(type);
 
             if (x instanceof TransformingComponent t) {
                 //noinspection unchecked,rawtypes
-                out.set((DataComponentType)type, t.polymc$getTransformed(ctx));
+                //out.set((DataComponentType)type, t.polymc$getTransformed(ctx));
+                //TODO grrrr packet-tweakerrrrr
             } else {
                 //noinspection unchecked,rawtypes
                 out.set((DataComponentType)type, (Object)original.get(type));
@@ -390,10 +393,10 @@ public class Util {
      */
     @NotNull
     public static HolderLookup.Provider getRegistryManager() {
-        var ctx = PacketContext.get();
+        /*var ctx = PacketContext.get();
         if (ctx.getRegistryWrapperLookup() != null) {
             return ctx.getRegistryWrapperLookup();
-        }
+        }*/ //TODO I hate PacketTweaker...
 
         if (PolyMc.FALLBACK_REGISTRY_MANAGER != null) {
             return PolyMc.FALLBACK_REGISTRY_MANAGER;
@@ -404,6 +407,7 @@ public class Util {
     }
 
     private static final DataComponentType<?>[] COMPONENTS_TO_COPY = {
+            //TODO Add all new components
             DataComponents.ITEM_MODEL,
             DataComponents.ITEM_NAME,
             DataComponents.CAN_BREAK,
@@ -414,7 +418,7 @@ public class Util {
             DataComponents.LORE,
             DataComponents.MAX_STACK_SIZE,
             DataComponents.MAP_ID,
-            DataComponents.MAP_COLOR,
+            //DataComponents.MAP_COLOR,
             DataComponents.MAP_DECORATIONS,
             DataComponents.MAP_POST_PROCESSING,
             DataComponents.FOOD,
@@ -453,7 +457,9 @@ public class Util {
     };
 
     public static CompoundTag transformBlockEntityNbt(PacketContext context, BlockEntityType<?> type, CompoundTag original) {
-        if (original.isEmpty()) {
+        throw new NotImplementedException("transformBlockEntityNbt relies heavily on PacketTweaker, so it doesn't work yet"); //TODO you know the drill...
+
+        /*if (original.isEmpty()) {
             return original;
         }
         CompoundTag override = null;
@@ -532,11 +538,11 @@ public class Util {
             }
         }
 
-        return override != null ? override : original;
+        return override != null ? override : original;*/
     }
 
     @Nullable
     public static PacketContext getContext(ServerPlayer player) {
-        return player == null ? PacketContext.get() : PacketContext.of(player);
+        return player == null ? PacketContext.get() : PacketContext.get() /*PacketContext.of(player)*/; //TODO All roads lead to pc.get() (because I can't call pc.of() with a "real" player because pt is dead)
     }
 }

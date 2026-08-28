@@ -125,16 +125,7 @@ public class PolyMapImpl implements PolyMap {
         this.hasBlockWizards = blockPolys.values().stream().anyMatch(BlockPoly::hasWizard);
     }
 
-    public static void updateAdvancementBackgrounds(ServerAdvancementManager advancementLoader) {
-        ADVANCEMENT_BACKGROUNDS.clear();
-        for (var advancement : advancementLoader.getAllAdvancements()) {
-            var optional = advancement.value().display().map(DisplayInfo::getBackground).flatMap(x -> x);
-            if (optional.isPresent()) {
-                var texture = optional.get();
-                ADVANCEMENT_BACKGROUNDS.add(texture.texturePath());
-            }
-        }
-    }
+    //TODO I removed the updateAdvancementBackgrounds function that was here, because it had quite a couple of errors, and was unused, and also I was almost certainly not gonna use it, too. Instead, I shall leave a completely unrelated note, and say that some parts of the packet-tweaker migration may not be as painful as I thought because there is the handy PolymerCommonUtils.getPlayer
 
     /**
      * Get the NBTCompound of a component
@@ -187,11 +178,11 @@ public class PolyMapImpl implements PolyMap {
 
             // Preserves the nbt of the original item, so it can be reverted
             var finalRet = ret;
-            PolymerCommonUtils.executeWithoutNetworkingLogic(() -> {
+            //PolymerCommonUtils.executeWithoutNetworkingLogic(() -> {
                 nbtComponentWith(CustomData.EMPTY, registryOps, ORIGINAL_ITEM_CODEC, Optional.of(serverItem)).result().ifPresent((nbt) -> {
                     finalRet.set(DataComponents.CUSTOM_DATA, nbt);
                 });
-            });
+            //}); //TODO Find a way to executeWithoutNetworkingLogic (or maybe it's not even needed, but I find that unlikely - this will probably crash or something)
         }
 
         return ret;
@@ -285,14 +276,14 @@ public class PolyMapImpl implements PolyMap {
 
         for (var prefix : new String[]{"items/", "equipment/", "textures/"}) {
             for (var itemFile : moddedResources.locateFiles(prefix)) {
-                pack.setAsset(itemFile.getA().getNamespace(), itemFile.getA().getPath(), new SimpleAsset(itemFile.getB()));
+                pack.setAsset(itemFile.getFirst().getNamespace(), itemFile.getFirst().getPath(), new SimpleAsset(itemFile.getSecond()));
             }
         }
 
         for (var itemFile : moddedResources.locateFiles("models/")) {
-            if (itemFile.getA().getPath().endsWith(".json")) {
+            if (itemFile.getFirst().getPath().endsWith(".json")) {
                 try {
-                    pack.setAsset(itemFile.getA().getNamespace(), itemFile.getA().getPath(), JModelImpl.of(itemFile.getB().get(), itemFile.getA().toString()));
+                    pack.setAsset(itemFile.getFirst().getNamespace(), itemFile.getFirst().getPath(), JModelImpl.of(itemFile.getSecond().get(), itemFile.getFirst().toString()));
                 } catch (IOException e) {
                     logger.error(e);
                 }
@@ -333,16 +324,16 @@ public class PolyMapImpl implements PolyMap {
         var languageKeys = new TreeMap<String, Map<String, String>>(); // The first hashmap is per-language. Then it's translationkey->translation
         for (var lang : moddedResources.locateLanguageFiles()) {
             // Ignore fapi
-            if (lang.getA().getNamespace().equals("fabric")) continue;
-            try (var streamReader = new InputStreamReader(lang.getB().get(), StandardCharsets.UTF_8)){
+            if (lang.getFirst().getNamespace().equals("fabric")) continue;
+            try (var streamReader = new InputStreamReader(lang.getSecond().get(), StandardCharsets.UTF_8)){
                 // Copy all the language keys into the main map
                 var languageObject = pack.getGson().fromJson(streamReader, JsonObject.class);
-                var mainLangMap = languageKeys.computeIfAbsent(lang.getA().getPath(), (key) -> new TreeMap<>());
+                var mainLangMap = languageKeys.computeIfAbsent(lang.getFirst().getPath(), (key) -> new TreeMap<>());
                 languageObject.entrySet().forEach(entry -> addTranslation(mainLangMap, entry.getKey(), entry.getValue()));
             } catch (JsonSyntaxException e) {
-                logger.warn(lang.getA() + " is not a valid json file! " + e.getMessage());
+                logger.warn(lang.getFirst() + " is not a valid json file! " + e.getMessage());
             } catch (Throwable e) {
-                logger.error("Couldn't parse lang file " + lang.getA());
+                logger.error("Couldn't parse lang file " + lang.getFirst());
                 e.printStackTrace();
             }
         }

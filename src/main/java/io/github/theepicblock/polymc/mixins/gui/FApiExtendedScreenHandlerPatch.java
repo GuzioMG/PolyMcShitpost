@@ -17,7 +17,7 @@
  */
 package io.github.theepicblock.polymc.mixins.gui;
 
-import io.github.theepicblock.polymc.impl.Util;
+/*import io.github.theepicblock.polymc.impl.Util;
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.fabricmc.fabric.impl.screenhandler.Networking;
 import net.minecraft.network.protocol.game.ClientboundOpenScreenPacket;
@@ -32,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class FApiExtendedScreenHandlerPatch {
     /**
      * @reason The vanilla client can't understand the custom packet
-     */
+     * /
     @Inject(method = "sendOpenPacket", at = @At("HEAD"), cancellable = true, remap = false)
     private static void sendOpenPacket(ServerPlayer player, ExtendedScreenHandlerFactory factory, AbstractContainerMenu handler, int syncId, CallbackInfo ci) {
         if (Util.isPolyMapVanillaLike(player)) {
@@ -40,4 +40,4 @@ public class FApiExtendedScreenHandlerPatch {
             ci.cancel();
         }
     }
-}
+}*/ //TODO Port from screenhandler to whetever-Fabric-uses-now

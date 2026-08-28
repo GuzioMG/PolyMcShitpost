@@ -23,7 +23,6 @@ import io.github.theepicblock.polymc.api.PolyMcEntrypoint;
 import io.github.theepicblock.polymc.api.PolyRegistry;
 import io.github.theepicblock.polymc.api.misc.PolyMapProvider;
 import io.github.theepicblock.polymc.impl.ConfigManager;
-import io.github.theepicblock.polymc.impl.PolyMapImpl;
 import io.github.theepicblock.polymc.impl.PolyMcCommands;
 import io.github.theepicblock.polymc.impl.generator.Generator;
 import io.github.theepicblock.polymc.impl.misc.BlockIdRemapper;

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Set;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.IoSupplier;
-import net.minecraft.util.Tuple;
+import com.mojang.datafixers.util.Pair;
 
 public interface ModdedResources extends AutoCloseable, ResourceContainer {
 
@@ -23,8 +23,8 @@ public interface ModdedResources extends AutoCloseable, ResourceContainer {
      */
     @NotNull Set<String> getAllNamespaces();
 
-    @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateFiles(String prefix);
-    @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateLanguageFiles();
+    @NotNull Set<Pair<Identifier, IoSupplier<InputStream>>> locateFiles(String prefix);
+    @NotNull Set<Pair<Identifier, IoSupplier<InputStream>>> locateLanguageFiles();
 
     ClientJarResources getClientJar(SimpleLogger logger);
 

@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Set;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.IoSupplier;
-import net.minecraft.util.Tuple;
+import com.mojang.datafixers.util.Pair;
 
 public class ModdedResourceContainerImpl implements ModdedResources {
     private final AssetContainer inner = ResourceLocatorApi.createGlobalAssetContainer();
@@ -36,12 +36,12 @@ public class ModdedResourceContainerImpl implements ModdedResources {
     }
 
     @Override
-    public @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateLanguageFiles() {
+    public @NotNull Set<Pair<Identifier, IoSupplier<InputStream>>> locateLanguageFiles() {
         return inner.locateFiles("lang");
     }
 
     @Override
-    public @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateFiles(String prefix) {
+    public @NotNull Set<Pair<Identifier, IoSupplier<InputStream>>> locateFiles(String prefix) {
         return inner.locateFiles(prefix);
     }
 

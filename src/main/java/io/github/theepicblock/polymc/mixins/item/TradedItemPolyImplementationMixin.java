@@ -15,7 +15,7 @@ import xyz.nucleoid.packettweaker.PacketContext;
 
 @Mixin(ItemCost.class)
 public class TradedItemPolyImplementationMixin {
-    @ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/codec/StreamCodec;composite(Lnet/minecraft/network/codec/StreamCodec;Ljava/util/function/Function;Lnet/minecraft/network/codec/StreamCodec;Ljava/util/function/Function;Lnet/minecraft/network/codec/StreamCodec;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function3;)Lnet/minecraft/network/codec/StreamCodec;"))
+    /*@ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/codec/StreamCodec;composite(Lnet/minecraft/network/codec/StreamCodec;Ljava/util/function/Function;Lnet/minecraft/network/codec/StreamCodec;Ljava/util/function/Function;Lnet/minecraft/network/codec/StreamCodec;Ljava/util/function/Function;Lcom/mojang/datafixers/util/Function3;)Lnet/minecraft/network/codec/StreamCodec;"))
     private static StreamCodec<RegistryFriendlyByteBuf, ItemCost> writeTradedItemHook(StreamCodec<RegistryFriendlyByteBuf, ItemCost> original) {
         return TransformingPacketCodec.encodeOnly(original, (buf, tradedItem) -> {
             var ctx = PacketContext.get();
@@ -24,5 +24,5 @@ public class TradedItemPolyImplementationMixin {
             var stack = map.getClientItem(ogStack, ctx.getPlayer(), ItemLocationStaticHack.location.get());
             return stack != ogStack ? new ItemCost(stack.getItem().builtInRegistryHolder(), stack.getCount(), DataComponentExactPredicate.allOf(new ComponentChangesMap(stack.getComponentsPatch()))) : tradedItem;
         });
-    }
+    }*/ //TODO packet-tweaker will NOT leave me alone...
 }

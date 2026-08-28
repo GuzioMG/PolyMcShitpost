@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.IoSupplier;
-import net.minecraft.util.Tuple;
+import com.mojang.datafixers.util.Pair;
 
 public class MergedModdedResources implements ModdedResources {
     private final ModdedResources base;
@@ -42,14 +42,14 @@ public class MergedModdedResources implements ModdedResources {
     }
 
     @Override
-    public @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateLanguageFiles() {
+    public @NotNull Set<Pair<Identifier, IoSupplier<InputStream>>> locateLanguageFiles() {
         var set = new HashSet<>(base.locateLanguageFiles());
         set.addAll(client.locateLanguageFiles());
         return set;
     }
 
     @Override
-    public @NotNull Set<Tuple<Identifier, IoSupplier<InputStream>>> locateFiles(String prefix) {
+    public @NotNull Set<Pair<Identifier, IoSupplier<InputStream>>> locateFiles(String prefix) {
         return this.base.locateFiles(prefix);
     }
 

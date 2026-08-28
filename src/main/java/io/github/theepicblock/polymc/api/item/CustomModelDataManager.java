@@ -20,7 +20,7 @@ package io.github.theepicblock.polymc.api.item;
 import io.github.theepicblock.polymc.api.SharedValuesKey;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import it.unimi.dsi.fastutil.objects.Object2IntOpenHashMap;
-import net.minecraft.util.Tuple;
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import org.jetbrains.annotations.ApiStatus;
@@ -147,14 +147,14 @@ public class CustomModelDataManager {
      * @param amount the amount of cmd values you need.
      * @return The item you may use and the CMD value. The CMD value returned is the first you may use, the rest can be derived. Example: you passed in 5 as amount. You got 9 back as value. You can now use 9,10,11,12 and 13.
      */
-    public Tuple<Item,Integer> requestCMD(Item[] items, int amount) {
+    public Pair<Item,Integer> requestCMD(Item[] items, int amount) {
         int startingRR = roundRobin;
         do {
             roundRobin++;
 
             try {
                 Item item = getRoundRobin(items);
-                return new Tuple<>(item, requestCMD(item, amount));
+                return new Pair<>(item, requestCMD(item, amount));
             } catch (OutOfCustomModelDataValuesException ignored) {}
         } while (roundRobin % items.length != startingRR % items.length);
 
@@ -167,7 +167,7 @@ public class CustomModelDataManager {
      * @param amount the amount of cmd values you need.
      * @return The item you may use and the CMD value. The CMD value returned is the first you may use, the rest can be derived. Example: you passed in 5 as amount. You got 9 back as value. You can now use 9,10,11,12 and 13.
      */
-    public Tuple<Item,Integer> requestCMD(int amount) {
+    public Pair<Item,Integer> requestCMD(int amount) {
         return requestCMD(DEFAULT_ITEMS, amount);
     }
 
@@ -176,7 +176,7 @@ public class CustomModelDataManager {
      * @param items the list of items to choose from.
      * @return The item you may use and the CMD value.
      */
-    public Tuple<Item,Integer> requestCMD(Item[] items) {
+    public Pair<Item,Integer> requestCMD(Item[] items) {
         return requestCMD(items, 1);
     }
 
@@ -185,7 +185,7 @@ public class CustomModelDataManager {
      * This will use the {@link #DEFAULT_ITEMS} array
      * @return The item you may use and the CMD value.
      */
-    public Tuple<Item,Integer> requestCMD() {
+    public Pair<Item,Integer> requestCMD() {
         return requestCMD(DEFAULT_ITEMS, 1);
     }
 

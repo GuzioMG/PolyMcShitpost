@@ -30,11 +30,11 @@ import xyz.nucleoid.packettweaker.PacketContext;
  */
 @Mixin(targets = "net/minecraft/world/item/ItemStack$1")
 public class ItemPolyImplementation {
-    @ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryFriendlyByteBuf;Lnet/minecraft/world/item/ItemStack;)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+    /*@ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryFriendlyByteBuf;Lnet/minecraft/world/item/ItemStack;)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
     private ItemStack writeItemStackHook(ItemStack itemStack) {
         var ctx = PacketContext.get();
         var map = Util.tryGetPolyMap(ctx.getClientConnection());
         return map.getClientItem(itemStack, ctx.getPlayer(), ItemLocationStaticHack.location.get());
 
-    }
+    }*/ //TODO Another packet-tweaker.....
 }

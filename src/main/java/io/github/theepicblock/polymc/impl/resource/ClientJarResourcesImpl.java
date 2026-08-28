@@ -7,7 +7,7 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.packs.resources.IoSupplier;
-import net.minecraft.util.Tuple;
+import com.mojang.datafixers.util.Pair;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.Nullable;
@@ -62,7 +62,7 @@ public class ClientJarResourcesImpl implements ClientJarResources {
     }
 
     @Override
-    public Set<Tuple<Identifier,IoSupplier<InputStream>>> locateLanguageFiles() {
+    public Set<Pair<Identifier,IoSupplier<InputStream>>> locateLanguageFiles() {
         throw new NotImplementedException();
     }
 
