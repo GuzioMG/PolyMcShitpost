@@ -30,7 +30,8 @@ public class ChunkDeltaUpdateImplementation {
     @ModifyArg(method = "write", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;getId(Lnet/minecraft/world/level/block/state/BlockState;)I"))
     public BlockState getRawIdFromStateRedirect(BlockState state) {
         var ctx = PacketContext.get();
-        var polymap = Util.tryGetPolyMap(ctx.getClientConnection());
-        return polymap.getClientState(state, ctx.getPlayer());
+        var polymap = Util.tryGetPolyMap(ctx);
+        //return polymap.getClientState(state, ctx.getPlayer());
+        return state; //TODO not rely on ctx.getPlayer()
     }
 }

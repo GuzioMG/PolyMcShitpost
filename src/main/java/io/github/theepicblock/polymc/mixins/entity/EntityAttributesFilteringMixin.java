@@ -20,8 +20,8 @@ public abstract class EntityAttributesFilteringMixin {
     @ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/codec/StreamCodec;composite(Lnet/minecraft/network/codec/StreamCodec;Ljava/util/function/Function;Lnet/minecraft/network/codec/StreamCodec;Ljava/util/function/Function;Ljava/util/function/BiFunction;)Lnet/minecraft/network/codec/StreamCodec;"))
     private static StreamCodec<RegistryFriendlyByteBuf, ClientboundUpdateAttributesPacket> removeUnsupportedAttributes(StreamCodec<RegistryFriendlyByteBuf, ClientboundUpdateAttributesPacket> original) {
         return TransformingPacketCodec.encodeOnly(original, (buf, packet) -> {
-            //TODO https://github.com/NucleoidMC/packet-tweaker#packet-tweaker -> "For 26.1+, you should use PacketContext api provided within Fabric API instead!" -> https://maven.fabricmc.net/docs/fabric-api-0.143.11+26.1/net/fabricmc/fabric/api/networking/v1/context/PacketContext.html   (but right now, apparently, this of() is enough to get the mod to compile UPDATE: No, it's not. bruh)
-            //var map = Util.tryGetPolyMap(PacketContext.of(PacketContext.get().getClientConnection()));
+            //TODO https://github.com/NucleoidMC/packet-tweaker#packet-tweaker -> "For 26.1+, you should use PacketContext api provided within Fabric API instead!" -> https://maven.fabricmc.net/docs/fabric-api-0.143.11+26.1/net/fabricmc/fabric/api/networking/v1/context/PacketContext.html
+            var map = Util.tryGetPolyMap(PacketContext.get());
             var p = new ClientboundUpdateAttributesPacket(packet.getEntityId(), List.of());
             var list = p.getValues();
             for (ClientboundUpdateAttributesPacket.AttributeSnapshot entry : packet.getValues()) {

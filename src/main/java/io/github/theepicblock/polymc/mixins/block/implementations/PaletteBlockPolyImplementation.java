@@ -40,12 +40,13 @@ public abstract class PaletteBlockPolyImplementation {
     @Redirect(method = {"write", "getSerializedSize"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/core/IdMap;getId(Ljava/lang/Object;)I"))
     public <T> int getIdRedirect(IdMap<T> instance, T object) {
         if (object instanceof BlockState) {
-            var player = PacketContext.get().getPlayer();
+            var ctx = PacketContext.get();
 
-            PolyMap map = Util.tryGetPolyMap(player);
+            PolyMap map = Util.tryGetPolyMap(ctx);
 
             if (map != null) {
-                return map.getClientStateRawId((BlockState) object, player);
+                //return map.getClientStateRawId((BlockState) object, ctx);
+                //TODO not rely on Packet-Tweaker
             }
         }
 

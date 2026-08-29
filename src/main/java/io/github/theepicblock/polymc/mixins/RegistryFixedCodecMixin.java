@@ -26,12 +26,12 @@ public class RegistryFixedCodecMixin {
     )
     private Holder<?> swapEntry(Holder<?> entry) {
         var ctx = PacketContext.get();
-        if (ctx.getClientConnection() != null) {
+        //if (ctx.getClientConnection() != null) {
             try {
-                var map = Util.tryGetPolyMap(ctx.getClientConnection());
+                var map = Util.tryGetPolyMap(ctx);
 
                 if (entry.value() instanceof Item item) {
-                    return BuiltInRegistries.ITEM.wrapAsHolder(map.getClientItem(item.getDefaultInstance(), ctx.getPlayer(), null).getItem());
+                    //return BuiltInRegistries.ITEM.wrapAsHolder(map.getClientItem(item.getDefaultInstance(), ctx.getPlayer(), null).getItem()); //TODO not rely on ctx.getPlayer()
                 } else if (entry.value() instanceof Block item && map.getBlockPoly(item) != null) {
                     return BuiltInRegistries.BLOCK.wrapAsHolder(map.getBlockPoly(item).getClientBlock(item.defaultBlockState()).getBlock());
                 } else if (entry.value() instanceof SoundEvent event && !Util.isVanilla(BuiltInRegistries.SOUND_EVENT.getKey(event))) {
@@ -44,7 +44,7 @@ public class RegistryFixedCodecMixin {
             } catch (Throwable e) {
                 e.printStackTrace();
             }
-        }
+        //}
 
         return entry;
     }

@@ -217,7 +217,9 @@ public class Util {
     }
 
     public static PolyMap tryGetPolyMap(PacketContext context) {
-        return tryGetPolyMap(context.getClientConnection());
+        //TODO not force a legacy obfuscated connection into a real Connection, and instead fix all upstreams to use Connection, because there is NO WAY IN HELL this has any chance of working at runtime (as in - it so won't work the the code won't even reach this spot, instead crashing during startup, because the dependency packet-fixer is just a problem in itself) and I'm only doing this cursed stuff to get this thing to stop polluting my compiler output while porting changes to Minecraft itself [NEVERMIND, that dosn't help either - imma just throw here]
+        //return tryGetPolyMap((Connection) (Object) context.getClientConnection());
+        throw new NotImplementedException("Tried to get a poly-map from a packet-tweaker's PacketContext, but that ain't gonna fly - the entirerty of PT is currently unuspported with no replacements.");
     }
 
     public static PolyMap tryGetPolyMap(@Nullable ServerPlayer player) {
@@ -286,9 +288,10 @@ public class Util {
         return map.getClientStateRawId(state, playerEntity);
     }
 
-    public static int getPolydRawIdFromState(BlockState state, PacketContext context) {
-        PolyMap map = Util.tryGetPolyMap(context.getClientConnection());
-        return map.getClientStateRawId(state, context.getPlayer());
+    public static int getPolydRawIdFromState(BlockState state, PacketContext ctx) {
+        PolyMap map = Util.tryGetPolyMap(ctx);
+        //return map.getClientStateRawId(state, ctx.getPlayer());
+        throw new NotImplementedException("getPolydRawIdFromState uses ctx.getPlayer(), which doesn't exist in this version, and a suitable replacement has not yet been implemented"); //TODO not rely on ctx.getPlayer()
     }
 
     /**
@@ -356,15 +359,14 @@ public class Util {
                 } catch (Throwable ignored) { }
             }
         }
-        //var ctx = player == null ? PacketContext.get() : PacketContext.of(player);
+        var ctx = player == null ? PacketContext.get() : PacketContext.get() /*PacketContext.of(player)*/; //TODO All roads lead to pc.get() (because I can't call pc.of() with a "real" player because pt is too dead to know that "real" players are even a thing)
 
         for (DataComponentType<?> type : COMPONENTS_TO_COPY) {
             var x = original.get(type);
 
             if (x instanceof TransformingComponent t) {
                 //noinspection unchecked,rawtypes
-                //out.set((DataComponentType)type, t.polymc$getTransformed(ctx));
-                //TODO grrrr packet-tweakerrrrr
+                out.set((DataComponentType)type, t.polymc$getTransformed(ctx));
             } else {
                 //noinspection unchecked,rawtypes
                 out.set((DataComponentType)type, (Object)original.get(type));
@@ -543,6 +545,6 @@ public class Util {
 
     @Nullable
     public static PacketContext getContext(ServerPlayer player) {
-        return player == null ? PacketContext.get() : PacketContext.get() /*PacketContext.of(player)*/; //TODO All roads lead to pc.get() (because I can't call pc.of() with a "real" player because pt is dead)
+        return player == null ? PacketContext.get() : PacketContext.get() /*PacketContext.of(player)*/; //TODO same as above
     }
 }

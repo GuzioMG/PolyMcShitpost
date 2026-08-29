@@ -30,11 +30,11 @@ import xyz.nucleoid.packettweaker.PacketContext;
  */
 @Mixin(targets = "net/minecraft/world/item/ItemStack$1")
 public class ItemPolyImplementation {
-    /*@ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryFriendlyByteBuf;Lnet/minecraft/world/item/ItemStack;)V", at = @At("HEAD"), ordinal = 0, argsOnly = true)
+    @ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryFriendlyByteBuf;Lnet/minecraft/world/item/ItemStack;)V", at = @At("HEAD"), argsOnly = true, name = "itemStack")
     private ItemStack writeItemStackHook(ItemStack itemStack) {
         var ctx = PacketContext.get();
-        var map = Util.tryGetPolyMap(ctx.getClientConnection());
-        return map.getClientItem(itemStack, ctx.getPlayer(), ItemLocationStaticHack.location.get());
-
-    }*/ //TODO Another packet-tweaker.....
+        var map = Util.tryGetPolyMap(ctx);
+        //return map.getClientItem(itemStack, ctx.getPlayer(), ItemLocationStaticHack.location.get());
+        return itemStack; //TODO not rely on ctx.getPlayer() for getting player, so that map.getClientItem can be used again (rn, I'm pretty sure that by effectively disabling this single mixin (cuz rn it just gives back the og value, so it's a noop), I have in practice ENTIRELY ceased the mod from functioning, given how translating items is it's main goddamn job)
+    }
 }

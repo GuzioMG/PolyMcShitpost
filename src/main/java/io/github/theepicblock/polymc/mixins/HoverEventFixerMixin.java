@@ -14,26 +14,24 @@ import net.minecraft.network.chat.HoverEvent;
 
 @Mixin(HoverEvent.class)
 public interface  HoverEventFixerMixin {
-    // Todo
-    /*@ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Lcom/mojang/serialization/Codec;xmap(Ljava/util/function/Function;Ljava/util/function/Function;)Lcom/mojang/serialization/Codec;"))
+    @ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Lcom/mojang/serialization/Codec;dispatch(Ljava/lang/String;Ljava/util/function/Function;Ljava/util/function/Function;)Lcom/mojang/serialization/Codec;"))
     private static Codec<HoverEvent> replaceCodec(Codec<HoverEvent> codec) {
         return codec.xmap(Function.identity(), content -> {
             var ctx = PacketContext.get();
 
-            if (ctx.getClientConnection() != null) {
-                var map = Util.tryGetPolyMap(ctx.getClientConnection());
+            //if (ctx.getClientConnection() != null) {
+                var map = Util.tryGetPolyMap(ctx);
                 if (content.getAction() == HoverEvent.Action.SHOW_ITEM) {
                     var stack = Objects.requireNonNull(content.getValue(HoverEvent.Action.SHOW_ITEM)).asStack();
-                    return new HoverEvent(HoverEvent.Action.SHOW_ITEM,
-                            new HoverEvent.ItemStackContent(map.getClientItem(stack, ctx.getPlayer(), ItemLocation.TEXT)));
+                    return new HoverEvent(HoverEvent.Action.SHOW_ITEM, new HoverEvent.ItemStackContent(/*map.getClientItem(stack, ctx.getPlayer(), ItemLocation.TEXT))*/)); //TODO not rely on ctx.getPlayer()
                 } else if (content.getAction() == HoverEvent.Action.SHOW_ENTITY) {
                     var val = Objects.requireNonNull(content.getValue(HoverEvent.Action.SHOW_ENTITY));
                     if (map.getEntityPoly(val.entityType) != null) {
                         return new HoverEvent(HoverEvent.Action.SHOW_TEXT, Texts.join(val.asTooltip(), Text.literal("\n")));
                     }
                 }
-            }
+            //}
             return content;
         });
-    }*/
+    }
 }

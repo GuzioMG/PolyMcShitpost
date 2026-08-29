@@ -35,18 +35,20 @@ public interface RegistryMixin {
                 var ctx = PacketContext.get();
                 var map = Util.tryGetPolyMap(ctx);
                 //noinspection rawtypes
-                if (map.canReceiveRegistryEntry((Registry) this, (Holder) content)) {
+                if (map.canReceiveRegistryEntry((Registry) this, content)) {
                     return content;
                 }
 
                 var fallback = this.get(0).orElseThrow();
                 var val = content.value();
                 if (val instanceof Item item) {
-                    var client = map.getClientItem(new ItemStack(item), ctx.getPlayer(), null);
-                    return this.get(this.getId(client.getItem())).orElse(fallback);
+                    //var client = map.getClientItem(new ItemStack(item), ctx.getPlayer(), null);
+                    //return this.get(this.getId(client.getItem())).orElse(fallback);
+                    //TODO no rely on ctx.getPlayer()
                 } else if (val instanceof Block item) {
-                    var client = map.getClientState(item.defaultBlockState(), ctx.getPlayer());
-                    return this.get(this.getId(client.getBlock())).orElse(fallback);
+                    //var client = map.getClientState(item.defaultBlockState(), ctx.getPlayer());
+                    //return this.get(this.getId(client.getBlock())).orElse(fallback);
+                    //TODO no rely on ctx.getPlayer()
                 } else if (val instanceof SoundEvent) {
                     return this.get(this.getId(SoundEvents.EMPTY)).orElse(fallback);
                 }

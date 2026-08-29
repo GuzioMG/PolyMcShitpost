@@ -16,17 +16,17 @@ import xyz.nucleoid.packettweaker.PacketContext;
 public class RegistryElementCodecMixin {
     @ModifyVariable(
             method = "encode(Lnet/minecraft/core/Holder;Lcom/mojang/serialization/DynamicOps;Ljava/lang/Object;)Lcom/mojang/serialization/DataResult;",
-            at = @At("HEAD"),
-            argsOnly = true
+            at = @At("HEAD"), argsOnly = true
     )
     private Holder<?> swapEntry(Holder<?> entry) {
         var ctx = PacketContext.get();
-        if (ctx.getClientConnection() != null) {
+        //if (ctx.getClientConnection() != null) {
             try {
-                var map = Util.tryGetPolyMap(ctx.getClientConnection());
+                var map = Util.tryGetPolyMap(ctx);
 
                 if (entry.value() instanceof Item item) {
-                    return BuiltInRegistries.ITEM.wrapAsHolder(map.getClientItem(item.getDefaultInstance(), ctx.getPlayer(), null).getItem());
+                    //return BuiltInRegistries.ITEM.wrapAsHolder(map.getClientItem(item.getDefaultInstance(), ctx.getPlayer(), null).getItem());
+                    //TODO not rely on ctx.getPlayer()
                 } else if (entry.value() instanceof Block item && map.getBlockPoly(item) != null) {
                     return BuiltInRegistries.BLOCK.wrapAsHolder(map.getBlockPoly(item).getClientBlock(item.defaultBlockState()).getBlock());
                 } else if (entry.value() instanceof SoundEvent event && !Util.isVanillaAndRegistered(entry)) {
@@ -35,7 +35,7 @@ public class RegistryElementCodecMixin {
             } catch (Throwable e) {
                 e.printStackTrace();
             }
-        }
+        //}
 
         return entry;
     }

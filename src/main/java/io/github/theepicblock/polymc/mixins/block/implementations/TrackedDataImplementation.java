@@ -13,9 +13,10 @@ public class TrackedDataImplementation {
 
     @ModifyArg(method = "encode(Lio/netty/buffer/ByteBuf;Ljava/util/Optional;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;getId(Lnet/minecraft/world/level/block/state/BlockState;)I"))
     private BlockState redirectGetRawId(BlockState state) {
-        var player = PacketContext.get().getPlayer();
-        var map = Util.tryGetPolyMap(player);
+        var ctx = PacketContext.get();
+        var map = Util.tryGetPolyMap(ctx);
 
-        return map.getClientState(state, player);
+        //return map.getClientState(state, ctx);
+        return state; //TODO ...Right now? For nothing, apparently! It just gives back the value it just got. Which is, tbh, intentional, because it'd otherwise rely on Packet-Tweaker
     }
 }

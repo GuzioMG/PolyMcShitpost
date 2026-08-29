@@ -28,8 +28,8 @@ public class IdListImplementation {
             return originalStorage;
         }
 
-        var player = PacketContext.get();
-        var polyMap = Util.tryGetPolyMap(player);
+        var ctx = PacketContext.get();
+        var polyMap = Util.tryGetPolyMap(ctx);
 
         if (!polyMap.isVanillaLikeMap()) {
             return originalStorage;
@@ -54,7 +54,7 @@ public class IdListImplementation {
             long newLong = 0;
             for (int k = 0; k < elementsPerLong; k++) {
                 var oldElementValue = oldLong & maxValue;
-                var newElementValue = transform(oldElementValue, polyMap, player.getPlayer());
+                var newElementValue = /*transform(oldElementValue, polyMap, ctx.getPlayer());*/ oldElementValue; //TODO not rely on ctx.getPlayer()
 
                 newLong |= newElementValue << (elementBits * k); // Insert the next element
                 oldLong >>= elementBits; // Shift oldLong to read the next element
