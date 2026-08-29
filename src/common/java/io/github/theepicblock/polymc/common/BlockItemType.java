@@ -9,7 +9,6 @@ import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.BlockItem;
 
 public record BlockItemType(@NotNull BlockPlacementBehaviour placementBehaviour, SoundEvent placeSound) {
-    @Deprecated //TODO Calls deprecated readEnum internally
     public BlockItemType(FriendlyByteBuf buf) {
         this(buf.readEnum(BlockPlacementBehaviour.class), SoundEvent.DIRECT_STREAM_CODEC.decode(buf));
     }
@@ -23,7 +22,6 @@ public record BlockItemType(@NotNull BlockPlacementBehaviour placementBehaviour,
         return new BlockItemType(behavior, sound);
     }
 
-    @Deprecated //TODO Calls deprecated writeEnum internally
     public static void write(FriendlyByteBuf buf, BlockItemType self) {
         buf.writeEnum(self.placementBehaviour);
         SoundEvent.DIRECT_STREAM_CODEC.encode(buf, self.placeSound);

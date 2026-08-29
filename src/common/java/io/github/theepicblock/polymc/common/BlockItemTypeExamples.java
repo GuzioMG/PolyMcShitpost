@@ -23,15 +23,14 @@ public class BlockItemTypeExamples {
     }
 
     public BlockItemTypeExamples(FriendlyByteBuf buf) {
-        /*inner = buf.readMap(i -> new HashMap<>(), BlockItemType::new, buf2 -> {
+        inner = buf.readMap(i -> new HashMap<>(), BlockItemType::new, buf2 -> {
             var length = buf.readVarInt();
             var arr = new BlockItem[length];
             for (int i = 0; i < arr.length; i++) {
                 arr[i] = (BlockItem)BuiltInRegistries.BLOCK.byId(buf2.readVarInt()).asItem();
             }
             return arr;
-        });*/
-        throw new NotImplementedException("BlockItemTypeExamples(FriendlyByteBuf buf) called, but it relies on FriendlyByteBuf having a readMap function, which no longer exists on this version, and no replacement was yet implemented."); //TODO
+        });
     }
 
     public void add(@NotNull BlockItemType type, BlockItem item) {
