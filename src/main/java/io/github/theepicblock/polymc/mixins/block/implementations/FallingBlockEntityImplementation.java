@@ -4,6 +4,7 @@ import io.github.theepicblock.polymc.impl.Util;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -21,7 +22,7 @@ public class FallingBlockEntityImplementation {
 
     @Inject(method = "write(Lnet/minecraft/network/RegistryFriendlyByteBuf;)V", at = @At("HEAD"))
     private void redirectEntityData(RegistryFriendlyByteBuf buf, CallbackInfo ci) {
-        if (this.type == EntityType.FALLING_BLOCK) {
+        if (this.type == EntityTypes.FALLING_BLOCK) {
             var block = Block.stateById(this.data);
             this.data = Util.getPolydRawIdFromState(block, PacketContext.get());
         }

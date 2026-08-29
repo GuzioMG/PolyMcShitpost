@@ -12,9 +12,9 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import xyz.nucleoid.packettweaker.PacketContext;
 
-@Mixin(HoverEvent.ItemStackContent.class)
+@Mixin(HoverEvent.ShowItem.class)
 public class HoverEventImplementation {
-    /*@ModifyExpressionValue(method = "<clinit>", at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/item/ItemStack;CODEC:Lcom/mojang/serialization/Codec;"))
+    @ModifyExpressionValue(method = "<clinit>", at = @At(value = "FIELD", opcode = Opcodes.GETSTATIC, target = "Lnet/minecraft/item/ItemStack;CODEC:Lcom/mojang/serialization/Codec;"))
     private static Codec<ItemStack> polyMcWrapCodecA(Codec<ItemStack> codec) {
         return polyMcWrapCodec(codec);
     }

@@ -10,10 +10,10 @@ import io.github.theepicblock.polymc.impl.poly.entity.MissingEntityPoly;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.animal.fish.AbstractFish;
 import net.minecraft.world.entity.animal.golem.AbstractGolem;
-import net.minecraft.world.entity.animal.FlyingAnimal;
 import net.minecraft.world.entity.animal.equine.AbstractChestedHorse;
 import net.minecraft.world.entity.animal.equine.AbstractHorse;
 import net.minecraft.world.entity.monster.skeleton.AbstractSkeleton;
@@ -56,7 +56,7 @@ public class EntityPolyGenerator {
         }
 
         // Players are blacklisted, we shouldn't spawn any players.
-        possible.removeIf(clazz -> clazz == EntityType.PLAYER);
+        possible.removeIf(clazz -> clazz == EntityTypes.PLAYER);
 
         // Sort the list of entities that match by the highest type
         // For example, if both ChestBoatEntity and BoatEntity matched, the boat will be first in the list
@@ -83,21 +83,20 @@ public class EntityPolyGenerator {
 
         if (AbstractGolem.class.isAssignableFrom(baseClass)) {
             if (entityType.getWidth() > 1) {
-                return new DefaultedEntityPoly<>(EntityType.IRON_GOLEM);
+                return new DefaultedEntityPoly<>(EntityTypes.IRON_GOLEM);
             } else {
-                return new DefaultedEntityPoly<>(EntityType.SNOW_GOLEM);
+                return new DefaultedEntityPoly<>(EntityTypes.SNOW_GOLEM);
             }
         }
 
         var otherCommonClasses = new HashMap<Class<?>, EntityType<?>>();
-        otherCommonClasses.put(AbstractChestedHorse.class, EntityType.DONKEY);
-        otherCommonClasses.put(AbstractHorse.class, EntityType.HORSE);
-        otherCommonClasses.put(AbstractPiglin.class, EntityType.PIGLIN);
-        otherCommonClasses.put(AbstractSkeleton.class, EntityType.SKELETON);
-        otherCommonClasses.put(AbstractMinecart.class, EntityType.MINECART);
-        otherCommonClasses.put(Projectile.class, EntityType.ARROW);
-        otherCommonClasses.put(AbstractFish.class, EntityType.COD);
-        otherCommonClasses.put(FlyingAnimal.class, EntityType.PARROT);
+        otherCommonClasses.put(AbstractChestedHorse.class, EntityTypes.DONKEY);
+        otherCommonClasses.put(AbstractHorse.class, EntityTypes.HORSE);
+        otherCommonClasses.put(AbstractPiglin.class, EntityTypes.PIGLIN);
+        otherCommonClasses.put(AbstractSkeleton.class, EntityTypes.SKELETON);
+        otherCommonClasses.put(AbstractMinecart.class, EntityTypes.MINECART);
+        otherCommonClasses.put(Projectile.class, EntityTypes.ARROW);
+        otherCommonClasses.put(AbstractFish.class, EntityTypes.COD);
 
         for (var clazz : otherCommonClasses.keySet()) {
             if (clazz.isAssignableFrom(baseClass)) {
@@ -108,14 +107,14 @@ public class EntityPolyGenerator {
         if (LivingEntity.class.isAssignableFrom(baseClass)) {
             if (entityType.getHeight() > 1.5) {
                 if (Enemy.class.isAssignableFrom(baseClass)) {
-                    return new DefaultedEntityPoly<>(EntityType.ZOMBIE);
+                    return new DefaultedEntityPoly<>(EntityTypes.ZOMBIE);
                 } else {
-                    return new DefaultedEntityPoly<>(EntityType.ARMOR_STAND);
+                    return new DefaultedEntityPoly<>(EntityTypes.ARMOR_STAND);
                 }
             } else if (entityType.getHeight() > 0.5) {
-                return new DefaultedEntityPoly<>(EntityType.PIG);
+                return new DefaultedEntityPoly<>(EntityTypes.PIG);
             } else {
-                return new DefaultedEntityPoly<>(EntityType.SILVERFISH);
+                return new DefaultedEntityPoly<>(EntityTypes.SILVERFISH);
             }
         }
 

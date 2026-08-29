@@ -7,6 +7,7 @@ import net.minecraft.resources.RegistryFixedCodec;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.item.Item;
@@ -37,7 +38,7 @@ public class RegistryFixedCodecMixin {
                 } else if (entry.value() instanceof SoundEvent event && !Util.isVanilla(BuiltInRegistries.SOUND_EVENT.getKey(event))) {
                     return BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.EMPTY);
                 } else if (entry.value() instanceof EntityType<?> && !map.canReceiveRegistryEntry(BuiltInRegistries.ENTITY_TYPE, (Holder<EntityType<?>>) entry)) {
-                    return EntityType.MARKER.builtInRegistryHolder();
+                    return EntityTypes.MARKER.builtInRegistryHolder();
                 } else if (entry.value() instanceof Attribute && !map.canReceiveRegistryEntry(BuiltInRegistries.ATTRIBUTE, (Holder<Attribute>) entry)) {
                     return Attributes.SPAWN_REINFORCEMENTS_CHANCE;
                 }

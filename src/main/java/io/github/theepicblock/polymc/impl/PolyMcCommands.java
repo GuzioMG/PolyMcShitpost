@@ -77,9 +77,9 @@ public class PolyMcCommands {
                                         }
                                         for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
                                             if (i == 0) {
-                                                player.getInventory().setItem(i, new ItemStack(Items.GREEN_STAINED_GLASS_PANE));
+                                                player.getInventory().setItem(i, new ItemStack(Items.STAINED_GLASS_PANE.green()));
                                             } else {
-                                                player.getInventory().setItem(i, new ItemStack(Items.RED_STAINED_GLASS_PANE, i));
+                                                player.getInventory().setItem(i, new ItemStack(Items.STAINED_GLASS_PANE.red(), i));
                                             }
                                         }
                                         return Command.SINGLE_SUCCESS;

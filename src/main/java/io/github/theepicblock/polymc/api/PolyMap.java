@@ -51,6 +51,7 @@ import net.minecraft.world.effect.MobEffect;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -229,7 +230,7 @@ public interface PolyMap {
         } else if (val instanceof MobEffect entry && !this.canReceiveStatusEffect(BuiltInRegistries.MOB_EFFECT.wrapAsHolder(entry))) {
             return MobEffects.LUCK.value();
         } else if (val instanceof EntityType<?> entry && !this.canReceiveEntry(BuiltInRegistries.ENTITY_TYPE, entry)) {
-            return EntityType.ITEM_DISPLAY;
+            return EntityTypes.ITEM_DISPLAY;
         } else if (val instanceof Potion entry && !this.canReceiveEntry(BuiltInRegistries.POTION, entry)) {
             return Potions.LUCK.value();
         } else if (val instanceof ParticleType<?> entry && !this.canReceiveEntry(BuiltInRegistries.PARTICLE_TYPE, entry)) {

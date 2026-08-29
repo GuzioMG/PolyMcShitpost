@@ -8,6 +8,7 @@ import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 
@@ -49,6 +50,6 @@ public class VItemFrame extends AbstractVirtualEntity {
 
     @Override
     public EntityType<?> getEntityType() {
-        return EntityType.ITEM_FRAME;
+        return EntityTypes.ITEM_FRAME;
     }
 }

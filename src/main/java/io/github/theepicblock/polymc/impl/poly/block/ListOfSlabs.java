@@ -67,13 +67,13 @@ public class ListOfSlabs {
         SLAB2FULL.put((SlabBlock)Blocks.DEEPSLATE_TILE_SLAB, Blocks.DEEPSLATE_TILES);
         SLAB2FULL.put((SlabBlock)Blocks.PURPUR_SLAB, Blocks.PURPUR_BLOCK);
         // Copper
-        SLAB2FULL.put((SlabBlock)Blocks.CUT_COPPER_SLAB, Blocks.CUT_COPPER);
-        SLAB2FULL.put((SlabBlock)Blocks.EXPOSED_CUT_COPPER_SLAB, Blocks.EXPOSED_CUT_COPPER);
-        SLAB2FULL.put((SlabBlock)Blocks.WEATHERED_CUT_COPPER_SLAB, Blocks.WEATHERED_CUT_COPPER);
-        SLAB2FULL.put((SlabBlock)Blocks.OXIDIZED_CUT_COPPER_SLAB, Blocks.OXIDIZED_CUT_COPPER);
-        SLAB2FULL.put((SlabBlock)Blocks.WAXED_CUT_COPPER_SLAB, Blocks.CUT_COPPER); // We're replacing them with the regular ones instead of the waxed ones because the waxed ones are already used for other polys
-        SLAB2FULL.put((SlabBlock)Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB, Blocks.EXPOSED_CUT_COPPER);
-        SLAB2FULL.put((SlabBlock)Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB, Blocks.WEATHERED_CUT_COPPER);
-        SLAB2FULL.put((SlabBlock)Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB, Blocks.OXIDIZED_CUT_COPPER);
+        SLAB2FULL.put((SlabBlock)Blocks.CUT_COPPER_SLAB.weathering().unaffected(), Blocks.CUT_COPPER.weathering().unaffected());
+        SLAB2FULL.put((SlabBlock)Blocks.CUT_COPPER_SLAB.weathering().exposed(), Blocks.CUT_COPPER.weathering().exposed());
+        SLAB2FULL.put((SlabBlock)Blocks.CUT_COPPER_SLAB.weathering().weathered(), Blocks.CUT_COPPER.weathering().weathered());
+        SLAB2FULL.put((SlabBlock)Blocks.CUT_COPPER_SLAB.weathering().oxidized(), Blocks.CUT_COPPER.weathering().oxidized());
+        SLAB2FULL.put((SlabBlock)Blocks.CUT_COPPER_SLAB.waxed().unaffected(), Blocks.CUT_COPPER.weathering().unaffected()); // We're replacing them with the regular ones instead of the waxed ones because the waxed ones are already used for other polys
+        SLAB2FULL.put((SlabBlock)Blocks.CUT_COPPER_SLAB.waxed().exposed(), Blocks.CUT_COPPER.weathering().exposed());
+        SLAB2FULL.put((SlabBlock)Blocks.CUT_COPPER_SLAB.waxed().weathered(), Blocks.CUT_COPPER.weathering().weathered());
+        SLAB2FULL.put((SlabBlock)Blocks.CUT_COPPER_SLAB.waxed().oxidized(), Blocks.CUT_COPPER.weathering().oxidized());
     }
 }

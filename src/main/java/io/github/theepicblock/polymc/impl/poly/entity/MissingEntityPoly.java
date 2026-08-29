@@ -21,7 +21,7 @@ public class MissingEntityPoly<T extends Entity> implements EntityPoly<T> {
     }
 
     public static class MissingEntityWizard<T extends Entity> extends EntityWizard<T> {
-        private static final ItemStack ITEM = new ItemStack(Items.RED_STAINED_GLASS_PANE);
+        private static final ItemStack ITEM = new ItemStack(Items.STAINED_GLASS_PANE.red());
         private final VItem item;
 
         public MissingEntityWizard(WizardInfo info, T entity) {

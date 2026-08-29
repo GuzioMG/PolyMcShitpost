@@ -60,7 +60,7 @@ public class NaiveStackListingChestPoly implements GuiPoly {
                     if (baseSlots.size() > index) {
                         slot = baseSlots.get(index);
                     } else {
-                        slot = new StaticSlot(new ItemStack(Items.BLACK_STAINED_GLASS_PANE));
+                        slot = new StaticSlot(new ItemStack(Items.STAINED_GLASS_PANE.black()));
                         fakedSlotsTemp++;
                     }
                     this.addSlot(slot);

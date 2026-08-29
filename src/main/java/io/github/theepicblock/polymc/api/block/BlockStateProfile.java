@@ -31,7 +31,7 @@ import net.minecraft.world.level.block.CaveVines;
 import net.minecraft.world.level.block.ChorusFlowerBlock;
 import net.minecraft.world.level.block.DoorBlock;
 import net.minecraft.world.level.block.DoublePlantBlock;
-import net.minecraft.world.level.block.FarmBlock;
+import net.minecraft.world.level.block.FarmlandBlock;
 import net.minecraft.world.level.block.FenceGateBlock;
 import net.minecraft.world.level.block.GrassBlock;
 import net.minecraft.world.level.block.GrowingPlantHeadBlock;
@@ -111,9 +111,9 @@ public class BlockStateProfile {
     private static final Block[] DOOR_BLOCKS = {Blocks.ACACIA_DOOR, Blocks.BIRCH_DOOR, Blocks.DARK_OAK_DOOR, Blocks.JUNGLE_DOOR, Blocks.OAK_DOOR, Blocks.SPRUCE_DOOR, Blocks.CRIMSON_DOOR, Blocks.WARPED_DOOR, Blocks.MANGROVE_DOOR, Blocks.CHERRY_DOOR};
     private static final Block[] TRAPDOOR_BLOCKS = {Blocks.ACACIA_TRAPDOOR, Blocks.BIRCH_TRAPDOOR, Blocks.DARK_OAK_TRAPDOOR, Blocks.JUNGLE_TRAPDOOR, Blocks.OAK_TRAPDOOR, Blocks.SPRUCE_TRAPDOOR, Blocks.CRIMSON_TRAPDOOR, Blocks.WARPED_TRAPDOOR, Blocks.MANGROVE_TRAPDOOR, Blocks.CHERRY_TRAPDOOR};
     private static final Block[] FENCE_GATE_BLOCKS = {Blocks.ACACIA_FENCE_GATE, Blocks.BIRCH_FENCE_GATE, Blocks.DARK_OAK_FENCE_GATE, Blocks.JUNGLE_FENCE_GATE, Blocks.OAK_FENCE_GATE, Blocks.SPRUCE_FENCE_GATE, Blocks.CRIMSON_FENCE_GATE, Blocks.WARPED_FENCE_GATE, Blocks.MANGROVE_FENCE_GATE, Blocks.CHERRY_FENCE_GATE};
-    private static final Block[] WAXED_COPPER_STAIR_BLOCKS = {Blocks.WAXED_CUT_COPPER_STAIRS, Blocks.WAXED_EXPOSED_CUT_COPPER_STAIRS, Blocks.WAXED_WEATHERED_CUT_COPPER_STAIRS, Blocks.WAXED_OXIDIZED_CUT_COPPER_STAIRS};
-    private static final Block[] WAXED_COPPER_SLAB_BLOCKS = {Blocks.WAXED_CUT_COPPER_SLAB, Blocks.WAXED_EXPOSED_CUT_COPPER_SLAB, Blocks.WAXED_WEATHERED_CUT_COPPER_SLAB, Blocks.WAXED_OXIDIZED_CUT_COPPER_SLAB};
-    private static final Block[] WAXED_COPPER_FULL_BLOCKS = {Blocks.WAXED_COPPER_BLOCK, Blocks.WAXED_EXPOSED_COPPER, Blocks.WAXED_WEATHERED_COPPER, Blocks.WAXED_OXIDIZED_COPPER, Blocks.WAXED_CUT_COPPER, Blocks.WAXED_EXPOSED_CUT_COPPER, Blocks.WAXED_WEATHERED_CUT_COPPER, Blocks.WAXED_OXIDIZED_COPPER};
+    private static final Block[] WAXED_COPPER_STAIR_BLOCKS = {Blocks.CUT_COPPER_STAIRS.waxed().unaffected(), Blocks.CUT_COPPER_STAIRS.waxed().exposed(), Blocks.CUT_COPPER_STAIRS.waxed().weathered(), Blocks.CUT_COPPER_STAIRS.waxed().oxidized()};
+    private static final Block[] WAXED_COPPER_SLAB_BLOCKS = {Blocks.CUT_COPPER_SLAB.waxed().unaffected(), Blocks.CUT_COPPER_SLAB.waxed().exposed(), Blocks.CUT_COPPER_SLAB.waxed().weathered(), Blocks.CUT_COPPER_SLAB.waxed().oxidized()};
+    private static final Block[] WAXED_COPPER_FULL_BLOCKS = {Blocks.COPPER_BLOCK.waxed().unaffected(), Blocks.COPPER_BLOCK.waxed().exposed(), Blocks.COPPER_BLOCK.waxed().weathered(), Blocks.COPPER_BLOCK.waxed().oxidized(), Blocks.CUT_COPPER.waxed().unaffected(), Blocks.CUT_COPPER.waxed().exposed(), Blocks.CUT_COPPER.waxed().weathered(), Blocks.CUT_COPPER.waxed().oxidized()};
     private static final Block[] INFESTED_BLOCKS = {Blocks.INFESTED_COBBLESTONE, Blocks.INFESTED_STONE, Blocks.INFESTED_CHISELED_STONE_BRICKS, Blocks.INFESTED_STONE_BRICKS, Blocks.INFESTED_CRACKED_STONE_BRICKS, Blocks.INFESTED_DEEPSLATE, Blocks.INFESTED_MOSSY_STONE_BRICKS};
     private static final Block[] DISPENSER_BLOCKS = {Blocks.DISPENSER, Blocks.DROPPER};
     private static final Block[] BEEHIVE_BLOCKS = {Blocks.BEEHIVE, Blocks.BEE_NEST};
@@ -143,7 +143,7 @@ public class BlockStateProfile {
     private static final Predicate<BlockState> SMALL_DRIPLEAF_FILTER = state -> state.getValue(DoublePlantBlock.HALF) == DoubleBlockHalf.LOWER && state.getValue(SmallDripleafBlock.FACING) != Direction.NORTH;
     private static final Predicate<BlockState> CAVE_VINES_FILTER = state -> state.getValue(GrowingPlantHeadBlock.AGE) != 0 && state.getValue(CaveVines.BERRIES) != true; // Don't use the berry states, they cause desyncs on right-click
     private static final Predicate<BlockState> FARMLAND_FILTER = (blockState) -> {
-        int moisture = blockState.getValue(FarmBlock.MOISTURE);
+        int moisture = blockState.getValue(FarmlandBlock.MOISTURE);
         return moisture != 0 && moisture != 7;
     };
     private static final Predicate<BlockState> BEEHIVE_FILTER = (blockState) -> {

@@ -322,7 +322,7 @@ public class BlockPolyGenerator {
             PolyMc.LOGGER.error("Failed to generate a poly for block " + block.getDescriptionId());
             e.printStackTrace();
             PolyMc.LOGGER.error("Attempting to recover by using a default poly. Please report this");
-            builder.registerBlockPoly(block, new SimpleReplacementPoly(Blocks.RED_STAINED_GLASS));
+            builder.registerBlockPoly(block, new SimpleReplacementPoly(Blocks.STAINED_GLASS.red()));
         }
     }
 
