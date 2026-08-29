@@ -97,7 +97,7 @@ public class PolyMapImpl implements PolyMap {
      * Encodes all data that's meant to be server controlled. In practice this is simply all the ItemStack data minus
      * the count
      */
-    private static final Codec<ItemStack> ITEM_DATA_CODEC = ItemStack.SINGLE_ITEM_CODEC;
+    private static final Codec<ItemStack> ITEM_DATA_CODEC = ItemStack.CODEC; //TODO Pray   (It used to be SINGLE_ITEM_CODEC, but that has been removed, according to NeoForge Primers (and no obvious replacement was provided), so all that's left is the pick one that seems the least dangerous and pray it works.)
     public static final MapCodec<Optional<ItemStack>> ORIGINAL_ITEM_CODEC = ITEM_DATA_CODEC.optionalFieldOf(ORIGINAL_ITEM_NBT);
 
     private final ImmutableMap<Item,ItemPoly> itemPolys;

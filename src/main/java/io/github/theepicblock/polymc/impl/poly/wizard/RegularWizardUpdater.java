@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class RegularWizardUpdater {
     public static void registerEvents() {
-        ServerTickEvents.END_WORLD_TICK.register(RegularWizardUpdater::tick);
+        ServerTickEvents.END_LEVEL_TICK.register(RegularWizardUpdater::tick);
         ServerTickEvents.END_SERVER_TICK.register((server) -> {
             PacketCountManager.INSTANCE.adjust(server.getTickCount());
         });

@@ -62,7 +62,7 @@ public class ThreadedWizardUpdater extends ReentrantBlockableEventLoop<Runnable>
         });
 
         // This calls the regular on tick method (not the update method). This is done on the main thread like normal
-        ServerTickEvents.END_WORLD_TICK.register(world -> ((WizardTickerDuck)world).polymc$getBlockTickers()
+        ServerTickEvents.END_LEVEL_TICK.register(world -> ((WizardTickerDuck)world).polymc$getBlockTickers()
                 .forEach((polyMap, wizardsPerPos) -> {
                     wizardsPerPos.forEach((pos, wizards) -> {
                         var playerView = new CachedPolyMapFilteredPlayerView(PolyMapFilteredPlayerView.getAll(world, pos), polyMap);
