@@ -5,7 +5,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 @Mixin(targets = "net/minecraft/network/syncher/EntityDataSerializers$2")
 public class TrackedDataImplementation {
@@ -13,10 +13,8 @@ public class TrackedDataImplementation {
 
     @ModifyArg(method = "encode(Lio/netty/buffer/ByteBuf;Ljava/util/Optional;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;getId(Lnet/minecraft/world/level/block/state/BlockState;)I"))
     private BlockState redirectGetRawId(BlockState state) {
-        var ctx = PacketContext.get();
-        var map = Util.tryGetPolyMap(ctx);
-
-        //return map.getClientState(state, ctx);
-        return state; //TODO ...Right now? For nothing, apparently! It just gives back the value it just got. Which is, tbh, intentional, because it'd otherwise rely on Packet-Tweaker
+        var player = getPlayerStub();
+        var map = Util.tryGetPolyMap(player);
+        return map.getClientState(state, player);
     }
 }

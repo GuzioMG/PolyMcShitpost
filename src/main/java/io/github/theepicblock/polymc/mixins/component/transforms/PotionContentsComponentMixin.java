@@ -2,10 +2,10 @@ package io.github.theepicblock.polymc.mixins.component.transforms;
 
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.mixin.TransformingComponent;
+import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +25,7 @@ public abstract class PotionContentsComponentMixin implements TransformingCompon
     @Shadow @Final private Optional<String> customName;
 
     @Override
-    public Object polymc$getTransformed(PacketContext player) {
+    public Object polymc$getTransformed(ServerPlayer player) {
         if (!polymc$requireModification(player)) {
             return this;
         }
@@ -34,7 +34,7 @@ public abstract class PotionContentsComponentMixin implements TransformingCompon
     }
 
     @Override
-    public boolean polymc$requireModification(PacketContext player) {
+    public boolean polymc$requireModification(ServerPlayer player) {
         var map = Util.tryGetPolyMap(player);
         if (this.potion.isPresent() && !map.canReceivePotion(this.potion.get())) {
             return true;

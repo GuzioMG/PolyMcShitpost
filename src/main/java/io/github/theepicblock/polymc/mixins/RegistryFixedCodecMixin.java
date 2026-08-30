@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.Block;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 @Mixin(RegistryFixedCodec.class)
 public class RegistryFixedCodecMixin {
@@ -25,28 +25,18 @@ public class RegistryFixedCodecMixin {
             at = @At("HEAD"),
             argsOnly = true
     )
-    private Holder<?> swapEntry(Holder<?> entry) {
-        var ctx = PacketContext.get();
-        //if (ctx.getClientConnection() != null) {
-            try {
-                var map = Util.tryGetPolyMap(ctx);
-
-                if (entry.value() instanceof Item item) {
-                    //return BuiltInRegistries.ITEM.wrapAsHolder(map.getClientItem(item.getDefaultInstance(), ctx.getPlayer(), null).getItem()); //TODO not rely on ctx.getPlayer()
-                } else if (entry.value() instanceof Block item && map.getBlockPoly(item) != null) {
-                    return BuiltInRegistries.BLOCK.wrapAsHolder(map.getBlockPoly(item).getClientBlock(item.defaultBlockState()).getBlock());
-                } else if (entry.value() instanceof SoundEvent event && !Util.isVanilla(BuiltInRegistries.SOUND_EVENT.getKey(event))) {
-                    return BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.EMPTY);
-                } else if (entry.value() instanceof EntityType<?> && !map.canReceiveRegistryEntry(BuiltInRegistries.ENTITY_TYPE, (Holder<EntityType<?>>) entry)) {
-                    return EntityTypes.MARKER.builtInRegistryHolder();
-                } else if (entry.value() instanceof Attribute && !map.canReceiveRegistryEntry(BuiltInRegistries.ATTRIBUTE, (Holder<Attribute>) entry)) {
-                    return Attributes.SPAWN_REINFORCEMENTS_CHANCE;
-                }
-            } catch (Throwable e) {
-                e.printStackTrace();
-            }
-        //}
-
-        return entry;
+    private Holder<?> swapEntry(Holder<?> input) {
+        var player = getPlayerStub();
+        try {
+            var map = Util.tryGetPolyMap(player);
+            if (input.value() instanceof Item item) return BuiltInRegistries.ITEM.wrapAsHolder(map.getClientItem(item.getDefaultInstance(), player, null).getItem());
+            else if (input.value() instanceof Block item && map.getBlockPoly(item) != null) return BuiltInRegistries.BLOCK.wrapAsHolder(map.getBlockPoly(item).getClientBlock(item.defaultBlockState()).getBlock());
+            else if (input.value() instanceof SoundEvent event && !Util.isVanilla(BuiltInRegistries.SOUND_EVENT.getKey(event))) return BuiltInRegistries.SOUND_EVENT.wrapAsHolder(SoundEvents.EMPTY);
+            else if (input.value() instanceof EntityType<?> && !map.canReceiveRegistryEntry(BuiltInRegistries.ENTITY_TYPE, (Holder<EntityType<?>>) input)) return EntityTypes.MARKER.builtInRegistryHolder();
+            else if (input.value() instanceof Attribute && !map.canReceiveRegistryEntry(BuiltInRegistries.ATTRIBUTE, (Holder<Attribute>) input)) return Attributes.SPAWN_REINFORCEMENTS_CHANCE;
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+        return input;
     }
 }

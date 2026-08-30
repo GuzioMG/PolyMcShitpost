@@ -23,7 +23,7 @@ import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 /**
  * This is the class responsible for replacing the serverside items with the clientside items
@@ -32,9 +32,8 @@ import xyz.nucleoid.packettweaker.PacketContext;
 public class ItemPolyImplementation {
     @ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryFriendlyByteBuf;Lnet/minecraft/world/item/ItemStack;)V", at = @At("HEAD"), argsOnly = true, name = "itemStack")
     private ItemStack writeItemStackHook(ItemStack itemStack) {
-        var ctx = PacketContext.get();
-        var map = Util.tryGetPolyMap(ctx);
-        //return map.getClientItem(itemStack, ctx.getPlayer(), ItemLocationStaticHack.location.get());
-        return itemStack; //TODO not rely on ctx.getPlayer() for getting player, so that map.getClientItem can be used again (rn, I'm pretty sure that by effectively disabling this single mixin (cuz rn it just gives back the og value, so it's a noop), I have in practice ENTIRELY ceased the mod from functioning, given how translating items is it's main goddamn job)
+        var player = getPlayerStub();
+        var map = Util.tryGetPolyMap(player);
+        return map.getClientItem(itemStack, player, ItemLocationStaticHack.location.get());
     }
 }

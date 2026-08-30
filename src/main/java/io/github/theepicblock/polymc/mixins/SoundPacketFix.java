@@ -7,7 +7,8 @@ import net.minecraft.sounds.SoundEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import xyz.nucleoid.packettweaker.PacketContext;
+
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 /**
  * Minecraft sends sound packets in 2 different ways. Using {@link ClientboundSoundPacket}
@@ -19,9 +20,10 @@ public class SoundPacketFix {
     @ModifyArg(method = "write", index = 1, at = @At(value = "INVOKE", target = "Lnet/minecraft/network/codec/StreamCodec;encode(Ljava/lang/Object;Ljava/lang/Object;)V"))
     private Object replaceSound(Object entry) {
         var entryT = (Holder<SoundEvent>)entry;
-        /*if (entryT.kind() == Holder.Kind.REFERENCE && Util.isPolyMapVanillaLike(PacketContext.get().getClientConnection()) && !Util.isVanilla(entryT.unwrapKey().get().identifier())) {
+        //TODO Investigate why IntelliJ thinks that entryT.kind() == Holder.Kind.REFERENCE and Util.isPolyMapVanillaLike(getPlayerStub()) are mutually exclusive (if both are present, it says that the condition is always false) - it's probably correct, but it probably shouldn't be this way
+        if ((entryT.kind() == Holder.Kind.REFERENCE) && (Util.isPolyMapVanillaLike(getPlayerStub())) && (!Util.isVanilla(entryT.unwrapKey().get().identifier()))) {
             return Holder.direct(entryT.value());
-        }*/ //TODO PacketContext...
+        }
         return entry;
     }
 }

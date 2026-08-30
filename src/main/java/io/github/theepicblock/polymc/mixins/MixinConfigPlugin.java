@@ -54,11 +54,11 @@ public class MixinConfigPlugin implements IMixinConfigPlugin {
     public boolean shouldApplyMixin(String targetClassName, String mixinClassName) {
         String mixin = mixinClassName.substring(MIXIN_PACKAGE_ROOT.length());
         if (config.isMixinDisabled(mixin)) {
-            ConfigManager.LOGGER.info(String.format("%s is disabled by config", mixin));
+            ConfigManager.LOGGER.info("{} is disabled by config", mixin);
             return false;
         }
         if (config.isMixinAutoDisabled(mixin)) {
-            ConfigManager.LOGGER.info(String.format("%s is disabled automatically", mixin));
+            ConfigManager.LOGGER.info("{} is disabled automatically", mixin);
             return false;
         }
         return true;

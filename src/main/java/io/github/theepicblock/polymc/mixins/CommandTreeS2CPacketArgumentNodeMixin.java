@@ -8,13 +8,13 @@ import net.minecraft.core.registries.BuiltInRegistries;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 @Mixin(targets = "net/minecraft/network/protocol/game/ClientboundCommandsPacket$ArgumentNodeStub")
 public class CommandTreeS2CPacketArgumentNodeMixin {
     @ModifyArg(method = "write(Lnet/minecraft/network/FriendlyByteBuf;)V", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/protocol/game/ClientboundCommandsPacket$ArgumentNodeStub;serializeCap(Lnet/minecraft/network/FriendlyByteBuf;Lnet/minecraft/commands/synchronization/ArgumentTypeInfo$Template;)V"))
     private ArgumentTypeInfo.Template<?> replaceProperties(ArgumentTypeInfo.Template<?> original) {
-        var player = PacketContext.get();
+        var player = getPlayerStub();
         var map = Util.tryGetPolyMap(player);
 
         var id = BuiltInRegistries.COMMAND_ARGUMENT_TYPE.getKey(original.type());

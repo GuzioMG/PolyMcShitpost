@@ -1,16 +1,16 @@
 package io.github.theepicblock.polymc.impl.mixin;
 
-import xyz.nucleoid.packettweaker.PacketContext;
+import net.minecraft.server.level.ServerPlayer;
 
 public interface TransformingComponent {
-    static boolean requireTransform(Object object, PacketContext player) {
+    static boolean requireTransform(Object object, ServerPlayer player) {
         return object instanceof TransformingComponent t && t.polymc$requireModification(player);
     }
 
-    static boolean requireTransformForTooltip(Object object, PacketContext player) {
+    static boolean requireTransformForTooltip(Object object, ServerPlayer player) {
         return object instanceof TransformingComponent t && t.polymc$requireModification(player);
     }
 
-    Object polymc$getTransformed(PacketContext context);
-    boolean polymc$requireModification(PacketContext context);
+    Object polymc$getTransformed(ServerPlayer context);
+    boolean polymc$requireModification(ServerPlayer context);
 }

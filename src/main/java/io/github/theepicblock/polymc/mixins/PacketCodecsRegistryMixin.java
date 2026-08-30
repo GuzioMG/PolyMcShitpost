@@ -1,7 +1,7 @@
 package io.github.theepicblock.polymc.mixins;
 
 
-/*import io.github.theepicblock.polymc.impl.Util;
+import io.github.theepicblock.polymc.impl.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.resources.ResourceKey;
@@ -10,30 +10,29 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
-@Mixin(targets = "net/minecraft/network/codec/ByteBufCodecs$29", priority = 500)
+@Mixin(targets = "net/minecraft/network/codec/ByteBufCodecs$31", priority = 500)
 public abstract class PacketCodecsRegistryMixin {
 
-    @Shadow @Final private ResourceKey val$registryKey;
+    @SuppressWarnings({"rawtypes"}) @Shadow @Final ResourceKey val$registryKey;
 
-    @SuppressWarnings({"rawtypes", "ShadowModifiers"})
-
-    @ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryFriendlyByteBuf;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true)
-    private Object polymc$changeData(Object val, RegistryFriendlyByteBuf buf) {
-        var player = PacketContext.get();
+    @ModifyVariable(method = "encode(Ljava/lang/Object;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true, name = "value")  // <-- This one makes the IDE happy (note, that by IDE, I actually mean the IDE itself - both compile just fine, but the bottom one lights up with errors as if it was not gonna compile). (btw, if you hit Go to ModifyVariable target with this one, IDE just throws an error lol)
+    //@ModifyVariable(method = "encode(Lnet/minecraft/network/RegistryFriendlyByteBuf;Ljava/lang/Object;)V", at = @At("HEAD"), argsOnly = true, name = "value") // <-- This one makes sense (it tracks better with the actual method signature, both here inside the mixin, and in the target class (public void encode(final RegistryFriendlyByteBuf output, final R value)), if by "the target class" we mean the one that I manually counted with Ctrl+F'ing "new StreamCodec<" AND ALSO, more notably, the one that you get sent to if you hit "Go to target class"). (btw, Go to ModifyVariable target doesn't even show up with this one, probably because the "compile" error suppresses that button)
+    private Object polymc$changeData(RegistryFriendlyByteBuf output, Object value) {
+        var player = getPlayerStub();
         var map = Util.tryGetPolyMap(player);
 
-        if (val instanceof Holder<?> registryEntry) {
-            var value = registryEntry.value();
-            var out = map.tryRemapping(value, player);
-            if (value != out) {
-                if (!(buf instanceof RegistryFriendlyByteBuf)) throw new RuntimeException("The buffer captured by the PacketCodecsRegistryMixin of PolyMC was not actually a buffer!");
-                return ((RegistryFriendlyByteBuf) buf).registryAccess().lookupOrThrow(this.val$registryKey).wrapAsHolder(out);
+        if (value instanceof Holder<?> registryEntry) {
+            var entryValue = registryEntry.value();
+            var out = map.tryRemapping(entryValue, player);
+            if (entryValue != out) {
+                if (!(output instanceof RegistryFriendlyByteBuf)) throw new RuntimeException("The buffer captured by the PacketCodecsRegistryMixin of PolyMC was not actually a buffer!");
+                return output.registryAccess().lookupOrThrow(this.val$registryKey).wrapAsHolder(out);
             }
-            return val;
+            return value;
         }
 
-        return map.tryRemapping(val, player);
+        return map.tryRemapping(value, player);
     }
-}*/ //TODO: I'm pretty sure this mixin is supposed to target the anonymous class created by the static <T> StreamCodec<RegistryFriendlyByteBuf, HolderSet<T>> holderSet(final ResourceKey<? extends Registry<T>> registryKey) method (the enocde() signature matches), but it's just no longer located at position $29 in the parent class. Now... Changing the ID is doable (if a bit trial-and-error-y - I'm sure there is some better way to find it, I'm just not versed well enough with Mixins to know it), but the bigger problem is that it seem like that class no longer has a simple ResourceKey val$registryKey field inside, but rather the ResourceKey registryKey it gets from the method that creates it, is instantly consumed and wrapped inside a StreamCodec<...> holderCodec field. There may be some way to capture the value as it's being passed into the overarching method (maybe that's what the val$ actually does, idk,I'm not well-versed with Mixins), or perhaps I can somehow unwrap a ResourceKey from the StreamCodec - either way, this is a more complicated fix than simply "update the $29 in the mixin signature" (and I didn't even get started on that whole "it relies on packettweaker.PacketContext which isn't a thing on 26.x, so I'll need to update that, too" bit), so I'm just disabling this Mixin for now.
+}

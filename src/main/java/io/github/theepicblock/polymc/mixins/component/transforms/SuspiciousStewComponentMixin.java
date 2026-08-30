@@ -2,10 +2,10 @@ package io.github.theepicblock.polymc.mixins.component.transforms;
 
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.mixin.TransformingComponent;
+import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.List;
 import net.minecraft.world.item.component.SuspiciousStewEffects;
@@ -16,7 +16,7 @@ public abstract class SuspiciousStewComponentMixin implements TransformingCompon
     @Shadow @Final private List<SuspiciousStewEffects.Entry> effects;
 
     @Override
-    public Object polymc$getTransformed(PacketContext player) {
+    public Object polymc$getTransformed(ServerPlayer player) {
         if (!polymc$requireModification(player)) {
             return this;
         }
@@ -25,7 +25,7 @@ public abstract class SuspiciousStewComponentMixin implements TransformingCompon
     }
 
     @Override
-    public boolean polymc$requireModification(PacketContext player) {
+    public boolean polymc$requireModification(ServerPlayer player) {
         var map = Util.tryGetPolyMap(player);
         for (var effect : this.effects) {
             if (!map.canReceiveStatusEffect(effect.effect())) {

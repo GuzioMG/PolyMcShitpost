@@ -53,7 +53,6 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -216,12 +215,6 @@ public class Util {
         return a.bounds().equals(b.bounds());
     }
 
-    public static PolyMap tryGetPolyMap(PacketContext context) {
-        //TODO not force a legacy obfuscated connection into a real Connection, and instead fix all upstreams to use Connection, because there is NO WAY IN HELL this has any chance of working at runtime (as in - it so won't work the the code won't even reach this spot, instead crashing during startup, because the dependency packet-fixer is just a problem in itself) and I'm only doing this cursed stuff to get this thing to stop polluting my compiler output while porting changes to Minecraft itself [NEVERMIND, that dosn't help either - imma just throw here]
-        //return tryGetPolyMap((Connection) (Object) context.getClientConnection());
-        throw new NotImplementedException("Tried to get a poly-map from a packet-tweaker's PacketContext, but that ain't gonna fly - the entirerty of PT is currently unuspported with no replacements.");
-    }
-
     public static PolyMap tryGetPolyMap(@Nullable ServerPlayer player) {
         if (player == null) {
             if (!HAS_LOGGED_POLYMAP_ERROR) {
@@ -286,12 +279,6 @@ public class Util {
     public static int getPolydRawIdFromState(BlockState state, ServerPlayer playerEntity) {
         PolyMap map = Util.tryGetPolyMap(playerEntity);
         return map.getClientStateRawId(state, playerEntity);
-    }
-
-    public static int getPolydRawIdFromState(BlockState state, PacketContext ctx) {
-        PolyMap map = Util.tryGetPolyMap(ctx);
-        //return map.getClientStateRawId(state, ctx.getPlayer());
-        throw new NotImplementedException("getPolydRawIdFromState uses ctx.getPlayer(), which doesn't exist in this version, and a suitable replacement has not yet been implemented"); //TODO not rely on ctx.getPlayer()
     }
 
     /**
@@ -359,14 +346,13 @@ public class Util {
                 } catch (Throwable ignored) { }
             }
         }
-        var ctx = player == null ? PacketContext.get() : PacketContext.get() /*PacketContext.of(player)*/; //TODO All roads lead to pc.get() (because I can't call pc.of() with a "real" player because pt is too dead to know that "real" players are even a thing)
 
         for (DataComponentType<?> type : COMPONENTS_TO_COPY) {
             var x = original.get(type);
 
             if (x instanceof TransformingComponent t) {
                 //noinspection unchecked,rawtypes
-                out.set((DataComponentType)type, t.polymc$getTransformed(ctx));
+                out.set((DataComponentType)type, t.polymc$getTransformed(player));
             } else {
                 //noinspection unchecked,rawtypes
                 out.set((DataComponentType)type, (Object)original.get(type));
@@ -394,11 +380,11 @@ public class Util {
      * {@link #getRegistryManager(Player)} unless it's really not possible.
      */
     @NotNull
-    public static HolderLookup.Provider getRegistryManager() {
-        /*var ctx = PacketContext.get();
-        if (ctx.getRegistryWrapperLookup() != null) {
-            return ctx.getRegistryWrapperLookup();
-        }*/ //TODO I hate PacketTweaker...
+    public static RegistryAccess getRegistryManager() {
+        var player = getPlayerStub();
+        if (player.registryAccess() != null) {
+            return player.registryAccess();
+        }
 
         if (PolyMc.FALLBACK_REGISTRY_MANAGER != null) {
             return PolyMc.FALLBACK_REGISTRY_MANAGER;
@@ -420,7 +406,7 @@ public class Util {
             DataComponents.LORE,
             DataComponents.MAX_STACK_SIZE,
             DataComponents.MAP_ID,
-            //DataComponents.MAP_COLOR,
+            DataComponents.MAP_COLOR,
             DataComponents.MAP_DECORATIONS,
             DataComponents.MAP_POST_PROCESSING,
             DataComponents.FOOD,
@@ -458,8 +444,8 @@ public class Util {
             DataComponents.REPAIRABLE
     };
 
-    public static CompoundTag transformBlockEntityNbt(PacketContext context, BlockEntityType<?> type, CompoundTag original) {
-        throw new NotImplementedException("transformBlockEntityNbt relies heavily on PacketTweaker, so it doesn't work yet"); //TODO you know the drill...
+    public static CompoundTag transformBlockEntityNbt(ServerPlayer context, BlockEntityType<?> type, CompoundTag original) {
+        throw new NotImplementedException("transformBlockEntityNbt relies heavily on PacketTweaker, so it doesn't work yet"); //TODO
 
         /*if (original.isEmpty()) {
             return original;
@@ -543,8 +529,9 @@ public class Util {
         return override != null ? override : original;*/
     }
 
-    @Nullable
-    public static PacketContext getContext(ServerPlayer player) {
-        return player == null ? PacketContext.get() : PacketContext.get() /*PacketContext.of(player)*/; //TODO same as above
+    public static ServerPlayer getPlayerStub() {
+        //https://github.com/NucleoidMC/packet-tweaker#packet-tweaker -> "For 26.1+, you should use PacketContext api provided within Fabric API instead!" -> https://maven.fabricmc.net/docs/fabric-api-0.143.11+26.1/net/fabricmc/fabric/api/networking/v1/context/PacketContext.html
+        //Some parts of the packet-tweaker migration may not be as painful as I thought because there is the handy PolymerCommonUtils.getPlayer
+        throw new NotImplementedException("Called stub method getPlayerStub(). This is but a marker telling me \"There used to be a PacketContex.get() here!\" and it doesn't yet work."); //TODO
     }
 }

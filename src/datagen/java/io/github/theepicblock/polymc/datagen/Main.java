@@ -74,9 +74,9 @@ public class Main implements ModInitializer {
 
         // Write property types
         var properties = block.getStateDefinition().getProperties();
-        /*buf.writeCollection(properties, (byteBuf, property) -> {
+        buf.writeCollection(properties, (byteBuf, property) -> {
             byteBuf.writeVarInt(table.getPropertyId(property));
-        });*/ //TODO
+        });
 
 
         var states = block.getStateDefinition().getPossibleStates();

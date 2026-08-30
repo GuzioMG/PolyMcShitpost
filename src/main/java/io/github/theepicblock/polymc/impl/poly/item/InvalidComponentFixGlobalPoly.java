@@ -15,7 +15,7 @@ public class InvalidComponentFixGlobalPoly implements ItemTransformer {
         for (var comp : input.getComponents()) {
             if (!map.canReceiveDataComponentType(comp.type())
                     || (comp.value() instanceof TransformingComponent t
-                    && t.polymc$requireModification(Util.getContext(player)))) {
+                    && t.polymc$requireModification(player))) {
                 return Util.copyWithItem(input, input.getItem(), player);
             }
         }

@@ -67,10 +67,8 @@ import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
-import org.apache.commons.lang3.NotImplementedException;
 import org.jetbrains.annotations.ApiStatus;
 import org.jetbrains.annotations.Nullable;
-import xyz.nucleoid.packettweaker.PacketContext;
 
 public interface PolyMap {
     /**
@@ -210,19 +208,13 @@ public interface PolyMap {
         return Util.isVanilla(BuiltInRegistries.CONSUME_EFFECT_TYPE.getKey(type));
     };
 
-    default Object tryRemapping(Object val, PacketContext player) {
+    default Object tryRemapping(Object val, ServerPlayer player) {
         if (val instanceof Item entry) {
             var poly = this.getItemPoly(entry);
-            if (poly != null) {
-                throw new NotImplementedException("Remapping items isn't currently possible because it accesses the player, which currently doesn't work because it relies on packet-tweaker.");
-                //return poly.getClientItem(new ItemStack(entry), player.getPlayer(), ItemLocationStaticHack.location.get()).getItem();
-                //TODO see: above
-            }
+            if (poly != null) return poly.getClientItem(new ItemStack(entry), player, ItemLocationStaticHack.location.get()).getItem();
         } else if (val instanceof Block entry) {
             var poly = this.getBlockPoly(entry);
-            if (poly != null) {
-                return poly.getClientBlock(entry.defaultBlockState()).getBlock();
-            }
+            if (poly != null) return poly.getClientBlock(entry.defaultBlockState()).getBlock();
         } else if (val instanceof SoundEvent entry && !this.canReceiveEntry(BuiltInRegistries.SOUND_EVENT, entry)) {
             return SoundEvents.EMPTY;
         } else if (val instanceof Fluid entry && !this.canReceiveEntry(BuiltInRegistries.FLUID, entry)) {

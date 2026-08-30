@@ -13,7 +13,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 @Mixin(ClientboundAddEntityPacket.class)
 public class FallingBlockEntityImplementation {
@@ -24,7 +24,7 @@ public class FallingBlockEntityImplementation {
     private void redirectEntityData(RegistryFriendlyByteBuf buf, CallbackInfo ci) {
         if (this.type == EntityTypes.FALLING_BLOCK) {
             var block = Block.stateById(this.data);
-            this.data = Util.getPolydRawIdFromState(block, PacketContext.get());
+            this.data = Util.getPolydRawIdFromState(block, getPlayerStub());
         }
     }
 }

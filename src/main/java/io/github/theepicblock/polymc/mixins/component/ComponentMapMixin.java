@@ -7,7 +7,7 @@ import io.github.theepicblock.polymc.impl.mixin.TransformingComponent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyVariable;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 import java.util.IdentityHashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public interface ComponentMapMixin {
     private static Codec<Map<DataComponentType<?>, Object>> patchCodec(Codec<Map<DataComponentType<?>, Object>> codec) {
         return codec.xmap(Function.identity(), content -> { // Encode
             if (PolymerCommonUtils.isServerNetworkingThread()) {
-                var player = PacketContext.get();
+                var player = getPlayerStub();
                 var polyMap = Util.tryGetPolyMap(player);
                 var map = new IdentityHashMap<DataComponentType<?>, Object>();
                 for (var key : content.keySet()) {

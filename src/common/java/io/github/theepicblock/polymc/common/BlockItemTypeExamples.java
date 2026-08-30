@@ -58,8 +58,7 @@ public class BlockItemTypeExamples {
     }
 
     public void write(FriendlyByteBuf buf) {
-        //buf.writeMap(inner, BlockItemType::write, BlockItemTypeExamples::writeArr);
-        throw new NotImplementedException("BlockItemTypeExamples.write(FriendlyByteBuf buf) called, but it relies on FriendlyByteBuf having a writeMap function, which no longer exists on this version, and no replacement was yet implemented."); //TODO
+        buf.writeMap(inner, BlockItemType::write, BlockItemTypeExamples::writeArr);
     }
 
     private static void writeArr(FriendlyByteBuf buf, BlockItem[] arr) {

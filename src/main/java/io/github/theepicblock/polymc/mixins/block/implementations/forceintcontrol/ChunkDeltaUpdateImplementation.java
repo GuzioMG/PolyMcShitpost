@@ -23,12 +23,12 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 @Mixin(ClientboundSectionBlocksUpdatePacket.class)
 public class ChunkDeltaUpdateImplementation {
     @Redirect(method = "write", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/level/block/Block;getId(Lnet/minecraft/world/level/block/state/BlockState;)I"))
     public int getRawIdFromStateRedirect(BlockState state) {
-        return Util.getPolydRawIdFromState(state, PacketContext.get());
+        return Util.getPolydRawIdFromState(state, getPlayerStub());
     }
 }

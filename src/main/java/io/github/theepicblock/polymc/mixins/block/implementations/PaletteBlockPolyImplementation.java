@@ -28,7 +28,7 @@ import net.minecraft.world.level.chunk.SingleValuePalette;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Redirect;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 /**
  * Minecraft uses a different method to get ids when it sends chunks.
@@ -40,14 +40,9 @@ public abstract class PaletteBlockPolyImplementation {
     @Redirect(method = {"write", "getSerializedSize"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/core/IdMap;getId(Ljava/lang/Object;)I"))
     public <T> int getIdRedirect(IdMap<T> instance, T object) {
         if (object instanceof BlockState) {
-            var ctx = PacketContext.get();
-
-            PolyMap map = Util.tryGetPolyMap(ctx);
-
-            if (map != null) {
-                //return map.getClientStateRawId((BlockState) object, ctx);
-                //TODO not rely on Packet-Tweaker
-            }
+            var player = getPlayerStub();
+            PolyMap map = Util.tryGetPolyMap(player);
+            if (map != null) return map.getClientStateRawId((BlockState) object, player);
         }
 
         return instance.getId(object);

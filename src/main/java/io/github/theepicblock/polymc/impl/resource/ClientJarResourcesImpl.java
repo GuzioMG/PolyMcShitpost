@@ -63,7 +63,7 @@ public class ClientJarResourcesImpl implements ClientJarResources {
 
     @Override
     public Set<Pair<Identifier,IoSupplier<InputStream>>> locateLanguageFiles() {
-        throw new NotImplementedException();
+        throw new NotImplementedException(); //TODO That's not mine, actually, but I still don't like the idea of NIEs without TODOs
     }
 
     public static void downloadJar(File location, SimpleLogger logger) throws IOException {

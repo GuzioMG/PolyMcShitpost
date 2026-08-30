@@ -96,28 +96,26 @@ public class Tooltip2LoreTransformer implements ItemTransformer {
         //   - DataComponentTypes.ATTRIBUTE_MODIFIERS
         //   - Anything done using Item#appendTooltip
 
-        var pctx = Util.getContext(player);
-
         if (original.getOrDefault(DataComponents.TOOLTIP_DISPLAY, TooltipDisplay.DEFAULT).hideTooltip()) {
             return false;
         }
 
-        if (TransformingComponent.requireTransformForTooltip(original.get(DataComponents.ATTRIBUTE_MODIFIERS), pctx)) {
+        if (TransformingComponent.requireTransformForTooltip(original.get(DataComponents.ATTRIBUTE_MODIFIERS), player)) {
             return true;
         }
 
         // Check Item#appendTooltip
         // Includes special-cases for vanilla items, since we know their implementation
         if (original.getItem() instanceof PotionItem) {
-            if (TransformingComponent.requireTransformForTooltip(original.get(DataComponents.POTION_CONTENTS), pctx)) {
+            if (TransformingComponent.requireTransformForTooltip(original.get(DataComponents.POTION_CONTENTS), player)) {
                 return true;
             }
         } else if (!ItemStack.isSameItemSameComponents(original, stack)) {
-            /*try {
-                original.getItem().appendTooltip(original, ctx, CrashyList.INSTANCE, type);
+            try {
+                original.getItem(); //TODO: Find an alternative to .appendTooltip(original, ctx, CrashyList.INSTANCE, type)
             } catch (TriedInsertException e) {
                 return true;
-            }*/
+            }
             return true;
         }
 

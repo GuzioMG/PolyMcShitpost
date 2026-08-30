@@ -8,7 +8,7 @@ import io.github.theepicblock.polymc.impl.misc.TransformingPacketCodec;
 import net.minecraft.world.item.ItemStackTemplate;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 import java.util.ArrayList;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -23,7 +23,7 @@ public interface SlotDisplayMixin {
     @ModifyExpressionValue(method = "<clinit>", at = @At(value = "INVOKE", target = "Lnet/minecraft/network/codec/StreamCodec;dispatch(Ljava/util/function/Function;Ljava/util/function/Function;)Lnet/minecraft/network/codec/StreamCodec;"))
     private static StreamCodec<RegistryFriendlyByteBuf, SlotDisplay> transformDisplays(StreamCodec<RegistryFriendlyByteBuf, SlotDisplay> original) {
         return TransformingPacketCodec.encodeOnly(original, (buf, display) -> {
-            var map = Util.tryGetPolyMap(PacketContext.get());
+            var map = Util.tryGetPolyMap(getPlayerStub());
 
             return switch (display) {
                 case SlotDisplay.ItemSlotDisplay item when !map.canReceiveRegistryEntry(BuiltInRegistries.ITEM, item.item()) ->

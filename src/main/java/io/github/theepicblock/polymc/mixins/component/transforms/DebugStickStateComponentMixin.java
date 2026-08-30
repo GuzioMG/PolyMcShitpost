@@ -2,10 +2,10 @@ package io.github.theepicblock.polymc.mixins.component.transforms;
 
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.mixin.TransformingComponent;
+import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.Map;
 import net.minecraft.core.Holder;
@@ -19,15 +19,15 @@ public class DebugStickStateComponentMixin implements TransformingComponent {
     @Shadow @Final private Map<Holder<Block>, Property<?>> properties;
 
     @Override
-    public Object polymc$getTransformed(PacketContext context) {
-        if (polymc$requireModification(context)) {
+    public Object polymc$getTransformed(ServerPlayer player) {
+        if (polymc$requireModification(player)) {
             return DebugStickState.EMPTY;
         }
         return this;
     }
 
     @Override
-    public boolean polymc$requireModification(PacketContext context) {
+    public boolean polymc$requireModification(ServerPlayer context) {
         var map = Util.tryGetPolyMap(context);
         for (var key : this.properties.keySet()) {
             if (!map.canReceiveRegistryEntry(BuiltInRegistries.BLOCK, key)) {

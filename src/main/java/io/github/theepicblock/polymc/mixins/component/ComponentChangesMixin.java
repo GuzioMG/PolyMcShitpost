@@ -10,7 +10,7 @@ import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 import java.util.function.Function;
 import net.minecraft.core.component.DataComponentPatch;
@@ -40,7 +40,7 @@ public class ComponentChangesMixin {
 
     @Unique
     private static DataComponentPatch transformContent(DataComponentPatch content) {
-        var player = PacketContext.get();
+        var player = getPlayerStub();
         var builder = DataComponentPatch.builder();
         var map = Util.tryGetPolyMap(player);
         for (var entry : content.entrySet()) {

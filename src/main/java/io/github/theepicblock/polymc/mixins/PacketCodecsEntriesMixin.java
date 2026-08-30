@@ -20,7 +20,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 
 @Mixin(targets = "net/minecraft/network/codec/ByteBufCodecs", priority = 800)
@@ -29,7 +29,7 @@ public interface PacketCodecsEntriesMixin {
     private static <T> StreamCodec<ByteBuf, T> polymer$changeData(StreamCodec<ByteBuf, T> original, @Local(argsOnly = true) IdMap<T> iterable) {
         if (iterable instanceof Registry<T> registry) {
             return TransformingPacketCodec.encodeOnly(original, (byteBuf, val) -> {
-                var player = PacketContext.get();
+                var player = getPlayerStub();
                 var map = Util.tryGetPolyMap(player);
 
                 return (T) map.tryRemapping(val, player);
@@ -39,20 +39,20 @@ public interface PacketCodecsEntriesMixin {
             //noinspection unchecked
             var registry = (Registry<Object>) tmp.polymc$getRegistry();
             return TransformingPacketCodec.encodeOnly(original, (byteBuf, val) -> {
-                var player = PacketContext.get();
+                var player = getPlayerStub();
 
                 var map = Util.tryGetPolyMap(player);
 
                 return (T) registry.wrapAsHolder(map.tryRemapping(((Holder) val).value(), player));
             });
         } else if (iterable == Block.BLOCK_STATE_REGISTRY) {
-            /*return TransformingPacketCodec.encodeOnly(original, (byteBuf, val) -> {
-                var player = PacketContext.get();
+            return TransformingPacketCodec.encodeOnly(original, (byteBuf, val) -> {
+                var player = getPlayerStub();
                 var map = Util.tryGetPolyMap(player);
 
                 //noinspection unchecked
-                return  (T) map.getClientState((BlockState) val, player.getPlayer());
-            });*/ //TODO player.getPlayer() is from PacketTweaker...
+                return  (T) map.getClientState((BlockState) val, player);
+            });
         }
 
         return original;

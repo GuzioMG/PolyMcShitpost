@@ -72,7 +72,6 @@ import net.minecraft.world.level.block.PipeBlock;
 import net.minecraft.world.level.block.TripWireBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.Nullable;
-import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -125,7 +124,16 @@ public class PolyMapImpl implements PolyMap {
         this.hasBlockWizards = blockPolys.values().stream().anyMatch(BlockPoly::hasWizard);
     }
 
-    //TODO I removed the updateAdvancementBackgrounds function that was here, because it had quite a couple of errors, and was unused, and also I was almost certainly not gonna use it, too. Instead, I shall leave a completely unrelated note, and say that some parts of the packet-tweaker migration may not be as painful as I thought because there is the handy PolymerCommonUtils.getPlayer
+	public static void updateAdvancementBackgrounds(ServerAdvancementManager advancementLoader) {
+        ADVANCEMENT_BACKGROUNDS.clear();
+        for (var advancement : advancementLoader.getAllAdvancements()) {
+            var optional = advancement.value().display().map(DisplayInfo::getBackground).flatMap(x -> x);
+            if (optional.isPresent()) {
+                var texture = optional.get();
+                ADVANCEMENT_BACKGROUNDS.add(texture.texturePath());
+            }
+        }
+    }
 
     /**
      * Get the NBTCompound of a component

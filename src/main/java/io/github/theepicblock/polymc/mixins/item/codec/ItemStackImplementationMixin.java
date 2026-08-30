@@ -7,7 +7,7 @@ import io.github.theepicblock.polymc.impl.mixin.ItemLocationStaticHack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
-import xyz.nucleoid.packettweaker.PacketContext;
+import static io.github.theepicblock.polymc.impl.Util.getPlayerStub;
 
 import java.util.function.Supplier;
 import net.minecraft.world.item.ItemStack;
@@ -17,24 +17,27 @@ import net.minecraft.world.item.ItemStack;
 public class ItemStackImplementationMixin {
     @ModifyArg(method = "<clinit>", at = @At(value = "INVOKE", target = "Lcom/mojang/serialization/Codec;lazyInitialized(Ljava/util/function/Supplier;)Lcom/mojang/serialization/Codec;"))
     private static Supplier<Codec<ItemStack>> patchCodec(Supplier<Codec<ItemStack>> codec) {
-        return () -> codec.get().xmap(content -> { // Decode
-            if (PolymerCommonUtils.isServerNetworkingThread()) {
-                var ctx = PacketContext.get();
-                var map = Util.tryGetPolyMap(ctx);
-                //return map.reverseClientItem(content, ctx.getPlayer());
-                //TODO I dread packet-tweaker migration
-            }
-            return content;
-        }, content -> { // Encode
-            /*if (PolymerCommonUtils.isServerNetworkingThreadWithContext()) {
-                var ctx = PacketContext.get();
-                if (ctx.getPacketListener() == null) {
-                    return content;
+        return () -> codec.get().xmap(
+            /*  Decode  */
+            content -> {
+                if (PolymerCommonUtils.isServerNetworkingThread()) {
+                    var player = getPlayerStub();
+                    var map = Util.tryGetPolyMap(player);
+                    return map.reverseClientItem(content, player);
                 }
-                var map = Util.tryGetPolyMap(ctx);
-                return map.getClientItem(content, ctx.getPlayer(), ItemLocationStaticHack.location.get());
-            }*/ //TODO isServerNetworkingThreadWithContext no longer exists in PolymerCommonUtils, presumably because it's related to packet-tweaker which itself no longer exists. Whole branch disabled for now.
-            return content;
-        });
+                return content;
+            },
+
+            /*  Encode  */
+            content -> {
+                if (/*PolymerCommonUtils.isServerNetworkingThreadWithContext()*/ PolymerCommonUtils.isServerNetworkingThread()) { //TODO isServerNetworkingThreadWithContext no longer exists in PolymerCommonUtils, presumably because it's related to packet-tweaker which itself no longer exists. Assuming PolymerCommonUtils.isServerNetworkingThread() is sufficient for now - requires further testing.
+                    var player = getPlayerStub();
+                    if (/*player.getPacketListener() == null*/ false) return content; //TODO Cannot do this check on an actual ServerPlayer - assuming it's unnecessary for now; gotta make sure later.
+                    var map = Util.tryGetPolyMap(player);
+                    return map.getClientItem(content, player, ItemLocationStaticHack.location.get());
+                }
+                return content;
+            }
+        );
     }
 }

@@ -2,13 +2,13 @@ package io.github.theepicblock.polymc.mixins.component.transforms;
 
 import io.github.theepicblock.polymc.impl.Util;
 import io.github.theepicblock.polymc.impl.mixin.TransformingComponent;
+import net.minecraft.server.level.ServerPlayer;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
-import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.List;
-import java.util.Optional;
+
 import net.minecraft.core.Holder;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.world.item.ItemUseAnimation;
@@ -28,7 +28,7 @@ public abstract class ConsumableComponentMixin implements TransformingComponent 
     @Shadow @Final private ItemUseAnimation animation;
 
     @Override
-    public Object polymc$getTransformed(PacketContext player) {
+    public Object polymc$getTransformed(ServerPlayer player) {
         if (!polymc$requireModification(player)) {
             return this;
         }
@@ -37,7 +37,7 @@ public abstract class ConsumableComponentMixin implements TransformingComponent 
     }
 
     @Override
-    public boolean polymc$requireModification(PacketContext player) {
+    public boolean polymc$requireModification(ServerPlayer player) {
         var map = Util.tryGetPolyMap(player);
         for (var effect : this.onConsumeEffects) {
             if (!map.canReceiveConsumeEffect(effect.getType())) {
