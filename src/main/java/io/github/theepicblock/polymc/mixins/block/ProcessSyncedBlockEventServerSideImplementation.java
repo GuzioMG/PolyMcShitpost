@@ -42,7 +42,7 @@ import java.util.concurrent.Executor;
 /**
  * Synced block events are called on the server, but executed on the client.
  * But with PolyMc the client often doesn't have enough information to process this event.
- * This code let's users of PolyMc make certain blocks be calculated on the server instead of the client.
+ * This code lets users of PolyMc make certain blocks be calculated on the server instead of the client.
  * See: config; misc.processSyncedBlockEventServerSide
  */
 @Mixin(ServerLevel.class)
@@ -51,7 +51,7 @@ public class ProcessSyncedBlockEventServerSideImplementation {
     private final List<Block> serverCalculatedBlockEvents = new ArrayList<>();
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    public void initInject(MinecraftServer server, Executor workerExecutor, LevelStorageSource.LevelStorageAccess session, ServerLevelData properties, ResourceKey worldKey, LevelStem dimensionOptions, boolean debugWorld, long seed, List spawners, boolean shouldTickTime, RandomSequences randomSequenceState, CallbackInfo ci) {
+    public void initInject(MinecraftServer server, Executor executor, LevelStorageSource.LevelStorageAccess levelStorage, ServerLevelData levelData, ResourceKey dimension, LevelStem levelStem, boolean isDebug, long biomeZoomSeed, List customSpawners, boolean tickTime, CallbackInfo ci) {
         List<String> serverCalculatedBlockEventsAsString = ConfigManager.getConfig().misc.getProcessSyncedBlockEventServerSide();
         for (String s : serverCalculatedBlockEventsAsString) {
             Block e = BuiltInRegistries.BLOCK.getValue(Identifier.parse(s));
