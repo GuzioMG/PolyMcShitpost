@@ -4,8 +4,8 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.object.builder.v1.block.type.BlockSetTypeBuilder;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
-import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.Util;
+//import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
+import net.minecraft.util.Util;
 import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -54,11 +54,11 @@ public class Testmod implements ModInitializer {
     private static final String MODID = "polymc-testmod";
 
     public static final BlockSetType TEST_IRON_BLOCKSET = new BlockSetTypeBuilder()
-            .soundGroup(SoundType.BONE_BLOCK)
+            .soundType(SoundType.BONE_BLOCK)
             .openableByHand(false)
             .register(id("test_iron"));
     public static final BlockSetType TEST_WOOD_BLOCKSET = new BlockSetTypeBuilder()
-            .soundGroup(SoundType.WOOL)
+            .soundType(SoundType.WOOL)
             .openableByHand(true)
             .register(id("test_wood"));
 
@@ -86,27 +86,27 @@ public class Testmod implements ModInitializer {
     public static final Block TEST_BLOCK_GLOWING = registerBlock(id("test_block_glowing"), BlockBehaviour.Properties.of().lightLevel(x -> 9), Block::new);
     public static final Block TEST_BLOCK_WIZARD = registerBlock(id("test_block_wizard"), BlockBehaviour.Properties.of(), settings -> new ColoredFallingBlock(new ColorRGBA(0), settings));
 
-    public static final EntityType<? extends LivingEntity> TEST_ENTITY_DIRECT = registerEntity(id("test_entity_direct"), FabricEntityTypeBuilder.create().entityFactory(Creeper::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));
+    /*public static final EntityType<? extends LivingEntity> TEST_ENTITY_DIRECT = registerEntity(id("test_entity_direct"), FabricEntityTypeBuilder.create().entityFactory(Creeper::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));
     public static final EntityType<? extends LivingEntity> TEST_ENTITY_EXTEND_DIRECT = registerEntity(id("test_entity_extend_direct"), FabricEntityTypeBuilder.create().entityFactory(TestExtendDirectEntity::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));
     public static final EntityType<? extends LivingEntity> TEST_ENTITY_EXTEND_MOB = registerEntity(id("test_entity_extend_mob"), FabricEntityTypeBuilder.create().entityFactory(TestExtendMobEntity::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));
     public static final EntityType<? extends LivingEntity> TEST_ENTITY_EXTEND_GOLEM = registerEntity(id("test_entity_extend_golem"),FabricEntityTypeBuilder.create().entityFactory(TestExtendGolemEntity::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));
     public static final EntityType<? extends LivingEntity> TEST_ENTITY_LIVING = registerEntity(id("test_entity_extend_living"),FabricEntityTypeBuilder.create().entityFactory(TestLivingEntity::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));
     public static final EntityType<?> TEST_ENTITY_OTHER = registerEntity(id("test_entity_other"),FabricEntityTypeBuilder.create().entityFactory(TestOtherEntity::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));
-    public static final EntityType<?> TEST_FLYING_WAXED_WEATHERED_CUT_COPPER_STAIRS_ENTITY = registerEntity(id("test_flying_waxed_weathered_cut_copper_stairs"), FabricEntityTypeBuilder.create().entityFactory(TestFlyingWaxedWeatheredCutCopperStairs::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));
+    public static final EntityType<?> TEST_FLYING_WAXED_WEATHERED_CUT_COPPER_STAIRS_ENTITY = registerEntity(id("test_flying_waxed_weathered_cut_copper_stairs"), FabricEntityTypeBuilder.create().entityFactory(TestFlyingWaxedWeatheredCutCopperStairs::new).trackRangeChunks(4).dimensions(EntityDimensions.fixed(0.5f, 0.5f)));*/
 
     public static final Holder<MobEffect> TEST_EFFECT = Registry.registerForHolder(BuiltInRegistries.MOB_EFFECT, id("yellow_effect"), new YellowStatusEffect(MobEffectCategory.HARMFUL, YELLOW));
     public static final Potion TEST_POTION_TYPE = Registry.register(BuiltInRegistries.POTION, id("yellow_potion"), new Potion("yellow_potion", new MobEffectInstance(TEST_EFFECT, 9600)));
 
     @Override
     public void onInitialize() {
-        FabricDefaultAttributeRegistry.register(TEST_ENTITY_DIRECT, Creeper.createAttributes());
+        /*FabricDefaultAttributeRegistry.register(TEST_ENTITY_DIRECT, Creeper.createAttributes());
         FabricDefaultAttributeRegistry.register(TEST_ENTITY_EXTEND_DIRECT, Creeper.createAttributes());
 
         FabricDefaultAttributeRegistry.register(TEST_ENTITY_EXTEND_MOB, Mob.createMobAttributes());
 
         FabricDefaultAttributeRegistry.register(TEST_ENTITY_EXTEND_GOLEM, Mob.createMobAttributes());
 
-        FabricDefaultAttributeRegistry.register(TEST_ENTITY_LIVING, LivingEntity.createLivingAttributes());
+        FabricDefaultAttributeRegistry.register(TEST_ENTITY_LIVING, LivingEntity.createLivingAttributes());*/
 
         CommandRegistrationCallback.EVENT.register(TestCommands::register);
 
@@ -117,12 +117,12 @@ public class Testmod implements ModInitializer {
     }
 
     public static void debugSend(@Nullable Player playerEntity, String text) {
-        if (playerEntity != null) playerEntity.displayClientMessage(Component.literal(text), false);
+        if (playerEntity != null) playerEntity.sendSystemMessage(Component.literal(text));
     }
 
-    private static <T extends Entity> EntityType<T> registerEntity(Identifier id, FabricEntityTypeBuilder<T> builder) {
+    /*private static <T extends Entity> EntityType<T> registerEntity(Identifier id, FabricEntityTypeBuilder<T> builder) {
         return Registry.register(BuiltInRegistries.ENTITY_TYPE, id, builder.build(ResourceKey.create(Registries.ENTITY_TYPE, id)));
-    }
+    }*/
 
 
     private static <T extends Item> T registerItem(Identifier id, Function<Item.Properties, T> block) {
@@ -142,3 +142,5 @@ public class Testmod implements ModInitializer {
         return Identifier.fromNamespaceAndPath(MODID, path);
     }
 }
+
+//TODO Migrate from FabricEntityTypeBuilder to whatever-Fabric-uses-now

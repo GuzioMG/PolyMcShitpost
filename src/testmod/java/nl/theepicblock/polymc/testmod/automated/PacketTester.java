@@ -29,8 +29,9 @@ public class PacketTester implements Closeable {
         var world = context.getLevel();
         // Mock a player entity
         var profile = new GameProfile(UUID.randomUUID(), "Fake packet receiver");
+        var pos = context.absolutePos(BlockPos.ZERO);
         this.playerEntity = new ServerPlayer(world.getServer(), world, profile, ClientInformation.createDefault());
-        this.playerEntity.setChunkTrackingView(new ChunkTrackingView.Positioned(new ChunkPos(context.absolutePos(BlockPos.ZERO)), 5));
+        this.playerEntity.setChunkTrackingView(new ChunkTrackingView.Positioned(new ChunkPos(pos.getX() >> 4, pos.getZ() >> 4), 5));
         this.fakeNetworkHandler = new FakeNetworkHandler(world.getServer(), this.playerEntity);
         this.context = context;
 

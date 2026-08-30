@@ -15,7 +15,7 @@ import net.minecraft.world.level.block.state.BlockState;
 public class TestWizardBlockPoly implements BlockPoly {
     @Override
     public BlockState getClientBlock(BlockState input) {
-        return Blocks.RED_STAINED_GLASS.defaultBlockState();
+        return Blocks.STAINED_GLASS.red().defaultBlockState();
     }
 
     @Override

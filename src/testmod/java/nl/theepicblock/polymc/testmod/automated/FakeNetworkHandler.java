@@ -1,7 +1,7 @@
 package nl.theepicblock.polymc.testmod.automated;
 
 import io.netty.channel.ChannelFutureListener;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.FriendlyByteBufs;
 import net.minecraft.network.*;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.PacketFlow;
@@ -13,7 +13,6 @@ import net.minecraft.server.network.CommonListenerCookie;
 import net.minecraft.server.network.PlayerChunkSender;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import org.jetbrains.annotations.Nullable;
-import xyz.nucleoid.packettweaker.PacketContext;
 
 import java.util.ArrayList;
 
@@ -51,11 +50,11 @@ public class FakeNetworkHandler extends ServerGamePacketListenerImpl {
             throw new IllegalArgumentException("Can't reencode bundles as of now");
         }
 
-        var bytebuf = PacketByteBufs.create();
-        // TODO not use internal stuff here
-        PacketContext.runWithContext(connection, this, packet, () -> {
+        var bytebuf = FriendlyByteBufs.create();
+        // TODO not use internal stuff here (also, don't use PacketTweaker
+        //PacketContext.runWithContext(connection, this, packet, () -> {
             state.codec().encode(bytebuf, (Packet<? super PacketListener>)packet);
-        });
+        //});
         var reconstructedPacket = state.codec().decode(bytebuf);
 
         return (T)reconstructedPacket;

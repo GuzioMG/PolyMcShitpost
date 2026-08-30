@@ -116,7 +116,6 @@ public abstract class Wizard {
     @Deprecated
     @ThreadedWizardUpdater.Unsafe
     public List<ServerPlayer> getPlayersWatchingChunk() {
-        return this.getWorld().getChunkSource().chunkMap.getPlayers(
-                new ChunkPos((int)this.getPosition().x >> 4, (int)this.getPosition().z >> 4), false);
+        return this.getWorld().getChunkSource().chunkMap.getPlayers(new ChunkPos((int)this.getPosition().x >> 4, (int)this.getPosition().z >> 4), false);
     }
 }
