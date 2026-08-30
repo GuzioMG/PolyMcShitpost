@@ -19,7 +19,7 @@ public class FlyingItemEntityPoly<T extends Entity & ItemSupplier> implements En
 
         public FlyingItemEntityWizard(WizardInfo info, T entity) {
             super(info, entity);
-            this.snowball = new VSnowball();
+            this.snowball = new VSnowball(entity.level());
         }
 
         @Override

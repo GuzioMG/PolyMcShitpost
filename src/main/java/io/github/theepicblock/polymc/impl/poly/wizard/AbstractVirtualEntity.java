@@ -10,15 +10,23 @@ import net.minecraft.util.Mth;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.PositionMoveRotation;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
 public abstract class AbstractVirtualEntity implements VirtualEntity {
     protected final UUID uuid;
     protected final int id;
 
-    public AbstractVirtualEntity() {
-        this.uuid = Mth.createInsecureUUID(RandomSource.create());
-        this.id = EntityUtil.getNewEntityId();
+    public AbstractVirtualEntity(Level idSource) {
+        this(idSource.getNextEntityId());
+    }
+
+    public AbstractVirtualEntity(int id) {
+        this(Mth.createInsecureUUID(RandomSource.create()), id);
+    }
+
+    public AbstractVirtualEntity(UUID uuid, Level idSource) {
+        this(uuid, idSource.getNextEntityId());
     }
 
     public AbstractVirtualEntity(UUID uuid, int id) {

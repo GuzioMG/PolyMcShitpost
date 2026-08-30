@@ -10,9 +10,28 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.EntityTypes;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 import net.minecraft.world.phys.Vec3;
 
+import java.util.UUID;
+
 public class VItemFrame extends AbstractVirtualEntity {
+    public VItemFrame(Level idSource) {
+        super(idSource);
+    }
+
+    public VItemFrame(int id) {
+        super(id);
+    }
+
+    public VItemFrame(UUID uuid, Level idSource) {
+        super(uuid, idSource);
+    }
+
+    public VItemFrame(UUID uuid, int id) {
+        super(uuid, id);
+    }
+
     public void spawn(PacketConsumer player, Vec3 pos, Direction facing) {
         player.sendPacket(new ClientboundAddEntityPacket(
                 id,

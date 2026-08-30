@@ -26,7 +26,7 @@ public class MissingEntityPoly<T extends Entity> implements EntityPoly<T> {
 
         public MissingEntityWizard(WizardInfo info, T entity) {
             super(info, entity);
-            item = new VItem();
+            item = new VItem(entity.level());
         }
 
         @Override

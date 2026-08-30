@@ -11,11 +11,6 @@ import net.minecraft.world.entity.Entity;
 
 @Mixin(Entity.class)
 public interface EntityAccessor {
-    @Accessor("ENTITY_COUNTER")
-    static AtomicInteger getEntityIdCounter() {
-        throw new IllegalStateException();
-    }
-
     @Accessor("DATA_SHARED_FLAGS_ID")
     static EntityDataAccessor<Byte> getFlagTracker() {
         throw new IllegalStateException();

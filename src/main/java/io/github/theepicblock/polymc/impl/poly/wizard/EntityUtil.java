@@ -18,9 +18,6 @@ import java.util.List;
 import java.util.Set;
 
 public class EntityUtil {
-    public static int getNewEntityId() {
-        return EntityAccessor.getEntityIdCounter().incrementAndGet();
-    }
 
     public static ClientboundTeleportEntityPacket createEntityPositionPacket(
             int id, double x, double y, double z, byte yaw, byte pitch, boolean onGround) {

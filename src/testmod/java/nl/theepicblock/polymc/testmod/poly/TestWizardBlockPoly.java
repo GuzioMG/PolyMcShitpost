@@ -34,7 +34,7 @@ public class TestWizardBlockPoly implements BlockPoly {
 
         public TestWizard(WizardInfo info) {
             super(info);
-            item = new VItem();
+            item = new VItem(info.getWorld());
         }
 
         @Override
@@ -44,13 +44,15 @@ public class TestWizardBlockPoly implements BlockPoly {
 
         @Override
         public void onTick(PacketConsumer players) {
-            players.sendPacket(new ClientboundLevelParticlesPacket(ParticleTypes.WAX_ON,
-                    false,
-                    false,
-                    this.getPosition().x,
-                    this.getPosition().y+0.5,
-                    this.getPosition().z,
-                    0, 0, 0, 0, 0));
+            players.sendPacket(new ClientboundLevelParticlesPacket(
+                ParticleTypes.WAX_ON,
+                false,
+                false,
+                this.getPosition().x,
+                this.getPosition().y+0.5,
+                this.getPosition().z,
+                0, 0, 0, 0, 0
+            ));
         }
 
         @Override
