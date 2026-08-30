@@ -131,20 +131,15 @@ loom {
 		create("datagen") {
 			IO.println("Using datagen directory: $datagenDir") //UPDATE: The bit from below doesn't work, either. It's like Java is impervious to getting envars - imma just add a fallback instead, and print the intended directory here to simplify manual interventions.
 			server()
-			ideConfigGenerated(false)
+			name("Data Generation")
 			vmArg("-Doutput-dir=$datagenDir") //It seems like Fabric overrides custom settings from tasks.named("runDatagen"), so this must be passed in manually.
 			source(sourceSets["datagen"])
+			extensions.extraProperties["output-dir"] = datagenDir //im outta ideas
 		}
 	}
 
 	accessWidenerPath = file("src/main/resources/polymc.accesswidener")
 }
-
-/*fabricApi {
-	configureDataGeneration {
-		client = true
-	}
-}*/
 
 dependencies {
 	// To change the versions, see the gradle.properties file.
@@ -155,7 +150,6 @@ dependencies {
 	implementation("net.fabricmc:fabric-language-kotlin:${providers.gradleProperty("fabric_kotlin_version").get()}")
 
 	implementation(include("nl.theepicblock:resource-locator-api:${project.property("resource_locator_api_version")}")){}
-	implementation(include("xyz.nucleoid:packet-tweaker:${project.property("packet_tweaker_version")}")){}
 	implementation(include("eu.pb4:polymer-common:${project.property("polymer_version")}")){}
 	implementation(include("eu.pb4:polymer-reg-sync-manipulator:${project.property("polymer_version")}")){}
 
@@ -163,26 +157,6 @@ dependencies {
 	compileOnly(
 		"maven.modrinth:lithium:${project.property("lithium_version")}"
 	)
-
-	/*compileOnly(
-		"com.github.iPortalTeam.ImmersivePortalsMod:imm_ptl_core:${project.property("immersive_portals_version")}"
-	) {
-		exclude(
-			group = "net.fabricmc",
-			module = "fabric-loader"
-		)
-		isTransitive = false
-	}
-
-	compileOnly(
-		"com.github.iPortalTeam.ImmersivePortalsMod:q_misc_util:${project.property("immersive_portals_version")}"
-	) {
-		exclude(
-			group = "net.fabricmc",
-			module = "fabric-loader"
-		)
-		isTransitive = false
-	}*/
 
 	compileOnly(
 		"org.ladysnake.cardinal-components-api:cardinal-components-base:${project.property("cardinal_component_version")}"
@@ -193,10 +167,6 @@ dependencies {
 		)
 		isTransitive = false
 	}
-
-	// compileOnly("org.quiltmc.qsl.core:registry:${project.property("qsl_version")}") {
-	//     isTransitive = false
-	// }
 }
 
 tasks.processResources {
@@ -310,15 +280,6 @@ tasks.register<RemapJarTask>("remapTestmodJar") {
 
 // This includes the resources in build/polymc-datagen/<version>/ into the jar.
 sourceSets["main"].resources.srcDir(datagenDir)
-
-tasks.named("runDatagen") {
-	doFirst {
-		logger.info("This task was NOT overriden by Fabric.")
-	}
-	// Loom's environment DSL is supplied by the run task.
-	// This remains equivalent to the original Groovy configuration.
-	extensions.extraProperties["output-dir"] = datagenDir
-}
 
 tasks.named("build") {
 	doLast {
