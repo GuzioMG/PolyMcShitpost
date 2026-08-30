@@ -47,8 +47,9 @@ public interface WorldAccessor {
     void polymc$setRandom(RandomSource random);
 
     @Mutable
-    @Accessor("threadSafeRandom")
+    @Accessor("random")
     void polymc$setAsyncRandom(RandomSource random);
+    //TODO Make double-triple-extra sure that the default random source REALLY is thread-safe (somewhere between 1.21.10 and 26.2, the safeRandom field got removed, so I'm ASSUMING that this means that every random is now safe, but there's  always the risk that... Idk, Mojang gave up on random-safety, or something, and it will not be safe)
 
     @Mutable
     @Accessor("blockEntityTickers")
